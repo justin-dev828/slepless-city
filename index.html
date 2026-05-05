@@ -29,11 +29,11 @@ body::after{
 content:"";
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.7);
+background:rgba(0,0,0,0.65);
 z-index:-1;
 }
 
-/* NAV */
+/* NAV (GLASS) */
 nav{
 position:fixed;
 top:0;
@@ -42,11 +42,17 @@ padding:14px;
 display:flex;
 justify-content:center;
 gap:25px;
-background:rgba(15,20,28,0.6);
-backdrop-filter:blur(10px);
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+border-bottom:1px solid rgba(255,255,255,0.08);
 z-index:1000;
 }
-nav a{color:#cfd6dd;text-decoration:none;}
+nav a{
+color:#cfd6dd;
+text-decoration:none;
+transition:0.2s;
+}
+nav a:hover{color:#fff;}
 
 /* HERO */
 .hero{
@@ -59,22 +65,34 @@ text-align:center;
 gap:15px;
 }
 
+/* BUTTON (GLASS) */
 .btn{
 padding:12px 24px;
-background:#222;
-border:none;
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.15);
 color:#fff;
-border-radius:8px;
+border-radius:10px;
 cursor:pointer;
+backdrop-filter:blur(6px);
 transition:0.2s;
 }
-.btn:hover{background:#333;}
+.btn:hover{
+background:rgba(255,255,255,0.15);
+}
 
 /* SECTION */
 .section{padding:90px 20px;text-align:center;}
 
+/* GLASS CARDS */
+.member,.rule-box,.story-box{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+border-radius:14px;
+}
+
 .team{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
-.member{width:230px;padding:18px;background:#111823;border-radius:12px;}
+.member{width:230px;padding:18px;}
 
 .rules-container{
 display:grid;
@@ -83,12 +101,10 @@ gap:18px;
 max-width:1100px;
 margin:40px auto;
 }
-.rule-box{background:#111823;padding:18px;border-radius:12px;text-align:left;}
+.rule-box{padding:18px;text-align:left;}
 
 .story-box{
-background:#111823;
 padding:18px;
-border-radius:12px;
 margin:10px auto;
 max-width:800px;
 text-align:left;
@@ -99,40 +115,27 @@ text-align:left;
 display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.85);
-display:flex;
+background:rgba(0,0,0,0.7);
+backdrop-filter:blur(8px);
 justify-content:center;
 align-items:center;
 z-index:2000;
 }
 .login-box{
-background:#111823;
+background:rgba(20,25,35,0.9);
 padding:30px;
-border-radius:12px;
+border-radius:14px;
 width:280px;
-text-align:center;
+border:1px solid rgba(255,255,255,0.1);
 }
 .login-box input{
 width:100%;
 margin:8px 0;
 padding:10px;
-background:#0b0f14;
-color:#fff;
+background:rgba(0,0,0,0.5);
 border:1px solid rgba(255,255,255,0.1);
+color:#fff;
 border-radius:8px;
-}
-
-/* ADMIN PANEL */
-#adminPanel{
-display:none;
-position:fixed;
-bottom:20px;
-right:20px;
-background:#111823;
-padding:15px;
-border-radius:12px;
-z-index:3000;
-cursor:pointer;
 }
 
 /* OVERLAY */
@@ -140,9 +143,9 @@ cursor:pointer;
 display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.5);
 backdrop-filter:blur(6px);
-z-index:3500;
+z-index:3000;
 }
 
 /* STORY ADMIN */
@@ -152,18 +155,17 @@ position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-background:#111823;
+background:rgba(20,25,35,0.95);
 padding:20px;
-border-radius:12px;
+border-radius:14px;
 width:320px;
 z-index:4000;
-box-shadow:0 0 40px rgba(0,0,0,0.5);
+border:1px solid rgba(255,255,255,0.1);
 }
 
-/* EDITOR */
 .editor{
-background:#0b0f14;
-border:1px solid #333;
+background:rgba(0,0,0,0.5);
+border:1px solid rgba(255,255,255,0.1);
 padding:10px;
 min-height:120px;
 border-radius:8px;
@@ -240,11 +242,6 @@ Discord beitreten
 <div id="storyList"></div>
 </section>
 
-<!-- ADMIN PANEL -->
-<div id="adminPanel" onclick="openAdmin()">
-<b>Admin Panel</b>
-</div>
-
 <!-- STORY ADMIN -->
 <div id="storyAdmin">
 <div style="display:flex;justify-content:space-between;">
@@ -274,7 +271,7 @@ let p=document.getElementById("pass").value;
 
 if(u==="admin" && p==="1234"){
 loginModal.style.display="none";
-document.getElementById("adminPanel").style.display="block";
+openAdmin();
 }else{
 alert("Falsche Daten");
 }
@@ -293,9 +290,9 @@ document.getElementById("storyAdmin").style.display="none";
 document.getElementById("overlay").style.display="none";
 }
 
-/* HOTKEY */
+/* HOTKEY STRG + ALT + A */
 document.addEventListener("keydown",e=>{
-if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="a"){
+if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="a"){
 openLogin();
 }
 });
