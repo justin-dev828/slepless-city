@@ -5,29 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Sleepless City</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
-body{background:black;color:#FFD700;overflow-x:hidden;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+background:#0b0f14;
+color:#e6e6e6;
+overflow-x:hidden;
+}
 
 /* BACKGROUND */
 body::before{
 content:"";
 position:fixed;
-width:100%;
-height:100%;
+inset:0;
 background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") center/cover no-repeat;
-filter:brightness(0.25);
+filter:brightness(0.2) saturate(0.8);
 z-index:-2;
 }
 
 body::after{
 content:"";
 position:fixed;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
+inset:0;
+background:rgba(10,15,20,0.75);
 z-index:-1;
 }
 
@@ -36,17 +44,26 @@ nav{
 position:fixed;
 top:0;
 width:100%;
-padding:15px;
+padding:14px 30px;
 display:flex;
 justify-content:center;
-gap:20px;
-background:rgba(0,0,0,0.6);
+gap:25px;
+background:rgba(15,20,28,0.6);
+backdrop-filter: blur(10px);
+border-bottom:1px solid rgba(255,255,255,0.05);
 z-index:1000;
 }
 
 nav a{
-color:#FFD700;
+color:#cfd6dd;
 text-decoration:none;
+font-size:14px;
+letter-spacing:0.5px;
+transition:0.2s;
+}
+
+nav a:hover{
+color:#ffffff;
 }
 
 /* HERO */
@@ -57,24 +74,45 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-gap:20px;
+gap:18px;
+padding:20px;
 }
 
+.hero h1{
+font-size:48px;
+font-weight:700;
+letter-spacing:2px;
+color:#ffffff;
+}
+
+.hero p{
+color:#aab4be;
+font-size:16px;
+}
+
+/* BUTTON */
 .btn{
-padding:15px 30px;
-border:2px solid #FFD700;
-background:transparent;
-color:#FFD700;
+padding:12px 24px;
+border:1px solid rgba(255,255,255,0.2);
+background:rgba(255,255,255,0.05);
+color:#fff;
 cursor:pointer;
+border-radius:8px;
+transition:0.2s;
+backdrop-filter: blur(8px);
+}
+
+.btn:hover{
+background:rgba(255,255,255,0.12);
 }
 
 /* SECTION */
 .section{
-padding:80px 20px;
+padding:90px 20px;
 text-align:center;
 opacity:0;
-transform:translateY(40px);
-transition:0.6s;
+transform:translateY(30px);
+transition:0.6s ease;
 }
 
 .section.show{
@@ -88,76 +126,111 @@ display:flex;
 justify-content:center;
 gap:20px;
 flex-wrap:wrap;
-margin-top:20px;
+margin-top:25px;
 }
 
 .member{
-border:1px solid #FFD700;
-padding:20px;
-width:220px;
-background:rgba(0,0,0,0.6);
+width:230px;
+padding:18px;
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:12px;
+backdrop-filter: blur(10px);
+text-align:center;
 }
 
 .member img{
 width:100%;
 border-radius:10px;
+margin-bottom:10px;
+}
+
+.member h3{
+color:#ffffff;
+font-size:16px;
+margin-bottom:6px;
+}
+
+.member p{
+font-size:13px;
+color:#aab4be;
 }
 
 /* RULES */
 .rules-container{
 display:grid;
-grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-gap:20px;
+grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+gap:18px;
 max-width:1100px;
 margin:40px auto;
 }
 
 .rule-box{
-background:rgba(0,0,0,0.8);
-border:1px solid #FFD700;
-padding:20px;
-border-radius:10px;
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.08);
+padding:18px;
+border-radius:12px;
 text-align:left;
+}
+
+.rule-box h3{
+margin-bottom:10px;
+color:#ffffff;
+font-size:15px;
+}
+
+.rule-box ul{
+list-style:none;
+font-size:13px;
+color:#b7c0c8;
+}
+
+.rule-box li{
+margin-bottom:6px;
 }
 
 /* LOGIN */
 #loginModal{
 display:none;
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,0.9);
+inset:0;
+background:rgba(0,0,0,0.85);
 justify-content:center;
 align-items:center;
 z-index:2000;
 }
 
 .login-box{
-background:black;
+background:#111823;
 padding:30px;
-border:1px solid #FFD700;
+border:1px solid rgba(255,255,255,0.1);
+border-radius:12px;
 text-align:center;
+width:280px;
 }
 
 .login-box input{
-margin:10px;
+margin:8px 0;
 padding:10px;
-background:black;
-border:1px solid #FFD700;
-color:#FFD700;
+width:100%;
+background:#0b0f14;
+border:1px solid rgba(255,255,255,0.1);
+color:#fff;
+border-radius:8px;
+outline:none;
 }
 
-/* ADMIN PANEL */
+/* ADMIN */
 #adminPanel{
 display:none;
 position:fixed;
 bottom:20px;
 right:20px;
-background:rgba(0,0,0,0.8);
-border:1px solid #FFD700;
-padding:15px;
+background:rgba(17,24,35,0.9);
+border:1px solid rgba(255,255,255,0.1);
+padding:14px;
+border-radius:12px;
 z-index:3000;
-text-align:center;
 }
 </style>
 </head>
@@ -167,9 +240,9 @@ text-align:center;
 <!-- LOGIN -->
 <div id="loginModal">
 <div class="login-box">
-<h2>🔐 Admin Login</h2>
-<input id="user" placeholder="Username"><br>
-<input id="pass" type="password" placeholder="Passwort"><br>
+<h3>Admin Login</h3>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Passwort">
 <button class="btn" onclick="login()">Login</button>
 </div>
 </div>
@@ -184,35 +257,35 @@ text-align:center;
 <!-- HERO -->
 <section class="hero section show" id="home">
 <h1>THE SLEEPLESS CITY</h1>
-<p>Die Stadt schläft nie</p>
+<p>Eine Stadt ohne Ruhe</p>
 
 <button class="btn" onclick="window.location.href='https://discord.gg/'">
-Join Discord
+Discord beitreten
 </button>
 </section>
 
 <!-- TEAM -->
 <section class="section" id="team">
-<h2>🧑‍🚒 Team</h2>
+<h2>Team</h2>
 
 <div class="team">
 
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=1">
-<h3>👑 Owner</h3>
-<p>Leitet das Projekt und trifft alle wichtigen Entscheidungen.</p>
+<h3>Owner</h3>
+<p>Verwaltet das Projekt und trifft Entscheidungen.</p>
 </div>
 
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=2">
-<h3>🛠 Admin</h3>
-<p>Kümmert sich um Server, Regeln und sorgt für Ordnung.</p>
+<h3>Admin</h3>
+<p>Organisiert Server und sorgt für Stabilität.</p>
 </div>
 
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=3">
-<h3>💬 Support</h3>
-<p>Hilft Spielern bei Fragen und Problemen im Alltag.</p>
+<h3>Support</h3>
+<p>Hilft Spielern bei Fragen und Problemen.</p>
 </div>
 
 </div>
@@ -220,40 +293,40 @@ Join Discord
 
 <!-- RULES -->
 <section class="section" id="rules">
-<h2>📜 Regeln</h2>
+<h2>Regeln</h2>
 
 <div class="rules-container">
 
 <div class="rule-box">
-<h3>⚖️ Allgemein</h3>
+<h3>Allgemein</h3>
 <ul>
-<li>Respekt gegenüber allen Spielern</li>
+<li>Respektvoller Umgang</li>
 <li>Keine Beleidigungen</li>
-<li>Team-Anweisungen beachten</li>
+<li>Anweisungen beachten</li>
 </ul>
 </div>
 
 <div class="rule-box">
-<h3>🎭 Roleplay</h3>
+<h3>Roleplay</h3>
 <ul>
 <li>Realistisch spielen</li>
-<li>Kein Meta-Gaming</li>
-<li>Charakter ernst nehmen</li>
+<li>Kein Metagaming</li>
+<li>Charakter einhalten</li>
 </ul>
 </div>
 
 <div class="rule-box">
-<h3>🔫 Kampf</h3>
+<h3>Combat</h3>
 <ul>
-<li>Kein RDM / VDM</li>
-<li>Fair kämpfen</li>
+<li>Kein RDM/VDM</li>
+<li>Fair bleiben</li>
 </ul>
 </div>
 
 <div class="rule-box">
-<h3>🚫 Verboten</h3>
+<h3>Verboten</h3>
 <ul>
-<li>Cheating</li>
+<li>Cheats</li>
 <li>Bug Abuse</li>
 <li>Spam</li>
 </ul>
@@ -262,10 +335,9 @@ Join Discord
 </div>
 </section>
 
-<!-- ADMIN PANEL -->
+<!-- ADMIN -->
 <div id="adminPanel">
-<h3>🟢 Admin System</h3>
-<p>Du bist eingeloggt</p>
+Admin eingeloggt
 </div>
 
 <script>
@@ -288,14 +360,12 @@ alert("Falsche Daten");
 }
 }
 
-/* HIDDEN ADMIN LOGIN (CTRL + SHIFT + A) */
 document.addEventListener("keydown", (e) => {
 if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a"){
 openLogin();
 }
 });
 
-/* SCROLL ANIMATION */
 const sections = document.querySelectorAll(".section");
 
 window.addEventListener("scroll", () => {
