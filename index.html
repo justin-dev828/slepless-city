@@ -47,7 +47,6 @@ align-items:center;
 z-index:9999;
 transition:1s;
 }
-
 .login-box{
 border:2px solid #FFD700;
 padding:40px;
@@ -55,7 +54,6 @@ text-align:center;
 box-shadow:0 0 30px #FFD700;
 background:rgba(0,0,0,0.9);
 }
-
 .login-box input{
 margin-top:15px;
 padding:10px;
@@ -79,7 +77,6 @@ background:rgba(0,0,0,0.6);
 backdrop-filter:blur(10px);
 z-index:1000;
 }
-
 nav a{color:#FFD700;text-decoration:none;}
 nav a:hover{text-shadow:0 0 10px #FFD700;}
 
@@ -93,13 +90,13 @@ align-items:center;
 gap:20px;
 text-align:center;
 }
-
 .neon-box{
 padding:20px 40px;
 border:2px solid #FFD700;
 box-shadow:0 0 20px #FFD700;
 }
 
+/* BUTTON */
 .btn{
 padding:15px 30px;
 border:2px solid #FFD700;
@@ -149,22 +146,39 @@ margin:auto;
 background:rgba(0,0,0,0.6);
 }
 
-/* RULES */
+/* RULES (FIXED CLEAN DESIGN) */
 .rules-container{
 display:grid;
-grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-gap:25px;
+grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+gap:20px;
 max-width:1100px;
 margin:40px auto;
+padding:0 20px;
 }
 .rule-box{
-background:rgba(0,0,0,0.75);
+background:rgba(0,0,0,0.8);
 border:1px solid #FFD700;
 padding:20px;
-border-radius:12px;
+border-radius:10px;
 text-align:left;
+transition:0.3s;
 }
-.rule-box:hover{box-shadow:0 0 20px #FFD700;}
+.rule-box:hover{
+transform:translateY(-5px);
+box-shadow:0 0 20px #FFD700;
+}
+.rule-box h3{
+margin-bottom:10px;
+border-bottom:1px solid #FFD700;
+padding-bottom:5px;
+}
+.rule-box ul{
+list-style:none;
+}
+.rule-box li{
+margin-bottom:8px;
+font-size:14px;
+}
 
 /* ADMIN PANEL */
 #admin-panel{
@@ -173,20 +187,39 @@ padding:60px 20px;
 text-align:center;
 border-top:2px solid #FFD700;
 }
-
 .admin-box{
 border:1px solid #FFD700;
 padding:20px;
 margin:10px;
 display:inline-block;
 background:rgba(0,0,0,0.6);
+cursor:pointer;
 }
+.admin-box:hover{
+box-shadow:0 0 15px #FFD700;
+}
+
+/* SKYLINE */
+.skyline{
+position:fixed;
+bottom:0;
+width:100%;
+height:180px;
+background:url("https://i.imgur.com/3ZQ3Z9Q.png") repeat-x;
+animation:move 30s linear infinite;
+opacity:0.3;
+z-index:-1;
+}
+@keyframes move{
+from{background-position:0;}
+to{background-position:-1000px;}
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- SOUND -->
 <audio id="sound">
 <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0c3c.mp3">
 </audio>
@@ -195,17 +228,16 @@ background:rgba(0,0,0,0.6);
 <div id="login-screen">
 <div class="login-box">
 <h1>ADMIN LOGIN</h1>
-
 <input type="password" id="code" placeholder="Admin Code">
 <br><br>
-
 <button class="btn" onclick="login()">Login</button>
-
 <p onclick="skip()" style="margin-top:15px;cursor:pointer;">
 ➡️ Weiter ohne Login
 </p>
 </div>
 </div>
+
+<div class="skyline"></div>
 
 <nav>
 <a href="#home">Home</a>
@@ -215,94 +247,79 @@ background:rgba(0,0,0,0.6);
 <a href="#admin-panel">Admin</a>
 </nav>
 
-<!-- HERO -->
 <section class="hero section" id="home">
 <div class="neon-box">
 <h1>THE SLEEPLESS CITY</h1>
 <p>Die Stadt schläft nie.</p>
 </div>
-
 <button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
 🚀 Join Now
 </button>
 </section>
 
-<!-- TEAM -->
 <section class="section" id="team">
 <h2>🧑‍🚒 Team</h2>
-
 <div class="team">
-<div class="member">
-<img src="https://i.pravatar.cc/200?img=1">
-<h3>👑 Owner</h3>
-</div>
-
-<div class="member">
-<img src="https://i.pravatar.cc/200?img=2">
-<h3>🛠 Admin</h3>
-</div>
-
-<div class="member">
-<img src="https://i.pravatar.cc/200?img=3">
-<h3>💬 Support</h3>
-</div>
+<div class="member"><img src="https://i.pravatar.cc/200?img=1"><h3>👑 Owner</h3></div>
+<div class="member"><img src="https://i.pravatar.cc/200?img=2"><h3>🛠 Admin</h3></div>
+<div class="member"><img src="https://i.pravatar.cc/200?img=3"><h3>💬 Support</h3></div>
 </div>
 </section>
 
-<!-- DISCORD -->
 <section class="section" id="discord">
 <h2>💬 Discord</h2>
-
 <div class="discord-panel">
 <p>Trete der Community bei</p>
-
 <button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
 Discord beitreten
 </button>
 </div>
 </section>
 
-<!-- RULES -->
 <section class="section" id="rules">
 <h2>📜 Regeln</h2>
-
 <div class="rules-container">
+
 <div class="rule-box">
 <h3>⚖️ Allgemein</h3>
 <ul>
-<li>Respekt</li>
-<li>Kein Cheat</li>
+<li>Respekt gegenüber allen</li>
+<li>Kein Cheating</li>
+<li>Realistisches Verhalten</li>
 </ul>
 </div>
 
 <div class="rule-box">
 <h3>🚫 FailRP</h3>
 <ul>
-<li>Realistisch spielen</li>
+<li>Keine unrealistischen Aktionen</li>
+<li>Angst & Schmerz ausspielen</li>
 </ul>
 </div>
 
 <div class="rule-box">
 <h3>🔫 Kampf</h3>
 <ul>
-<li>Kein RDM</li>
+<li>Kein RDM / VDM</li>
+<li>Nur mit RP kämpfen</li>
 </ul>
 </div>
+
 </div>
 </section>
 
-<!-- ADMIN PANEL -->
 <section id="admin-panel">
 <h2>🟢 ADMIN PANEL</h2>
 
-<div class="admin-box">👤 Spieler verwalten</div>
-<div class="admin-box">📊 Server Stats</div>
-<div class="admin-box">🔒 Einstellungen</div>
+<div class="admin-box" onclick="alert('Spieler geöffnet')">👤 Spieler verwalten</div>
+<div class="admin-box" onclick="alert('Stats geladen')">📊 Server Stats</div>
+<div class="admin-box" onclick="alert('Settings geöffnet')">⚙️ Einstellungen</div>
 
 <p style="opacity:0.6;">Nur für Admin sichtbar</p>
 </section>
 
 <script>
+
 // LOGIN
 function login(){
 let code = document.getElementById("code").value;
@@ -312,7 +329,7 @@ document.getElementById("sound").play();
 document.getElementById("admin-panel").style.display = "block";
 fade();
 }else{
-alert("Falscher Code");
+alert("Access Denied");
 }
 }
 
@@ -320,10 +337,9 @@ function skip(){
 fade();
 }
 
-// FADE
 function fade(){
 let screen = document.getElementById("login-screen");
-screen.style.opacity = "0";
+screen.style.opacity="0";
 setTimeout(()=>{screen.style.display="none";},1000);
 }
 
@@ -336,6 +352,7 @@ s.classList.add('show');
 }
 });
 });
+
 </script>
 
 </body>
