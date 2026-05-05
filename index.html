@@ -4,17 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Sleepless City</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
-
-body{
-background:black;
-color:#FFD700;
-overflow-x:hidden;
-}
+body{background:black;color:#FFD700;overflow-x:hidden;}
 
 /* BACKGROUND */
 body::before{
@@ -33,35 +27,6 @@ width:100%;
 height:100%;
 background:rgba(0,0,0,0.7);
 z-index:-1;
-}
-
-/* LOGIN */
-#login-screen{
-position:fixed;
-width:100%;
-height:100%;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-transition:1s;
-}
-.login-box{
-border:2px solid #FFD700;
-padding:40px;
-text-align:center;
-box-shadow:0 0 30px #FFD700;
-background:rgba(0,0,0,0.9);
-}
-.login-box input{
-margin-top:15px;
-padding:10px;
-width:200px;
-background:black;
-border:1px solid #FFD700;
-color:#FFD700;
-text-align:center;
 }
 
 /* NAV */
@@ -94,6 +59,7 @@ text-align:center;
 padding:20px 40px;
 border:2px solid #FFD700;
 box-shadow:0 0 20px #FFD700;
+cursor:pointer;
 }
 
 /* BUTTON */
@@ -114,10 +80,7 @@ opacity:0;
 transform:translateY(40px);
 transition:0.8s;
 }
-.section.show{
-opacity:1;
-transform:translateY(0);
-}
+.section.show{opacity:1;transform:translateY(0);}
 
 /* TEAM */
 .team{
@@ -132,10 +95,7 @@ padding:20px;
 width:200px;
 background:rgba(0,0,0,0.6);
 }
-.member img{
-width:100%;
-border-radius:10px;
-}
+.member img{width:100%;border-radius:10px;}
 
 /* DISCORD */
 .discord-panel{
@@ -146,7 +106,7 @@ margin:auto;
 background:rgba(0,0,0,0.6);
 }
 
-/* RULES (FIXED CLEAN DESIGN) */
+/* RULES */
 .rules-container{
 display:grid;
 grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
@@ -172,13 +132,6 @@ margin-bottom:10px;
 border-bottom:1px solid #FFD700;
 padding-bottom:5px;
 }
-.rule-box ul{
-list-style:none;
-}
-.rule-box li{
-margin-bottom:8px;
-font-size:14px;
-}
 
 /* ADMIN PANEL */
 #admin-panel{
@@ -195,9 +148,7 @@ display:inline-block;
 background:rgba(0,0,0,0.6);
 cursor:pointer;
 }
-.admin-box:hover{
-box-shadow:0 0 15px #FFD700;
-}
+.admin-box:hover{box-shadow:0 0 15px #FFD700;}
 
 /* SKYLINE */
 .skyline{
@@ -214,7 +165,6 @@ z-index:-1;
 from{background-position:0;}
 to{background-position:-1000px;}
 }
-
 </style>
 </head>
 
@@ -223,19 +173,6 @@ to{background-position:-1000px;}
 <audio id="sound">
 <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0c3c.mp3">
 </audio>
-
-<!-- LOGIN -->
-<div id="login-screen">
-<div class="login-box">
-<h1>ADMIN LOGIN</h1>
-<input type="password" id="code" placeholder="Admin Code">
-<br><br>
-<button class="btn" onclick="login()">Login</button>
-<p onclick="skip()" style="margin-top:15px;cursor:pointer;">
-➡️ Weiter ohne Login
-</p>
-</div>
-</div>
 
 <div class="skyline"></div>
 
@@ -252,6 +189,7 @@ to{background-position:-1000px;}
 <h1>THE SLEEPLESS CITY</h1>
 <p>Die Stadt schläft nie.</p>
 </div>
+
 <button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
 🚀 Join Now
 </button>
@@ -279,68 +217,48 @@ Discord beitreten
 <section class="section" id="rules">
 <h2>📜 Regeln</h2>
 <div class="rules-container">
-
-<div class="rule-box">
-<h3>⚖️ Allgemein</h3>
-<ul>
-<li>Respekt gegenüber allen</li>
-<li>Kein Cheating</li>
-<li>Realistisches Verhalten</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>🚫 FailRP</h3>
-<ul>
-<li>Keine unrealistischen Aktionen</li>
-<li>Angst & Schmerz ausspielen</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>🔫 Kampf</h3>
-<ul>
-<li>Kein RDM / VDM</li>
-<li>Nur mit RP kämpfen</li>
-</ul>
-</div>
-
+<div class="rule-box"><h3>⚖️ Allgemein</h3><ul><li>Respekt</li><li>Kein Cheating</li></ul></div>
+<div class="rule-box"><h3>🚫 FailRP</h3><ul><li>Realistisch spielen</li></ul></div>
+<div class="rule-box"><h3>🔫 Kampf</h3><ul><li>Kein RDM</li></ul></div>
 </div>
 </section>
 
 <section id="admin-panel">
 <h2>🟢 ADMIN PANEL</h2>
-
-<div class="admin-box" onclick="alert('Spieler geöffnet')">👤 Spieler verwalten</div>
-<div class="admin-box" onclick="alert('Stats geladen')">📊 Server Stats</div>
-<div class="admin-box" onclick="alert('Settings geöffnet')">⚙️ Einstellungen</div>
-
-<p style="opacity:0.6;">Nur für Admin sichtbar</p>
+<div class="admin-box" onclick="openPlayers()">👤 Spieler verwalten</div>
+<div class="admin-box" onclick="openStats()">📊 Server Stats</div>
+<div class="admin-box" onclick="openSettings()">⚙️ Einstellungen</div>
 </section>
 
 <script>
 
-// LOGIN
-function login(){
-let code = document.getElementById("code").value;
-
+// SECRET LOGIN
+let clicks = 0;
+document.querySelector(".neon-box").addEventListener("click", ()=>{
+clicks++;
+if(clicks >= 5){
+let code = prompt("Admin Code:");
 if(code === "admin123"){
 document.getElementById("sound").play();
-document.getElementById("admin-panel").style.display = "block";
-fade();
+document.getElementById("admin-panel").style.display="block";
+alert("Admin aktiviert");
 }else{
-alert("Access Denied");
+alert("Falsch");
 }
+clicks = 0;
 }
+});
 
-function skip(){
-fade();
+// BUTTON ACTIONS
+function openPlayers(){
+window.open("https://discord.com", "_blank");
 }
-
-function fade(){
-let screen = document.getElementById("login-screen");
-screen.style.opacity="0";
-setTimeout(()=>{screen.style.display="none";},1000);
+function openStats(){
+alert("Stats kommen bald");
+}
+function openSettings(){
+document.body.style.background = "black";
+alert("Settings geändert");
 }
 
 // SCROLL
