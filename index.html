@@ -186,7 +186,6 @@ border:1px solid #FFD700;
 color:#FFD700;
 }
 
-/* MAINTENANCE */
 #maintenanceOverlay{
 display:none;
 position:fixed;
@@ -202,10 +201,6 @@ align-items:center;
 flex-direction:column;
 text-align:center;
 }
-
-#maintenanceOverlay .btn{
-margin-top:20px;
-}
 </style>
 </head>
 
@@ -220,10 +215,6 @@ margin-top:20px;
 🔐 Admin Zugriff
 </button>
 </div>
-
-<audio id="sound">
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0c3c.mp3">
-</audio>
 
 <!-- LOGIN -->
 <div id="loginModal">
@@ -259,19 +250,19 @@ margin-top:20px;
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=1">
 <h3>👑 Owner</h3>
-<p>Leitet das Projekt und trifft alle wichtigen Entscheidungen.</p>
+<p>Leitet das Projekt.</p>
 </div>
 
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=2">
 <h3>🛠 Admin</h3>
-<p>Kümmert sich um Server, Regeln und sorgt für Ordnung.</p>
+<p>Sorgt für Ordnung.</p>
 </div>
 
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=3">
 <h3>💬 Support</h3>
-<p>Hilft Spielern bei Fragen und Problemen im Alltag.</p>
+<p>Hilft Spielern.</p>
 </div>
 </div>
 </section>
@@ -279,13 +270,12 @@ margin-top:20px;
 <section class="section" id="rules">
 <h2>📜 Regeln</h2>
 <div class="rules-container">
-
 <div class="rule-box">
 <h3>⚖️ Allgemein</h3>
 <ul>
-<li>Respekt gegenüber allen Spielern</li>
-<li>Keine Beleidigungen oder Hate</li>
-<li>Anweisungen vom Team folgen</li>
+<li>Respekt</li>
+<li>Kein Hate</li>
+<li>Team folgen</li>
 </ul>
 </div>
 
@@ -293,26 +283,26 @@ margin-top:20px;
 <h3>🎭 Roleplay</h3>
 <ul>
 <li>Realistisch spielen</li>
-<li>Keine Meta-Gaming Infos</li>
-<li>Charakter ernst nehmen</li>
+<li>Kein Meta</li>
+<li>Charakter ernst</li>
 </ul>
 </div>
 
 <div class="rule-box">
 <h3>🔫 Kampf</h3>
 <ul>
-<li>Kein RDM/VDM</li>
-<li>Fair kämpfen</li>
-<li>Keine sinnlosen Angriffe</li>
+<li>Kein RDM</li>
+<li>Fair Fight</li>
+<li>Kein Abuse</li>
 </ul>
 </div>
 
 <div class="rule-box">
 <h3>🚫 Verboten</h3>
 <ul>
-<li>Cheating / Exploits</li>
-<li>Bug Abuse</li>
-<li>Spam & Werbung</li>
+<li>Cheats</li>
+<li>Bugs ausnutzen</li>
+<li>Spam</li>
 </ul>
 </div>
 </div>
@@ -335,23 +325,21 @@ const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const adminPanel = document.getElementById("admin-panel");
 const loginModal = document.getElementById("loginModal");
-const sound = document.getElementById("sound");
 const maintenanceOverlay = document.getElementById("maintenanceOverlay");
 
-let isAdminLoggedIn = false;
+let isAdminLoggedIn = localStorage.getItem("isAdmin")==="true";
 let maintenanceLoginMode = false;
 
-/* LOAD STATES */
+/* LOAD STATE */
 if(localStorage.getItem("maintenance")==="on"){
 maintenanceOverlay.style.display="flex";
 }
 
-if(localStorage.getItem("isAdmin")==="true"){
-isAdminLoggedIn = true;
+if(isAdminLoggedIn){
 adminPanel.style.display="block";
 }
 
-/* OPEN LOGIN */
+/* OPEN LOGIN HIDDEN */
 let clicks=0;
 document.querySelector(".neon-box").addEventListener("click",()=>{
 clicks++;
@@ -361,7 +349,7 @@ clicks=0;
 }
 });
 
-/* OPEN FROM MAINTENANCE */
+/* MAINTENANCE LOGIN BUTTON */
 function openMaintenanceLogin(){
 maintenanceLoginMode = true;
 loginModal.style.display="flex";
@@ -374,18 +362,17 @@ let pass=passwordInput.value;
 
 if(user===adminUser.username && pass===adminUser.password){
 
-adminPanel.style.display="block";
-loginModal.style.display="none";
-sound.play();
-
 isAdminLoggedIn = true;
 localStorage.setItem("isAdmin","true");
 
+adminPanel.style.display="block";
+loginModal.style.display="none";
+
 /* EXIT MAINTENANCE */
 if(maintenanceLoginMode){
-maintenanceOverlay.style.display="none";
+maintenanceLoginMode=false;
 localStorage.setItem("maintenance","off");
-maintenanceLoginMode = false;
+maintenanceOverlay.style.display="none";
 }
 
 }else{
@@ -393,12 +380,12 @@ alert("Falsche Daten");
 }
 }
 
-/* MAINTENANCE TOGGLE */
+/* TOGGLE */
 function toggleMaintenance(el){
 
 if(!isAdminLoggedIn){
-alert("Nur Admin kann den Wartungsmodus ändern!");
-el.checked = !el.checked;
+alert("Nur Admin!");
+el.checked=!el.checked;
 return;
 }
 
