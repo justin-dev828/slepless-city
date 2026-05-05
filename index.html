@@ -76,7 +76,7 @@ from{opacity:0;transform:translateY(15px);}
 to{opacity:1;transform:translateY(0);}
 }
 
-/* META (LIKES + VIEWS) */
+/* META */
 .meta{
 display:flex;
 gap:15px;
@@ -166,23 +166,21 @@ cursor:pointer;
 z-index:6000;
 }
 
-/* 🔥 TEAM + REGELN */
-.section{
-padding:70px 20px;
-text-align:center;
+/* CLOSE BUTTON (DESIGN FIX) */
+.closeBtn{
+position:absolute;
+top:12px;
+right:12px;
+padding:8px 14px;
+border-radius:12px;
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.15);
+cursor:pointer;
+color:white;
 }
-
-.card{
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
-border-radius:14px;
-padding:18px;
-max-width:800px;
-margin:10px auto;
-text-align:left;
+.closeBtn:hover{
+background:rgba(255,255,255,0.2);
 }
-
 </style>
 </head>
 
@@ -199,49 +197,10 @@ text-align:left;
 <div id="storyList"></div>
 </section>
 
-<!-- 🔥 TEAM (WIEDER DRIN) -->
-<section class="section">
-<h2>👥 Team</h2>
-
-<div class="card">
-<b>👑 Owner</b><br>
-Leitet das gesamte Projekt und entscheidet über Updates & Regeln.
-</div>
-
-<div class="card">
-<b>🛡 Admin</b><br>
-Verwaltet Stories, Moderation und technische Systeme.
-</div>
-
-<div class="card">
-<b>🎧 Support</b><br>
-Hilft Spielern bei Fragen, Bugs und Roleplay-Problemen.
-</div>
-</section>
-
-<!-- 🔥 REGELN (WIEDER DRIN) -->
-<section class="section">
-<h2>📜 Regeln</h2>
-
-<div class="card">
-<b>1. Respekt</b><br>
-Keine Beleidigungen oder toxisches Verhalten.
-</div>
-
-<div class="card">
-<b>2. Roleplay</b><br>
-Realistisch bleiben, kein Metagaming.
-</div>
-
-<div class="card">
-<b>3. Fair Play</b><br>
-Kein Cheating, Exploits oder Bug Abuse.
-</div>
-
-</section>
-
 <!-- ADMIN -->
 <div id="storyAdmin">
+<button class="closeBtn" onclick="closeAdmin()">Zurück</button>
+
 <h3>Story Editor</h3>
 
 <input id="chapter" placeholder="Staffel" style="width:100%;padding:8px;margin-top:10px;">
@@ -304,6 +263,11 @@ document.getElementById("storyAdmin").style.display="block";
 }
 }
 
+/* CLOSE ADMIN */
+function closeAdmin(){
+document.getElementById("storyAdmin").style.display="none";
+}
+
 /* ADD STORY */
 function addStory(){
 storiesRef.add({
@@ -323,8 +287,13 @@ likes:(data.likes||0)+1
 });
 }
 
-/* VIEW */
+/* VIEW (ANTI LAG FIX) */
 function addView(id,data){
+let key="viewed_"+id;
+if(sessionStorage.getItem(key)) return;
+
+sessionStorage.setItem(key,"1");
+
 storiesRef.doc(id).update({
 views:(data.views||0)+1
 });
