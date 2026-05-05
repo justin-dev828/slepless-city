@@ -1,111 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sleepless City</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
+body{background:black;color:#FFD700;overflow-x:hidden;}
+
+body::before{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") center/cover no-repeat;
+filter:brightness(0.25);
+z-index:-2;
+}
+body::after{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+z-index:-1;
+}
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+padding:15px;
+display:flex;
+justify-content:center;
+gap:20px;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
+
+nav a{color:#FFD700;text-decoration:none;}
+
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:20px;
+text-align:center;
+}
+
+.neon-box{
+padding:20px 40px;
+border:2px solid #FFD700;
+box-shadow:0 0 20px #FFD700;
+cursor:pointer;
+}
+
+.btn{
+padding:15px 30px;
+border:2px solid #FFD700;
+background:transparent;
+color:#FFD700;
+cursor:pointer;
+}
+
+.section{
+padding:80px 20px;
+text-align:center;
+opacity:0;
+transform:translateY(40px);
+transition:0.8s;
+}
+
+.section.show{opacity:1;transform:translateY(0);}
+
+.team{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.member{
+border:1px solid #FFD700;
+padding:20px;
+width:200px;
+background:rgba(0,0,0,0.6);
+}
+
+.member img{width:100%;border-radius:10px;}
+
+.discord-panel{
+border:1px solid #FFD700;
+padding:30px;
+max-width:500px;
+margin:auto;
+background:rgba(0,0,0,0.6);
+}
+
+.rules-container{
+display:grid;
+grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+gap:20px;
+max-width:1100px;
+margin:40px auto;
+}
+
+.rule-box{
+background:rgba(0,0,0,0.8);
+border:1px solid #FFD700;
+padding:20px;
+border-radius:10px;
+}
+
+#admin-panel{
+display:none;
+padding:60px 20px;
+text-align:center;
+border-top:2px solid #FFD700;
+}
+
+.admin-box{
+border:1px solid #FFD700;
+padding:20px;
+margin:10px;
+display:inline-block;
+background:rgba(0,0,0,0.6);
+cursor:pointer;
+}
+
+.skyline{
+position:fixed;
+bottom:0;
+width:100%;
+height:180px;
+background:url("https://i.imgur.com/3ZQ3Z9Q.png") repeat-x;
+animation:move 30s linear infinite;
+opacity:0.3;
+z-index:-1;
+}
+
+@keyframes move{
+from{background-position:0;}
+to{background-position:-1000px;}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="sound">
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0c3c.mp3">
+</audio>
+
+<div class="skyline"></div>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#team">Team</a>
+<a href="#discord">Discord</a>
+<a href="#rules">Regeln</a>
+</nav>
+
+<section class="hero section" id="home">
+<div class="neon-box">
+<h1>THE SLEEPLESS CITY</h1>
+<p>Die Stadt schläft nie.</p>
+</div>
+
+<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
+🚀 Join Now
+</button>
+</section>
+
+<section class="section" id="team">
+<h2>🧑‍🚒 Team</h2>
+<div class="team">
+<div class="member"><img src="https://i.pravatar.cc/200?img=1"><h3>👑 Owner</h3></div>
+<div class="member"><img src="https://i.pravatar.cc/200?img=2"><h3>🛠 Admin</h3></div>
+<div class="member"><img src="https://i.pravatar.cc/200?img=3"><h3>💬 Support</h3></div>
+</div>
+</section>
+
+<section class="section" id="discord">
+<h2>💬 Discord</h2>
+<div class="discord-panel">
+<p>Trete der Community bei</p>
+<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
+Discord beitreten
+</button>
+</div>
+</section>
+
+<section class="section" id="rules">
+<h2>📜 Regeln</h2>
+<div class="rules-container">
+<div class="rule-box"><h3>⚖️ Allgemein</h3><ul><li>Respekt</li><li>Kein Cheating</li></ul></div>
+<div class="rule-box"><h3>🚫 FailRP</h3><ul><li>Realistisch spielen</li></ul></div>
+<div class="rule-box"><h3>🔫 Kampf</h3><ul><li>Kein RDM</li></ul></div>
+</div>
+</section>
+
+<section id="admin-panel">
+<h2>🟢 ADMIN PANEL</h2>
+<div class="admin-box" onclick="toggleMaintenance()">🚧 Wartungsmodus AN/AUS</div>
+<div class="admin-box" onclick="openPlayers()">👤 Spieler</div>
+</section>
+
 <script>
-// LOGIN DATEN (fake DB)
-const admins = [
-  {user: "admin", pass: "1234"},
-  {user: "dev", pass: "2026"}
-];
+const adminCodes = ["admin123","dev2026"];
 
-// STATE
-let isAdmin = false;
-
-// CHECK MAINTENANCE
+// Wartungsmodus prüfen
 if(localStorage.getItem("maintenance")==="on"){
 activateMaintenance();
 }
 
-// SECRET LOGIN (5 clicks)
+// Secret Login (5 Klicks)
 let clicks=0;
 document.querySelector(".neon-box").addEventListener("click",()=>{
 clicks++;
 if(clicks>=5){
-showLogin();
+let code=prompt("Admin Code:");
+if(adminCodes.includes(code)){
+document.getElementById("sound").play();
+document.getElementById("admin-panel").style.display="block";
+alert("Admin aktiviert");
+}else{
+alert("Falsch");
+}
 clicks=0;
 }
 });
 
-// LOGIN UI
-function showLogin(){
-let user = prompt("Username:");
-let pass = prompt("Passwort:");
-
-let found = admins.find(a => a.user===user && a.pass===pass);
-
-if(found){
-isAdmin = true;
-document.getElementById("sound").play();
-document.getElementById("admin-panel").style.display="block";
-loadToggleState();
-}else{
-alert("Falsch");
-}
-}
-
-// TOGGLE SWITCH STATE LADEN
-function loadToggleState(){
-let state = localStorage.getItem("maintenance");
-let btn = document.getElementById("maint-toggle");
-
-if(state==="on"){
-btn.innerText = "🟢 Wartung AN";
-btn.style.borderColor="lime";
-}else{
-btn.innerText = "🔴 Wartung AUS";
-btn.style.borderColor="red";
-}
-}
-
-// TOGGLE BUTTON
+// Wartungsmodus toggle
 function toggleMaintenance(){
-let state = localStorage.getItem("maintenance");
-
+let state=localStorage.getItem("maintenance");
 if(state==="on"){
 localStorage.setItem("maintenance","off");
 }else{
 localStorage.setItem("maintenance","on");
 }
-
-loadToggleState();
-setTimeout(()=>location.reload(),500);
+location.reload();
 }
 
-// BESSERE WARTUNGSSEITE
+// Wartungsseite
 function activateMaintenance(){
-document.body.innerHTML = `
-<div style="
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-background:black;
-color:#FFD700;
-text-align:center;
-font-family:Orbitron;
-">
-<h1 style="font-size:50px;">🚧 WARTUNG</h1>
-<p style="opacity:0.7;">Die Stadt wird gerade verbessert...</p>
-
-<button onclick="adminBypass()" style="
-margin-top:30px;
-padding:12px 25px;
-border:1px solid gold;
-background:none;
-color:gold;
-cursor:pointer;
-">
-🔐 Admin Login
-</button>
+document.body.innerHTML=`
+<div style="height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background:black;color:#FFD700;text-align:center;">
+<h1>🚧 Wartungsmodus</h1>
+<p>Wir sind bald zurück</p>
+<button onclick="adminBypass()">Admin Login</button>
 </div>`;
 }
 
-// ADMIN BYPASS
+// Admin Bypass
 function adminBypass(){
-let user = prompt("Username:");
-let pass = prompt("Passwort:");
-
-let found = admins.find(a => a.user===user && a.pass===pass);
-
-if(found){
+let code=prompt("Admin Code:");
+if(adminCodes.includes(code)){
 localStorage.setItem("maintenance","off");
 location.reload();
 }else{
@@ -113,12 +268,11 @@ alert("Falsch");
 }
 }
 
-// BUTTON ACTIONS
 function openPlayers(){
 window.open("https://discord.com","_blank");
 }
 
-// SCROLL
+// Scroll Animation
 const sections=document.querySelectorAll('.section');
 window.addEventListener('scroll',()=>{
 sections.forEach(s=>{
@@ -128,3 +282,6 @@ s.classList.add('show');
 });
 });
 </script>
+
+</body>
+</html>
