@@ -20,6 +20,23 @@ color:#e6e6e6;
 overflow-x:hidden;
 }
 
+/* BACKGROUND (wieder drin) */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") center/cover no-repeat;
+filter:brightness(0.25);
+z-index:-2;
+}
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.65);
+z-index:-1;
+}
+
 /* HERO */
 .hero{
 height:100vh;
@@ -56,6 +73,20 @@ z-index:1000;
 }
 nav a{color:#cfd6dd;text-decoration:none;}
 
+/* SECTIONS */
+.section{padding:80px 20px;text-align:center;}
+
+.card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:14px;
+padding:18px;
+max-width:900px;
+margin:10px auto;
+text-align:left;
+}
+
 /* STORY */
 .story-box{
 background:rgba(255,255,255,0.05);
@@ -74,7 +105,6 @@ from{opacity:0;transform:translateY(15px);}
 to{opacity:1;transform:translateY(0);}
 }
 
-/* CHAPTER UI */
 .chapter{
 margin-top:30px;
 font-size:20px;
@@ -118,7 +148,7 @@ border-radius:8px;
 margin-top:10px;
 }
 
-/* FLOAT BUTTON */
+/* FLOAT ADMIN */
 #openAdminBtn{
 display:none;
 position:fixed;
@@ -155,17 +185,16 @@ width:280px;
 width:100%;
 margin:6px 0;
 padding:8px;
-border-radius:6px;
-border:none;
 }
 
-/* SEASON UI */
+/* SEASONS (Netflix UI) */
 .seasons{
 display:flex;
 justify-content:center;
 gap:10px;
 margin:20px;
 }
+
 .season{
 padding:8px 14px;
 border:1px solid rgba(255,255,255,0.2);
@@ -173,8 +202,9 @@ border-radius:10px;
 cursor:pointer;
 background:rgba(255,255,255,0.05);
 }
+
 .season.active{
-background:rgba(255,255,255,0.2);
+background:rgba(255,255,255,0.25);
 }
 </style>
 </head>
@@ -194,10 +224,9 @@ background:rgba(255,255,255,0.2);
 </section>
 
 <!-- STORY -->
-<section id="story" style="padding:80px 20px;text-align:center;">
+<section id="story" class="section">
 <h2>📖 Story</h2>
 
-<!-- SEASONS -->
 <div class="seasons">
 <div class="season active" onclick="filterSeason('all')">Alle</div>
 <div class="season" onclick="filterSeason('1')">Staffel 1</div>
@@ -206,6 +235,24 @@ background:rgba(255,255,255,0.2);
 </div>
 
 <div id="storyList"></div>
+</section>
+
+<!-- TEAM (wieder drin) -->
+<section class="section">
+<h2>👥 Team</h2>
+
+<div class="card"><b>Owner</b><br>Leitet das Projekt</div>
+<div class="card"><b>Admin</b><br>Verwaltet Stories</div>
+<div class="card"><b>Support</b><br>Hilft Spielern</div>
+</section>
+
+<!-- REGELN (wieder drin) -->
+<section class="section">
+<h2>📜 Regeln</h2>
+
+<div class="card">Respektvoll bleiben</div>
+<div class="card">Kein Metagaming</div>
+<div class="card">Kein Cheating</div>
 </section>
 
 <!-- ADMIN -->
@@ -225,13 +272,13 @@ background:rgba(255,255,255,0.2);
 <div id="loginBox">
 <div class="login">
 <h3>Admin Login</h3>
-<input id="u" placeholder="Username">
+<input id="u" placeholder="User">
 <input id="p" type="password" placeholder="Passwort">
 <button class="btn" onclick="login()">Login</button>
 </div>
 </div>
 
-<!-- ADMIN BTN -->
+<!-- FLOAT BUTTON -->
 <div id="openAdminBtn" onclick="openAdmin()">🧠 Admin</div>
 
 <script>
@@ -249,8 +296,8 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const storiesRef = db.collection("stories");
 
-let loggedIn = false;
-let currentFilter = "all";
+let loggedIn=false;
+let filter="all";
 
 /* HOTKEY LOGIN */
 document.addEventListener("keydown",e=>{
@@ -261,15 +308,11 @@ document.getElementById("loginBox").style.display="flex";
 
 /* LOGIN */
 function login(){
-let u=document.getElementById("u").value;
-let p=document.getElementById("p").value;
-
-if(u==="admin" && p==="1234"){
+if(document.getElementById("u").value==="admin" &&
+document.getElementById("p").value==="1234"){
 loggedIn=true;
 document.getElementById("loginBox").style.display="none";
 document.getElementById("openAdminBtn").style.display="block";
-}else{
-alert("Falsch");
 }
 }
 
@@ -290,18 +333,18 @@ time:Date.now()
 });
 }
 
+/* FILTER */
+function filterSeason(f){
+filter=f;
+load();
+}
+
 /* DELETE */
 function deleteStory(id){
 storiesRef.doc(id).delete();
 }
 
-/* FILTER */
-function filterSeason(s){
-currentFilter=s;
-load();
-}
-
-/* LIVE */
+/* LOAD */
 function load(){
 storiesRef.orderBy("time","desc").onSnapshot(snap=>{
 let c=document.getElementById("storyList");
@@ -312,7 +355,7 @@ let last="";
 snap.forEach(doc=>{
 let s=doc.data();
 
-if(currentFilter!=="all" && s.chapter!==currentFilter) return;
+if(filter!=="all" && s.chapter!==filter) return;
 
 if(s.chapter!==last){
 c.innerHTML+=`<div class="chapter">Staffel ${s.chapter}</div>`;
