@@ -26,7 +26,6 @@ background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") c
 filter:brightness(0.25);
 z-index:-2;
 }
-
 body::after{
 content:"";
 position:fixed;
@@ -77,7 +76,12 @@ display:flex;
 justify-content:center;
 gap:20px;
 background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
+z-index:1000;
 }
+
+nav a{color:#FFD700;text-decoration:none;}
+nav a:hover{text-shadow:0 0 10px #FFD700;}
 
 /* HERO */
 .hero{
@@ -103,11 +107,69 @@ background:transparent;
 color:#FFD700;
 cursor:pointer;
 }
+.btn:hover{box-shadow:0 0 20px #FFD700;}
+
+/* SECTION */
+.section{
+padding:80px 20px;
+text-align:center;
+opacity:0;
+transform:translateY(40px);
+transition:0.8s;
+}
+.section.show{
+opacity:1;
+transform:translateY(0);
+}
+
+/* TEAM */
+.team{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+.member{
+border:1px solid #FFD700;
+padding:20px;
+width:200px;
+background:rgba(0,0,0,0.6);
+}
+.member img{
+width:100%;
+border-radius:10px;
+}
+
+/* DISCORD */
+.discord-panel{
+border:1px solid #FFD700;
+padding:30px;
+max-width:500px;
+margin:auto;
+background:rgba(0,0,0,0.6);
+}
+
+/* RULES */
+.rules-container{
+display:grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap:25px;
+max-width:1100px;
+margin:40px auto;
+}
+.rule-box{
+background:rgba(0,0,0,0.75);
+border:1px solid #FFD700;
+padding:20px;
+border-radius:12px;
+text-align:left;
+}
+.rule-box:hover{box-shadow:0 0 20px #FFD700;}
 
 /* ADMIN PANEL */
 #admin-panel{
 display:none;
-padding:50px;
+padding:60px 20px;
 text-align:center;
 border-top:2px solid #FFD700;
 }
@@ -117,6 +179,7 @@ border:1px solid #FFD700;
 padding:20px;
 margin:10px;
 display:inline-block;
+background:rgba(0,0,0,0.6);
 }
 </style>
 </head>
@@ -145,41 +208,101 @@ display:inline-block;
 </div>
 
 <nav>
-<a href="#">Home</a>
+<a href="#home">Home</a>
+<a href="#team">Team</a>
+<a href="#discord">Discord</a>
+<a href="#rules">Regeln</a>
 <a href="#admin-panel">Admin</a>
 </nav>
 
-<section class="hero">
+<!-- HERO -->
+<section class="hero section" id="home">
 <div class="neon-box">
 <h1>THE SLEEPLESS CITY</h1>
+<p>Die Stadt schläft nie.</p>
+</div>
+
+<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
+🚀 Join Now
+</button>
+</section>
+
+<!-- TEAM -->
+<section class="section" id="team">
+<h2>🧑‍🚒 Team</h2>
+
+<div class="team">
+<div class="member">
+<img src="https://i.pravatar.cc/200?img=1">
+<h3>👑 Owner</h3>
+</div>
+
+<div class="member">
+<img src="https://i.pravatar.cc/200?img=2">
+<h3>🛠 Admin</h3>
+</div>
+
+<div class="member">
+<img src="https://i.pravatar.cc/200?img=3">
+<h3>💬 Support</h3>
+</div>
+</div>
+</section>
+
+<!-- DISCORD -->
+<section class="section" id="discord">
+<h2>💬 Discord</h2>
+
+<div class="discord-panel">
+<p>Trete der Community bei</p>
+
+<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
+Discord beitreten
+</button>
+</div>
+</section>
+
+<!-- RULES -->
+<section class="section" id="rules">
+<h2>📜 Regeln</h2>
+
+<div class="rules-container">
+<div class="rule-box">
+<h3>⚖️ Allgemein</h3>
+<ul>
+<li>Respekt</li>
+<li>Kein Cheat</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h3>🚫 FailRP</h3>
+<ul>
+<li>Realistisch spielen</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h3>🔫 Kampf</h3>
+<ul>
+<li>Kein RDM</li>
+</ul>
+</div>
 </div>
 </section>
 
 <!-- ADMIN PANEL -->
 <section id="admin-panel">
-
 <h2>🟢 ADMIN PANEL</h2>
 
-<div class="admin-box">
-<p>👤 Spieler verwalten</p>
-</div>
+<div class="admin-box">👤 Spieler verwalten</div>
+<div class="admin-box">📊 Server Stats</div>
+<div class="admin-box">🔒 Einstellungen</div>
 
-<div class="admin-box">
-<p>📊 Server Stats</p>
-</div>
-
-<div class="admin-box">
-<p>🔒 Geheime Einstellungen</p>
-</div>
-
-<p style="margin-top:20px;opacity:0.6;">
-Nur sichtbar für Admins
-</p>
-
+<p style="opacity:0.6;">Nur für Admin sichtbar</p>
 </section>
 
 <script>
-
 // LOGIN
 function login(){
 let code = document.getElementById("code").value;
@@ -188,13 +311,11 @@ if(code === "admin123"){
 document.getElementById("sound").play();
 document.getElementById("admin-panel").style.display = "block";
 fade();
-alert("Admin Zugriff!");
 }else{
-alert("Falsch");
+alert("Falscher Code");
 }
 }
 
-// USER SKIP
 function skip(){
 fade();
 }
@@ -203,12 +324,18 @@ fade();
 function fade(){
 let screen = document.getElementById("login-screen");
 screen.style.opacity = "0";
-
-setTimeout(()=>{
-screen.style.display="none";
-},1000);
+setTimeout(()=>{screen.style.display="none";},1000);
 }
 
+// SCROLL
+const sections=document.querySelectorAll('.section');
+window.addEventListener('scroll',()=>{
+sections.forEach(s=>{
+if(s.getBoundingClientRect().top<window.innerHeight-100){
+s.classList.add('show');
+}
+});
+});
 </script>
 
 </body>
