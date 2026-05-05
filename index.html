@@ -4,13 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Sleepless City</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
 body{background:black;color:#FFD700;overflow-x:hidden;}
-
 body::before{
 content:"";
 position:fixed;
@@ -28,7 +25,6 @@ height:100%;
 background:rgba(0,0,0,0.7);
 z-index:-1;
 }
-
 nav{
 position:fixed;
 top:0;
@@ -42,7 +38,6 @@ backdrop-filter:blur(10px);
 z-index:1000;
 }
 nav a{color:#FFD700;text-decoration:none;}
-
 .hero{
 height:100vh;
 display:flex;
@@ -52,14 +47,12 @@ align-items:center;
 gap:20px;
 text-align:center;
 }
-
 .neon-box{
 padding:20px 40px;
 border:2px solid #FFD700;
 box-shadow:0 0 20px #FFD700;
 cursor:pointer;
 }
-
 .btn{
 padding:15px 30px;
 border:2px solid #FFD700;
@@ -67,7 +60,6 @@ background:transparent;
 color:#FFD700;
 cursor:pointer;
 }
-
 .section{
 padding:80px 20px;
 text-align:center;
@@ -76,11 +68,9 @@ transform:translateY(40px);
 transition:0.8s;
 }
 .section.show{opacity:1;transform:translateY(0);}
-
 .team{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
 .member{border:1px solid #FFD700;padding:20px;width:200px;background:rgba(0,0,0,0.6);}
 .member img{width:100%;border-radius:10px;}
-
 .discord-panel{
 border:1px solid #FFD700;
 padding:30px;
@@ -88,7 +78,6 @@ max-width:500px;
 margin:auto;
 background:rgba(0,0,0,0.6);
 }
-
 .rules-container{
 display:grid;
 grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
@@ -96,21 +85,18 @@ gap:20px;
 max-width:1100px;
 margin:40px auto;
 }
-
 .rule-box{
 background:rgba(0,0,0,0.8);
 border:1px solid #FFD700;
 padding:20px;
 border-radius:10px;
 }
-
 #admin-panel{
 display:none;
 padding:60px 20px;
 text-align:center;
 border-top:2px solid #FFD700;
 }
-
 .admin-box{
 border:1px solid #FFD700;
 padding:20px;
@@ -119,7 +105,6 @@ display:inline-block;
 background:rgba(0,0,0,0.6);
 cursor:pointer;
 }
-
 .skyline{
 position:fixed;
 bottom:0;
@@ -130,19 +115,54 @@ animation:move 30s linear infinite;
 opacity:0.3;
 z-index:-1;
 }
-
 @keyframes move{
 from{background-position:0;}
 to{background-position:-1000px;}
 }
+
+/* LOGIN MODAL */
+#loginModal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+justify-content:center;
+align-items:center;
+z-index:2000;
+}
+.login-box{
+background:black;
+padding:30px;
+border:1px solid #FFD700;
+text-align:center;
+}
+.login-box input{
+margin:10px;
+padding:10px;
+background:black;
+border:1px solid #FFD700;
+color:#FFD700;
+}
 </style>
 </head>
-
 <body>
 
 <audio id="sound">
 <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0c3c.mp3">
 </audio>
+
+<!-- LOGIN -->
+<div id="loginModal">
+  <div class="login-box">
+    <h2>🔐 Admin Login</h2>
+    <input id="username" placeholder="Username"><br>
+    <input id="password" type="password" placeholder="Passwort"><br>
+    <button class="btn" onclick="login()">Login</button>
+  </div>
+</div>
 
 <div class="skyline"></div>
 
@@ -158,7 +178,6 @@ to{background-position:-1000px;}
 <h1>THE SLEEPLESS CITY</h1>
 <p>Die Stadt schläft nie.</p>
 </div>
-
 <button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
 🚀 Join Now
 </button>
@@ -199,32 +218,42 @@ Discord beitreten
 </section>
 
 <script>
-// ADMIN CODES
-const adminCodes = ["admin123","dev2026"];
+// LOGIN DATEN
+const adminUser = {
+  username: "admin",
+  password: "1234"
+};
 
-// Wartungsmodus prüfen
+// Wartung prüfen
 if(localStorage.getItem("maintenance")==="on"){
 activateMaintenance();
 }
 
-// SECRET LOGIN
+// 5 Klicks = Login öffnen
 let clicks=0;
 document.querySelector(".neon-box").addEventListener("click",()=>{
 clicks++;
 if(clicks>=5){
-let code=prompt("Admin Code:");
-if(adminCodes.includes(code)){
-document.getElementById("sound").play();
-document.getElementById("admin-panel").style.display="block";
-alert("Admin aktiviert");
-}else{
-alert("Falsch");
-}
+document.getElementById("loginModal").style.display="flex";
 clicks=0;
 }
 });
 
-// Wartungsmodus Toggle
+// LOGIN
+function login(){
+let user=document.getElementById("username").value;
+let pass=document.getElementById("password").value;
+
+if(user===adminUser.username && pass===adminUser.password){
+document.getElementById("admin-panel").style.display="block";
+document.getElementById("loginModal").style.display="none";
+document.getElementById("sound").play();
+}else{
+alert("Falsche Daten");
+}
+}
+
+// Wartungsmodus
 function toggleMaintenance(){
 let state=localStorage.getItem("maintenance");
 if(state==="on"){
@@ -245,10 +274,10 @@ document.body.innerHTML=`
 </div>`;
 }
 
-// Admin Bypass
+// Bypass
 function adminBypass(){
 let code=prompt("Admin Code:");
-if(adminCodes.includes(code)){
+if(code==="admin123"){
 localStorage.setItem("maintenance","off");
 location.reload();
 }else{
@@ -260,7 +289,7 @@ function openPlayers(){
 window.open("https://discord.com","_blank");
 }
 
-// Scroll Animation
+// Scroll
 const sections=document.querySelectorAll('.section');
 window.addEventListener('scroll',()=>{
 sections.forEach(s=>{
