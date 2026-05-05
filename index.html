@@ -56,74 +56,54 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* LOGIN */
-#loginModal{
-display:none;
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,0.9);
+/* TEAM */
+.team{
+display:flex;
 justify-content:center;
-align-items:center;
-z-index:2000;
-}
-
-.login-box{
-background:black;
-padding:30px;
-border:1px solid #FFD700;
-text-align:center;
-}
-
-.login-box input{
-margin:10px;
-padding:10px;
-background:black;
-border:1px solid #FFD700;
-color:#FFD700;
-}
-
-/* MAINTENANCE */
-#maintenanceOverlay{
-display:none;
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:black;
-color:#FFD700;
-z-index:9999;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-text-align:center;
-}
-
-.switch{
+gap:20px;
+flex-wrap:wrap;
 margin-top:20px;
+}
+
+.member{
+border:1px solid #FFD700;
+padding:20px;
+width:220px;
+background:rgba(0,0,0,0.6);
+}
+
+.member img{
+width:100%;
+border-radius:10px;
+}
+
+.member p{
+font-size:13px;
+margin-top:10px;
+color:#ccc;
+}
+
+/* RULES */
+.rules-container{
+display:grid;
+grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+gap:20px;
+max-width:1100px;
+margin:40px auto;
+}
+
+.rule-box{
+background:rgba(0,0,0,0.8);
+border:1px solid #FFD700;
+padding:20px;
+border-radius:10px;
+text-align:left;
 }
 
 </style>
 </head>
 
 <body>
-
-<!-- MAINTENANCE SCREEN -->
-<div id="maintenanceOverlay">
-<h1>🚧 Wartungsmodus aktiv</h1>
-<p>Die Seite ist gerade offline</p>
-
-<button class="btn" onclick="openLogin()">🔐 Admin Login</button>
-</div>
-
-<!-- LOGIN -->
-<div id="loginModal">
-<div class="login-box">
-<h2>Admin Login</h2>
-<input id="user" placeholder="Username"><br>
-<input id="pass" type="password" placeholder="Passwort"><br>
-<button class="btn" onclick="login()">Login</button>
-</div>
-</div>
 
 <nav>
 <a href="#home">Home</a>
@@ -140,76 +120,79 @@ Join Discord
 </button>
 </section>
 
+<!-- TEAM -->
 <section class="section" id="team">
-<h2>Team</h2>
-<p>Owner / Admin / Support</p>
+<h2>🧑‍🚒 Team</h2>
+
+<div class="team">
+
+<div class="member">
+<img src="https://i.pravatar.cc/200?img=1">
+<h3>👑 Owner</h3>
+<p>Der Owner leitet das gesamte Projekt, trifft Entscheidungen und sorgt für die Weiterentwicklung des Servers.</p>
+</div>
+
+<div class="member">
+<img src="https://i.pravatar.cc/200?img=2">
+<h3>🛠 Admin</h3>
+<p>Admins kümmern sich um Regeln, Support und sorgen für Ordnung auf dem Server.</p>
+</div>
+
+<div class="member">
+<img src="https://i.pravatar.cc/200?img=3">
+<h3>💬 Support</h3>
+<p>Support hilft Spielern bei Fragen, Problemen und unterstützt im Roleplay-Alltag.</p>
+</div>
+
+</div>
 </section>
 
+<!-- RULES -->
 <section class="section" id="rules">
-<h2>Regeln</h2>
-<p>Respekt • Kein Cheat • Fair Play</p>
-</section>
+<h2>📜 Regeln</h2>
 
-<!-- ADMIN PANEL -->
-<section style="text-align:center;padding:40px;">
-<h2>Admin Panel</h2>
+<div class="rules-container">
 
-<label>
-<input type="checkbox" onchange="toggleMaintenance(this)">
-<span> Wartungsmodus</span>
-</label>
+<div class="rule-box">
+<h3>⚖️ Allgemein</h3>
+<ul>
+<li>Respekt gegenüber allen Spielern</li>
+<li>Keine Beleidigungen oder toxisches Verhalten</li>
+<li>Anweisungen vom Team sind zu befolgen</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h3>🎭 Roleplay</h3>
+<ul>
+<li>Realistisch spielen</li>
+<li>Kein Meta-Gaming</li>
+<li>Charakter ernst nehmen</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h3>🔫 Kampf</h3>
+<ul>
+<li>Kein RDM / VDM</li>
+<li>Fair kämpfen</li>
+<li>Keine sinnlosen Angriffe</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h3>🚫 Verboten</h3>
+<ul>
+<li>Cheating / Exploits</li>
+<li>Bug Abuse</li>
+<li>Spam oder Werbung</li>
+</ul>
+</div>
+
+</div>
 </section>
 
 <script>
-const maintenanceOverlay = document.getElementById("maintenanceOverlay");
-const loginModal = document.getElementById("loginModal");
-
-let maintenance = localStorage.getItem("maintenance") || "off";
-
-/* APPLY STATE */
-function apply(){
-if(maintenance === "on"){
-maintenanceOverlay.style.display = "flex";
-}else{
-maintenanceOverlay.style.display = "none";
-}
-}
-
-apply();
-
-/* OPEN LOGIN */
-function openLogin(){
-loginModal.style.display = "flex";
-}
-
-/* LOGIN */
-function login(){
-let u = document.getElementById("user").value;
-let p = document.getElementById("pass").value;
-
-if(u === "admin" && p === "1234"){
-loginModal.style.display = "none";
-
-/* Wartung AUS */
-maintenance = "off";
-localStorage.setItem("maintenance","off");
-apply();
-
-alert("Login erfolgreich");
-}else{
-alert("Falsch");
-}
-}
-
-/* TOGGLE WARTUNG */
-function toggleMaintenance(el){
-
-maintenance = el.checked ? "on" : "off";
-localStorage.setItem("maintenance", maintenance);
-apply();
-}
-
-/* SCROLL EFFECT */
 const sections = document.querySelectorAll(".section");
 
 window.addEventListener("scroll", () => {
