@@ -58,35 +58,6 @@ cursor:pointer;
 backdrop-filter:blur(6px);
 }
 
-/* NAV */
-nav{
-position:fixed;
-top:0;
-width:100%;
-padding:14px;
-display:flex;
-justify-content:center;
-gap:25px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(12px);
-z-index:1000;
-}
-nav a{color:#cfd6dd;text-decoration:none;}
-
-/* SECTIONS */
-.section{padding:80px 20px;text-align:center;}
-
-.card{
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
-border-radius:14px;
-padding:18px;
-max-width:900px;
-margin:10px auto;
-text-align:left;
-}
-
 /* STORY */
 .story-box{
 background:rgba(255,255,255,0.05);
@@ -105,11 +76,19 @@ from{opacity:0;transform:translateY(15px);}
 to{opacity:1;transform:translateY(0);}
 }
 
-.chapter{
-margin-top:30px;
-font-size:20px;
+/* META (LIKES + VIEWS) */
+.meta{
+display:flex;
+gap:15px;
+margin-top:10px;
+font-size:14px;
 opacity:0.8;
-font-weight:600;
+}
+
+.likeBtn{
+cursor:pointer;
+user-select:none;
+color:#ff4d4d;
 }
 
 /* DELETE */
@@ -139,7 +118,6 @@ width:400px;
 z-index:5000;
 }
 
-/* EDITOR */
 .editor{
 background:rgba(0,0,0,0.5);
 border:1px solid rgba(255,255,255,0.1);
@@ -147,20 +125,6 @@ padding:10px;
 min-height:140px;
 border-radius:8px;
 margin-top:10px;
-}
-
-/* FLOAT ADMIN */
-#openAdminBtn{
-display:none;
-position:fixed;
-bottom:20px;
-right:20px;
-background:rgba(255,255,255,0.1);
-border:1px solid rgba(255,255,255,0.2);
-padding:12px 16px;
-border-radius:12px;
-cursor:pointer;
-z-index:6000;
 }
 
 /* LOGIN */
@@ -188,29 +152,24 @@ margin:6px 0;
 padding:8px;
 }
 
-/* CLOSE BUTTON */
-.closeAdmin{
-position:absolute;
-top:12px;
-right:12px;
-padding:8px 12px;
-border-radius:10px;
-background:rgba(255,255,255,0.08);
-border:1px solid rgba(255,255,255,0.15);
-color:white;
+/* ADMIN BTN */
+#openAdminBtn{
+display:none;
+position:fixed;
+bottom:20px;
+right:20px;
+background:rgba(255,255,255,0.1);
+border:1px solid rgba(255,255,255,0.2);
+padding:12px 16px;
+border-radius:12px;
 cursor:pointer;
-backdrop-filter:blur(10px);
+z-index:6000;
 }
+
 </style>
 </head>
 
 <body>
-
-<nav>
-<a href="#story">Story</a>
-<a href="#team">Team</a>
-<a href="#rules">Regeln</a>
-</nav>
 
 <section class="hero">
 <h1>THE SLEEPLESS CITY</h1>
@@ -218,37 +177,17 @@ backdrop-filter:blur(10px);
 <button class="btn">Discord beitreten</button>
 </section>
 
-<section id="story" class="section">
+<section style="padding:80px 20px;text-align:center;">
 <h2>📖 Story</h2>
 <div id="storyList"></div>
 </section>
 
-<section class="section">
-<h2>👥 Team</h2>
-
-<div class="card"><b>Owner</b><br>Leitet das Projekt</div>
-<div class="card"><b>Admin</b><br>Verwaltet Stories</div>
-<div class="card"><b>Support</b><br>Hilft Spielern</div>
-</section>
-
-<section class="section">
-<h2>📜 Regeln</h2>
-
-<div class="card">Respektvoll bleiben</div>
-<div class="card">Kein Metagaming</div>
-<div class="card">Kein Cheating</div>
-</section>
-
 <!-- ADMIN -->
 <div id="storyAdmin">
-
-<button class="closeAdmin" onclick="closeAdmin()">Zurück</button>
-
 <h3>Story Editor</h3>
 
-<input id="chapter" placeholder="Staffel (1/2/3)" style="width:100%;padding:8px;margin-top:10px;">
+<input id="chapter" placeholder="Staffel" style="width:100%;padding:8px;margin-top:10px;">
 <input id="title" placeholder="Titel" style="width:100%;padding:8px;margin-top:10px;">
-
 <div id="editor" class="editor" contenteditable="true"></div>
 
 <button class="btn" onclick="addStory()" style="margin-top:10px;">Posten</button>
@@ -264,18 +203,17 @@ backdrop-filter:blur(10px);
 </div>
 </div>
 
-<!-- FLOAT BUTTON -->
 <div id="openAdminBtn" onclick="openAdmin()">🧠 Admin</div>
 
 <script>
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBfcD74FW6VcsdYGcc0xIHC-5M2W4z0E8s",
-  authDomain: "sleepless-city.firebaseapp.com",
-  projectId: "sleepless-city",
-  storageBucket: "sleepless-city.firebasestorage.app",
-  messagingSenderId: "34631955151",
-  appId: "1:34631955151:web:107f9312dae475fac23dba"
+apiKey: "AIzaSyBfcD74FW6VcsdYGcc0xIHC-5M2W4z0E8s",
+authDomain: "sleepless-city.firebaseapp.com",
+projectId: "sleepless-city",
+storageBucket: "sleepless-city.firebasestorage.app",
+messagingSenderId: "34631955151",
+appId: "1:34631955151:web:107f9312dae475fac23dba"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -284,7 +222,7 @@ const storiesRef = db.collection("stories");
 
 let loggedIn=false;
 
-/* HOTKEY */
+/* LOGIN HOTKEY */
 document.addEventListener("keydown",e=>{
 if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="a"){
 document.getElementById("loginBox").style.display="flex";
@@ -308,18 +246,29 @@ document.getElementById("storyAdmin").style.display="block";
 }
 }
 
-/* CLOSE ADMIN */
-function closeAdmin(){
-document.getElementById("storyAdmin").style.display="none";
-}
-
 /* ADD STORY */
 function addStory(){
 storiesRef.add({
 chapter:document.getElementById("chapter").value,
 title:document.getElementById("title").value,
 content:document.getElementById("editor").innerHTML,
+likes:0,
+views:0,
 time:Date.now()
+});
+}
+
+/* LIKE */
+function likeStory(id,data){
+storiesRef.doc(id).update({
+likes:(data.likes||0)+1
+});
+}
+
+/* VIEW */
+function addView(id,data){
+storiesRef.doc(id).update({
+views:(data.views||0)+1
 });
 }
 
@@ -328,22 +277,24 @@ storiesRef.orderBy("time","desc").onSnapshot(snap=>{
 let c=document.getElementById("storyList");
 c.innerHTML="";
 
-let last="";
-
 snap.forEach(doc=>{
 let s=doc.data();
 
-if(s.chapter!==last){
-c.innerHTML+=`<div class="chapter">Staffel ${s.chapter}</div>`;
-last=s.chapter;
-}
+/* VIEW +1 */
+addView(doc.id,s);
 
-/* 🔥 ONLY ADMINS SEE DELETE BUTTON */
 c.innerHTML+=`
 <div class="story-box">
 ${loggedIn ? `<button class="delBtn" onclick="storiesRef.doc('${doc.id}').delete()">X</button>` : ""}
+
 <h3>${s.title}</h3>
 <div>${s.content}</div>
+
+<div class="meta">
+<span class="likeBtn" onclick='likeStory("${doc.id}",${JSON.stringify(s)})'>❤️ ${s.likes||0}</span>
+<span>👁 ${s.views||0}</span>
+</div>
+
 </div>`;
 });
 });
