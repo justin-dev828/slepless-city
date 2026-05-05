@@ -60,7 +60,43 @@ cursor:pointer;
 backdrop-filter:blur(6px);
 }
 
-/* STORY CARD (NETFLIX STYLE) */
+/* NAV */
+nav{
+position:fixed;
+top:0;
+width:100%;
+padding:14px;
+display:flex;
+justify-content:center;
+gap:25px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+z-index:1000;
+}
+nav a{
+color:#cfd6dd;
+text-decoration:none;
+}
+
+/* SECTIONS */
+.section{
+padding:80px 20px;
+text-align:center;
+}
+
+/* CARDS */
+.card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:14px;
+padding:18px;
+max-width:900px;
+margin:10px auto;
+text-align:left;
+}
+
+/* STORY */
 .story-box{
 background:rgba(255,255,255,0.05);
 border:1px solid rgba(255,255,255,0.08);
@@ -69,28 +105,19 @@ border-radius:14px;
 padding:18px;
 margin:15px auto;
 max-width:800px;
-text-align:left;
-
-opacity:0;
-transform:translateY(20px);
-animation:fadeIn 0.4s forwards;
-transition:0.3s;
-}
-
-.story-box:hover{
-transform:scale(1.02);
+animation:fadeIn 0.4s ease;
 }
 
 @keyframes fadeIn{
+from{opacity:0;transform:translateY(15px);}
 to{opacity:1;transform:translateY(0);}
 }
 
-/* CHAPTER STYLE */
 .chapter{
-margin-top:40px;
+margin-top:30px;
 font-size:20px;
-font-weight:600;
 opacity:0.8;
+font-weight:600;
 }
 
 /* ADMIN */
@@ -103,17 +130,18 @@ transform:translate(-50%,-50%);
 background:rgba(20,25,35,0.95);
 padding:20px;
 border-radius:14px;
-width:380px;
-z-index:4000;
+width:400px;
+z-index:5000;
 }
 
+/* EDITOR */
 .editor{
 background:rgba(0,0,0,0.5);
 border:1px solid rgba(255,255,255,0.1);
 padding:10px;
 min-height:140px;
 border-radius:8px;
-margin-top:8px;
+margin-top:10px;
 }
 
 /* TOOLBAR */
@@ -133,16 +161,22 @@ border-radius:8px;
 cursor:pointer;
 }
 
-input[type="color"]{
-width:35px;
-height:30px;
-border:none;
-background:none;
+/* MOBILE */
+@media(max-width:600px){
+.hero h1{font-size:28px;}
+#storyAdmin{width:90%;}
 }
 </style>
 </head>
 
 <body>
+
+<!-- NAV -->
+<nav>
+<a href="#story">Story</a>
+<a href="#team">Team</a>
+<a href="#rules">Regeln</a>
+</nav>
 
 <!-- HERO -->
 <section class="hero">
@@ -155,32 +189,70 @@ Discord beitreten
 </section>
 
 <!-- STORY -->
-<section id="story" style="padding:90px 20px;text-align:center;">
+<section id="story" class="section">
 <h2>📖 Story</h2>
 <div id="storyList"></div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="section">
+<h2>👥 Team</h2>
+
+<div class="card">
+<b>👑 Owner</b>
+<p>Leitet das gesamte Projekt und trifft Entscheidungen.</p>
+</div>
+
+<div class="card">
+<b>🛡 Admin</b>
+<p>Kontrolliert Server, Stories und Moderation.</p>
+</div>
+
+<div class="card">
+<b>🎧 Support</b>
+<p>Hilft Spielern und beantwortet Fragen.</p>
+</div>
+</section>
+
+<!-- REGELN -->
+<section id="rules" class="section">
+<h2>📜 Regeln</h2>
+
+<div class="card">
+<b>Allgemein</b>
+<p>Respektvoll bleiben, kein Hate.</p>
+</div>
+
+<div class="card">
+<b>Roleplay</b>
+<p>Realistisch spielen, kein Meta Gaming.</p>
+</div>
+
+<div class="card">
+<b>Gameplay</b>
+<p>Kein Cheating oder Exploits.</p>
+</div>
 </section>
 
 <!-- ADMIN -->
 <div id="storyAdmin">
 
-<h3>Notion Story Editor</h3>
+<h3>🧠 Admin Story Editor</h3>
 
-<input id="chapter" placeholder="Staffel / Kapitel (z.B. Staffel 1 - Kapitel 1)" style="width:100%;padding:8px;margin-top:10px;">
-<input id="storyTitle" placeholder="Titel" style="width:100%;padding:8px;margin-top:10px;">
+<input id="chapter" placeholder="Staffel / Kapitel" style="width:100%;padding:8px;margin-top:10px;">
+<input id="title" placeholder="Titel" style="width:100%;padding:8px;margin-top:10px;">
 
-<!-- TOOLBAR -->
 <div class="toolbar">
-<button onclick="format('bold')"><b>B</b></button>
-<button onclick="format('italic')"><i>I</i></button>
+<button onclick="format('bold')">B</button>
+<button onclick="format('italic')">I</button>
 <button onclick="format('formatBlock','h2')">H2</button>
-<button onclick="format('insertUnorderedList')">• Liste</button>
-<input type="color" onchange="setColor(this.value)">
-<input type="file" id="imgUpload">
+<button onclick="format('insertUnorderedList')">•</button>
 </div>
 
 <div id="editor" class="editor" contenteditable="true"></div>
 
-<button class="btn" onclick="addStory()">Posten</button>
+<button class="btn" onclick="addStory()" style="margin-top:10px;">Posten</button>
+
 </div>
 
 <script>
@@ -197,8 +269,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const storage = firebase.storage();
-
 const storiesRef = db.collection("stories");
 
 /* ADMIN OPEN */
@@ -209,33 +279,15 @@ document.getElementById("storyAdmin").style.display="block";
 });
 
 /* FORMAT */
-function format(cmd,value=null){
-document.execCommand(cmd,false,value);
+function format(cmd,val=null){
+document.execCommand(cmd,false,val);
 }
-
-function setColor(color){
-document.execCommand("foreColor",false,color);
-}
-
-/* IMAGE UPLOAD */
-document.getElementById("imgUpload").addEventListener("change", async (e)=>{
-const file = e.target.files[0];
-if(!file) return;
-
-const ref = storage.ref("stories/" + Date.now() + file.name);
-await ref.put(file);
-const url = await ref.getDownloadURL();
-
-document.execCommand("insertImage",false,url);
-});
 
 /* ADD STORY */
 function addStory(){
 let chapter=document.getElementById("chapter").value;
-let title=document.getElementById("storyTitle").value;
+let title=document.getElementById("title").value;
 let content=document.getElementById("editor").innerHTML;
-
-if(!title||!content||!chapter)return;
 
 storiesRef.add({
 chapter,
@@ -245,23 +297,23 @@ time:Date.now()
 });
 
 document.getElementById("chapter").value="";
-document.getElementById("storyTitle").value="";
+document.getElementById("title").value="";
 document.getElementById("editor").innerHTML="";
 }
 
-/* LIVE LOAD + CHAPTERS */
+/* LIVE LOAD */
 storiesRef.orderBy("time","desc").onSnapshot(snapshot=>{
 let c=document.getElementById("storyList");
 c.innerHTML="";
 
-let lastChapter="";
+let last="";
 
 snapshot.forEach(doc=>{
 let s=doc.data();
 
-if(s.chapter !== lastChapter){
-c.innerHTML += `<div class="chapter">${s.chapter}</div>`;
-lastChapter = s.chapter;
+if(s.chapter!==last){
+c.innerHTML+=`<div class="chapter">${s.chapter}</div>`;
+last=s.chapter;
 }
 
 c.innerHTML+=`
