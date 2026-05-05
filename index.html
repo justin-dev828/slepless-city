@@ -10,6 +10,7 @@
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
@@ -76,30 +77,32 @@ backdrop-filter:blur(6px);
 }
 
 /* GLASS */
-.member,.rule-box,.story-box{
+.story-box{
 background:rgba(255,255,255,0.05);
 border:1px solid rgba(255,255,255,0.08);
 backdrop-filter:blur(10px);
 border-radius:14px;
-}
-
-.team{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
-.member{width:230px;padding:18px;}
-
-.rules-container{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:18px;
-max-width:1100px;
-margin:40px auto;
-}
-.rule-box{padding:18px;text-align:left;}
-
-.story-box{
 padding:18px;
-margin:10px auto;
+margin:15px auto;
 max-width:800px;
 text-align:left;
+
+/* Netflix Animation */
+opacity:0;
+transform:translateY(20px);
+animation:fadeIn 0.5s forwards;
+transition:0.3s;
+}
+
+.story-box:hover{
+transform:scale(1.02);
+}
+
+@keyframes fadeIn{
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 /* ADMIN */
@@ -112,7 +115,7 @@ transform:translate(-50%,-50%);
 background:rgba(20,25,35,0.95);
 padding:20px;
 border-radius:14px;
-width:320px;
+width:360px;
 z-index:4000;
 }
 
@@ -120,33 +123,38 @@ z-index:4000;
 background:rgba(0,0,0,0.5);
 border:1px solid rgba(255,255,255,0.1);
 padding:10px;
-min-height:120px;
+min-height:140px;
 border-radius:8px;
+margin-top:8px;
 }
 
-/* OVERLAY */
-#overlay{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.5);
-backdrop-filter:blur(6px);
-z-index:3000;
+/* TOOLBAR */
+.toolbar{
+display:flex;
+flex-wrap:wrap;
+gap:6px;
+margin-top:10px;
+}
+
+.toolbar button{
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.1);
+color:white;
+padding:6px 10px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.toolbar input{
+width:35px;
+height:30px;
+border:none;
+background:none;
 }
 </style>
 </head>
 
 <body>
-
-<div id="overlay" onclick="closeAdmin()"></div>
-
-<!-- NAV -->
-<nav>
-<a href="#home">Home</a>
-<a href="#team">Team</a>
-<a href="#rules">Regeln</a>
-<a href="#story">Story</a>
-</nav>
 
 <!-- HERO -->
 <section class="hero">
@@ -166,12 +174,22 @@ Discord beitreten
 
 <!-- ADMIN -->
 <div id="storyAdmin">
-<div style="display:flex;justify-content:space-between;">
-<h3>Story Admin</h3>
-<button class="btn" onclick="closeAdmin()">X</button>
+
+<h3>Story Editor</h3>
+
+<input id="storyTitle" placeholder="Titel" style="width:100%;padding:8px;margin-top:10px;">
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+<button onclick="format('formatBlock','h1')">H1</button>
+<button onclick="format('formatBlock','h2')">H2</button>
+<button onclick="format('bold')"><b>B</b></button>
+<button onclick="format('italic')"><i>I</i></button>
+<button onclick="format('insertUnorderedList')">•</button>
+<input type="color" onchange="setColor(this.value)">
+<input type="file" id="imgUpload">
 </div>
 
-<input id="storyTitle" placeholder="Titel" style="width:100%;margin-top:10px;padding:8px;">
 <div id="editor" class="editor" contenteditable="true"></div>
 
 <button class="btn" onclick="addStory()">Posten</button>
@@ -179,7 +197,7 @@ Discord beitreten
 
 <script>
 
-/* 🔥 FIREBASE CONFIG */
+/* FIREBASE */
 const firebaseConfig = {
   apiKey: "AIzaSyBfcD74FW6VcsdYGcc0xIHC-5M2W4z0E8s",
   authDomain: "sleepless-city.firebaseapp.com",
@@ -191,28 +209,39 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const storage = firebase.storage();
+
 const storiesRef = db.collection("stories");
 
 /* ADMIN OPEN */
-function openAdmin(){
-document.getElementById("storyAdmin").style.display="block";
-document.getElementById("overlay").style.display="block";
-}
-
-/* CLOSE */
-function closeAdmin(){
-document.getElementById("storyAdmin").style.display="none";
-document.getElementById("overlay").style.display="none";
-}
-
-/* HOTKEY STRG + ALT + A */
 document.addEventListener("keydown",e=>{
 if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="a"){
-openAdmin();
+document.getElementById("storyAdmin").style.display="block";
 }
 });
 
-/* ADD STORY (ONLINE) */
+/* FORMAT */
+function format(cmd,value=null){
+document.execCommand(cmd,false,value);
+}
+
+function setColor(color){
+document.execCommand("foreColor",false,color);
+}
+
+/* IMAGE UPLOAD */
+document.getElementById("imgUpload").addEventListener("change", async (e)=>{
+const file = e.target.files[0];
+if(!file) return;
+
+const ref = storage.ref("stories/" + Date.now() + file.name);
+await ref.put(file);
+const url = await ref.getDownloadURL();
+
+document.execCommand("insertImage",false,url);
+});
+
+/* ADD STORY */
 function addStory(){
 let title=document.getElementById("storyTitle").value;
 let content=document.getElementById("editor").innerHTML;
