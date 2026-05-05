@@ -16,7 +16,7 @@ color:#e6e6e6;
 overflow-x:hidden;
 }
 
-/* BACKGROUND (DEIN ALTER) */
+/* BACKGROUND */
 body::before{
 content:"";
 position:fixed;
@@ -48,6 +48,7 @@ z-index:1000;
 }
 nav a{color:#cfd6dd;text-decoration:none;}
 
+/* HERO */
 .hero{
 height:100vh;
 display:flex;
@@ -55,8 +56,23 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
+gap:15px;
 }
 
+.btn{
+padding:12px 24px;
+background:#222;
+border:none;
+color:#fff;
+border-radius:8px;
+cursor:pointer;
+transition:0.2s;
+}
+.btn:hover{
+background:#333;
+}
+
+/* SECTION */
 .section{padding:90px 20px;text-align:center;}
 
 .team{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
@@ -71,15 +87,13 @@ margin:40px auto;
 }
 .rule-box{background:#111823;padding:18px;border-radius:12px;text-align:left;}
 
-.story-box{background:#111823;padding:18px;border-radius:12px;margin:10px auto;max-width:800px;text-align:left;}
-
-.btn{
-padding:10px 20px;
-background:#222;
-border:none;
-color:#fff;
-border-radius:8px;
-cursor:pointer;
+.story-box{
+background:#111823;
+padding:18px;
+border-radius:12px;
+margin:10px auto;
+max-width:800px;
+text-align:left;
 }
 
 /* LOGIN */
@@ -121,16 +135,19 @@ border-radius:12px;
 z-index:3000;
 }
 
-/* STORY ADMIN */
+/* STORY ADMIN CENTER */
 #storyAdmin{
 display:none;
 position:fixed;
-left:20px;
-bottom:20px;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
 background:#111823;
-padding:15px;
+padding:20px;
 border-radius:12px;
-width:280px;
+width:320px;
+z-index:4000;
+box-shadow:0 0 40px rgba(0,0,0,0.5);
 }
 
 /* EDITOR */
@@ -138,8 +155,9 @@ width:280px;
 background:#0b0f14;
 border:1px solid #333;
 padding:10px;
-min-height:100px;
+min-height:120px;
 border-radius:8px;
+margin-top:5px;
 }
 </style>
 </head>
@@ -168,14 +186,18 @@ border-radius:8px;
 <section class="hero" id="home">
 <h1>THE SLEEPLESS CITY</h1>
 <p>Eine Stadt ohne Ruhe</p>
+
+<button class="btn" onclick="window.location.href='https://discord.gg/'">
+Discord beitreten
+</button>
 </section>
 
 <!-- TEAM -->
 <section class="section" id="team">
 <h2>Team</h2>
 <div class="team">
-<div class="member"><h3>Owner</h3><p>Leitet das Projekt und trifft Entscheidungen.</p></div>
-<div class="member"><h3>Admin</h3><p>Kümmert sich um Ordnung.</p></div>
+<div class="member"><h3>Owner</h3><p>Leitet das Projekt.</p></div>
+<div class="member"><h3>Admin</h3><p>Sorgt für Ordnung.</p></div>
 <div class="member"><h3>Support</h3><p>Hilft Spielern.</p></div>
 </div>
 </section>
@@ -214,7 +236,7 @@ border-radius:8px;
 <script>
 const loginModal = document.getElementById("loginModal");
 
-/* LOGIN SYSTEM (WIEDER DRIN) */
+/* LOGIN */
 function openLogin(){
 loginModal.style.display="flex";
 }
