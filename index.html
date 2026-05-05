@@ -8,8 +8,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-* {margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
-body {background:black;color:#FFD700;overflow-x:hidden;}
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+body {
+    background:black;
+    color:#FFD700;
+    overflow-x:hidden;
+}
 
 /* PARTICLES */
 #particles-js {
@@ -29,9 +39,17 @@ nav {
     display: flex;
     justify-content: center;
     gap: 25px;
+    z-index: 10;
 }
-nav a {color:#FFD700;text-decoration:none;}
-nav a:hover {text-shadow:0 0 10px #FFD700;}
+
+nav a {
+    color:#FFD700;
+    text-decoration:none;
+}
+
+nav a:hover {
+    text-shadow:0 0 10px #FFD700;
+}
 
 /* HERO */
 .hero {
@@ -43,12 +61,12 @@ nav a:hover {text-shadow:0 0 10px #FFD700;}
     gap:20px;
 }
 
-/* NEON BORDER */
 .neon-box {
     padding:20px 40px;
     border:2px solid #FFD700;
     animation: glow 2s infinite alternate;
 }
+
 @keyframes glow {
     from {box-shadow:0 0 10px #FFD700;}
     to {box-shadow:0 0 30px #FFD700;}
@@ -61,11 +79,18 @@ nav a:hover {text-shadow:0 0 10px #FFD700;}
     background:none;
     color:#FFD700;
     cursor:pointer;
+    transition:0.3s;
 }
-.btn:hover {box-shadow:0 0 20px #FFD700;}
+
+.btn:hover {
+    box-shadow:0 0 20px #FFD700;
+}
 
 /* SECTION */
-.section {padding:80px 20px;text-align:center;}
+.section {
+    padding:80px 20px;
+    text-align:center;
+}
 
 /* TEAM */
 .team {
@@ -74,16 +99,67 @@ nav a:hover {text-shadow:0 0 10px #FFD700;}
     gap:30px;
     flex-wrap:wrap;
 }
+
 .member {
     border:1px solid #FFD700;
     padding:20px;
     width:200px;
+    transition:0.3s;
+    background: rgba(0,0,0,0.4);
 }
+
 .member img {
     width:100%;
     border-radius:10px;
 }
-.member:hover {box-shadow:0 0 20px #FFD700;}
+
+.member:hover {
+    box-shadow:0 0 20px #FFD700;
+    transform: translateY(-5px);
+}
+
+/* DISCORD PANEL */
+.discord-panel {
+    border:1px solid #FFD700;
+    padding:40px;
+    max-width:500px;
+    margin:auto;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    box-shadow:0 0 15px rgba(255,215,0,0.4);
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
+
+    .hero h1 {
+        font-size: 32px;
+        text-align:center;
+    }
+
+    .neon-box {
+        padding:15px 20px;
+    }
+
+    nav {
+        flex-wrap:wrap;
+        gap:10px;
+        font-size:14px;
+    }
+
+    .team {
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .member {
+        width:90%;
+    }
+
+    .discord-panel {
+        width:90%;
+    }
+}
 
 </style>
 </head>
@@ -98,7 +174,9 @@ nav a:hover {text-shadow:0 0 10px #FFD700;}
 <a href="#discord">Discord</a>
 </nav>
 
+<!-- HERO -->
 <section class="hero" id="home">
+
 <div class="neon-box">
 <h1>THE SLEEPLESS CITY</h1>
 </div>
@@ -106,10 +184,13 @@ nav a:hover {text-shadow:0 0 10px #FFD700;}
 <button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
 🚀 Join Now
 </button>
+
 </section>
 
+<!-- TEAM -->
 <section class="section" id="team">
 <h2>Team</h2>
+
 <div class="team">
 
 <div class="member">
@@ -133,11 +214,22 @@ nav a:hover {text-shadow:0 0 10px #FFD700;}
 </div>
 </section>
 
+<!-- DISCORD -->
 <section class="section" id="discord">
-<h2>Discord</h2>
+<h2>Discord Community</h2>
 
-<iframe src="https://discord.com/widget?id=1463968232015659228&theme=dark"
-width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+<div class="discord-panel">
+
+<h3>THE SLEEPLESS CITY</h3>
+<p>Trete unserer Community bei und starte dein Roleplay Leben.</p>
+
+<br>
+
+<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
+💬 Discord beitreten
+</button>
+
+</div>
 
 </section>
 
@@ -146,16 +238,16 @@ width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
 <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0c3c.mp3" type="audio/mp3">
 </audio>
 
-<!-- PARTICLES SCRIPT -->
+<!-- PARTICLES -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
 <script>
 particlesJS("particles-js", {
   particles: {
-    number: { value: 80 },
+    number: { value: 60 },
     color: { value: "#FFD700" },
     shape: { type: "circle" },
-    opacity: { value: 0.5 },
+    opacity: { value: 0.4 },
     size: { value: 3 },
     move: { enable: true, speed: 2 }
   }
