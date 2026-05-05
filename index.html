@@ -38,22 +38,6 @@ background:rgba(0,0,0,0.65);
 z-index:-1;
 }
 
-/* NAV */
-nav{
-position:fixed;
-top:0;
-width:100%;
-padding:14px;
-display:flex;
-justify-content:center;
-gap:25px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(12px);
-border-bottom:1px solid rgba(255,255,255,0.08);
-z-index:1000;
-}
-nav a{color:#cfd6dd;text-decoration:none;}
-
 /* HERO */
 .hero{
 height:100vh;
@@ -76,21 +60,20 @@ cursor:pointer;
 backdrop-filter:blur(6px);
 }
 
-/* GLASS */
+/* STORY CARD (NETFLIX STYLE) */
 .story-box{
 background:rgba(255,255,255,0.05);
 border:1px solid rgba(255,255,255,0.08);
-backdrop-filter:blur(10px);
+backdrop-filter:blur(12px);
 border-radius:14px;
 padding:18px;
 margin:15px auto;
 max-width:800px;
 text-align:left;
 
-/* Netflix Animation */
 opacity:0;
 transform:translateY(20px);
-animation:fadeIn 0.5s forwards;
+animation:fadeIn 0.4s forwards;
 transition:0.3s;
 }
 
@@ -99,10 +82,15 @@ transform:scale(1.02);
 }
 
 @keyframes fadeIn{
-to{
-opacity:1;
-transform:translateY(0);
+to{opacity:1;transform:translateY(0);}
 }
+
+/* CHAPTER STYLE */
+.chapter{
+margin-top:40px;
+font-size:20px;
+font-weight:600;
+opacity:0.8;
 }
 
 /* ADMIN */
@@ -115,7 +103,7 @@ transform:translate(-50%,-50%);
 background:rgba(20,25,35,0.95);
 padding:20px;
 border-radius:14px;
-width:360px;
+width:380px;
 z-index:4000;
 }
 
@@ -145,7 +133,7 @@ border-radius:8px;
 cursor:pointer;
 }
 
-.toolbar input{
+input[type="color"]{
 width:35px;
 height:30px;
 border:none;
@@ -175,17 +163,17 @@ Discord beitreten
 <!-- ADMIN -->
 <div id="storyAdmin">
 
-<h3>Story Editor</h3>
+<h3>Notion Story Editor</h3>
 
+<input id="chapter" placeholder="Staffel / Kapitel (z.B. Staffel 1 - Kapitel 1)" style="width:100%;padding:8px;margin-top:10px;">
 <input id="storyTitle" placeholder="Titel" style="width:100%;padding:8px;margin-top:10px;">
 
 <!-- TOOLBAR -->
 <div class="toolbar">
-<button onclick="format('formatBlock','h1')">H1</button>
-<button onclick="format('formatBlock','h2')">H2</button>
 <button onclick="format('bold')"><b>B</b></button>
 <button onclick="format('italic')"><i>I</i></button>
-<button onclick="format('insertUnorderedList')">•</button>
+<button onclick="format('formatBlock','h2')">H2</button>
+<button onclick="format('insertUnorderedList')">• Liste</button>
 <input type="color" onchange="setColor(this.value)">
 <input type="file" id="imgUpload">
 </div>
@@ -243,28 +231,38 @@ document.execCommand("insertImage",false,url);
 
 /* ADD STORY */
 function addStory(){
+let chapter=document.getElementById("chapter").value;
 let title=document.getElementById("storyTitle").value;
 let content=document.getElementById("editor").innerHTML;
 
-if(!title||!content)return;
+if(!title||!content||!chapter)return;
 
 storiesRef.add({
+chapter,
 title,
 content,
 time:Date.now()
 });
 
+document.getElementById("chapter").value="";
 document.getElementById("storyTitle").value="";
 document.getElementById("editor").innerHTML="";
 }
 
-/* LIVE LOAD */
+/* LIVE LOAD + CHAPTERS */
 storiesRef.orderBy("time","desc").onSnapshot(snapshot=>{
 let c=document.getElementById("storyList");
 c.innerHTML="";
 
+let lastChapter="";
+
 snapshot.forEach(doc=>{
 let s=doc.data();
+
+if(s.chapter !== lastChapter){
+c.innerHTML += `<div class="chapter">${s.chapter}</div>`;
+lastChapter = s.chapter;
+}
 
 c.innerHTML+=`
 <div class="story-box">
