@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Sleepless City</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -19,6 +20,7 @@ background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") c
 filter:brightness(0.25);
 z-index:-2;
 }
+
 body::after{
 content:"";
 position:fixed;
@@ -68,69 +70,50 @@ color:#FFD700;
 cursor:pointer;
 }
 
-.section{
-padding:80px 20px;
-text-align:center;
-opacity:0;
-transform:translateY(40px);
-transition:0.8s;
-}
-
-.section.show{opacity:1;transform:translateY(0);}
-
-.team{
-display:flex;
+/* LOGIN MODAL */
+#login-modal{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
 justify-content:center;
-gap:20px;
-flex-wrap:wrap;
+align-items:center;
+z-index:9999;
 }
 
-.member{
-border:1px solid #FFD700;
-padding:20px;
-width:200px;
-background:rgba(0,0,0,0.6);
-}
-
-.member img{width:100%;border-radius:10px;}
-
-.discord-panel{
+.login-box{
 border:1px solid #FFD700;
 padding:30px;
-max-width:500px;
-margin:auto;
-background:rgba(0,0,0,0.6);
+text-align:center;
 }
 
-.rules-container{
-display:grid;
-grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-gap:20px;
-max-width:1100px;
-margin:40px auto;
-}
-
-.rule-box{
-background:rgba(0,0,0,0.8);
+.login-box input{
+margin:10px;
+padding:10px;
+background:black;
 border:1px solid #FFD700;
-padding:20px;
-border-radius:10px;
+color:#FFD700;
 }
 
+/* ADMIN PANEL */
 #admin-panel{
 display:none;
 padding:60px 20px;
 text-align:center;
-border-top:2px solid #FFD700;
 }
 
-.admin-box{
-border:1px solid #FFD700;
+.toggle{
 padding:20px;
+border:1px solid #FFD700;
+cursor:pointer;
 margin:10px;
 display:inline-block;
-background:rgba(0,0,0,0.6);
-cursor:pointer;
+}
+
+.toggle.active{
+background:#FFD700;
+color:black;
 }
 
 .skyline{
@@ -153,114 +136,115 @@ to{background-position:-1000px;}
 
 <body>
 
-<audio id="sound">
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0c3c.mp3">
-</audio>
+<div id="login-modal">
+<div class="login-box">
+<h2>Admin Login</h2>
+<input id="user" placeholder="Username"><br>
+<input id="pass" type="password" placeholder="Passwort"><br>
+<button onclick="login()">Login</button>
+</div>
+</div>
 
 <div class="skyline"></div>
 
 <nav>
-<a href="#home">Home</a>
-<a href="#team">Team</a>
-<a href="#discord">Discord</a>
-<a href="#rules">Regeln</a>
+<a href="#">Home</a>
+<a href="#">Team</a>
+<a href="#">Discord</a>
 </nav>
 
-<section class="hero section" id="home">
-<div class="neon-box">
+<section class="hero">
+<div class="neon-box" onclick="openLogin()">
 <h1>THE SLEEPLESS CITY</h1>
-<p>Die Stadt schläft nie.</p>
-</div>
-
-<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
-🚀 Join Now
-</button>
-</section>
-
-<section class="section" id="team">
-<h2>🧑‍🚒 Team</h2>
-<div class="team">
-<div class="member"><img src="https://i.pravatar.cc/200?img=1"><h3>👑 Owner</h3></div>
-<div class="member"><img src="https://i.pravatar.cc/200?img=2"><h3>🛠 Admin</h3></div>
-<div class="member"><img src="https://i.pravatar.cc/200?img=3"><h3>💬 Support</h3></div>
-</div>
-</section>
-
-<section class="section" id="discord">
-<h2>💬 Discord</h2>
-<div class="discord-panel">
-<p>Trete der Community bei</p>
-<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
-Discord beitreten
-</button>
-</div>
-</section>
-
-<section class="section" id="rules">
-<h2>📜 Regeln</h2>
-<div class="rules-container">
-<div class="rule-box"><h3>⚖️ Allgemein</h3><ul><li>Respekt</li><li>Kein Cheating</li></ul></div>
-<div class="rule-box"><h3>🚫 FailRP</h3><ul><li>Realistisch spielen</li></ul></div>
-<div class="rule-box"><h3>🔫 Kampf</h3><ul><li>Kein RDM</li></ul></div>
+<p>Klick 1x → Admin Login</p>
 </div>
 </section>
 
 <section id="admin-panel">
 <h2>🟢 ADMIN PANEL</h2>
-<div class="admin-box" onclick="toggleMaintenance()">🚧 Wartungsmodus AN/AUS</div>
-<div class="admin-box" onclick="openPlayers()">👤 Spieler</div>
+
+<div id="maintenanceBtn" class="toggle" onclick="toggleMaintenance()">
+🚧 Wartungsmodus AUS
+</div>
+
 </section>
 
 <script>
-const adminCodes = ["admin123","dev2026"];
+// Fake Datenbank (Frontend)
+const users = [
+{user:"admin", pass:"1234"},
+{user:"dev", pass:"2026"}
+];
 
-// Wartungsmodus prüfen
+// Wartung prüfen
 if(localStorage.getItem("maintenance")==="on"){
 activateMaintenance();
 }
 
-// Secret Login (5 Klicks)
-let clicks=0;
-document.querySelector(".neon-box").addEventListener("click",()=>{
-clicks++;
-if(clicks>=5){
-let code=prompt("Admin Code:");
-if(adminCodes.includes(code)){
-document.getElementById("sound").play();
+// LOGIN UI
+function openLogin(){
+document.getElementById("login-modal").style.display="flex";
+}
+
+// LOGIN SYSTEM
+function login(){
+let u = document.getElementById("user").value;
+let p = document.getElementById("pass").value;
+
+let valid = users.find(acc => acc.user===u && acc.pass===p);
+
+if(valid){
+document.getElementById("login-modal").style.display="none";
 document.getElementById("admin-panel").style.display="block";
-alert("Admin aktiviert");
+updateUI();
 }else{
 alert("Falsch");
 }
-clicks=0;
 }
-});
 
-// Wartungsmodus toggle
+// TOGGLE
 function toggleMaintenance(){
-let state=localStorage.getItem("maintenance");
+let state = localStorage.getItem("maintenance");
+
 if(state==="on"){
 localStorage.setItem("maintenance","off");
 }else{
 localStorage.setItem("maintenance","on");
 }
+
+updateUI();
 location.reload();
 }
 
-// Wartungsseite
+// BUTTON UI UPDATE
+function updateUI(){
+let btn = document.getElementById("maintenanceBtn");
+if(localStorage.getItem("maintenance")==="on"){
+btn.classList.add("active");
+btn.innerText="🚧 Wartungsmodus AN";
+}else{
+btn.classList.remove("active");
+btn.innerText="🚧 Wartungsmodus AUS";
+}
+}
+
+// WARTUNGSSEITE
 function activateMaintenance(){
 document.body.innerHTML=`
-<div style="height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background:black;color:#FFD700;text-align:center;">
+<div style="height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background:black;color:#FFD700;">
 <h1>🚧 Wartungsmodus</h1>
-<p>Wir sind bald zurück</p>
-<button onclick="adminBypass()">Admin Login</button>
+<button onclick="bypass()">Admin Login</button>
 </div>`;
 }
 
-// Admin Bypass
-function adminBypass(){
-let code=prompt("Admin Code:");
-if(adminCodes.includes(code)){
+// BYPASS
+function bypass(){
+let u = prompt("User");
+let p = prompt("Pass");
+
+let valid = users.find(acc => acc.user===u && acc.pass===p);
+
+if(valid){
 localStorage.setItem("maintenance","off");
 location.reload();
 }else{
@@ -268,19 +252,8 @@ alert("Falsch");
 }
 }
 
-function openPlayers(){
-window.open("https://discord.com","_blank");
-}
-
-// Scroll Animation
-const sections=document.querySelectorAll('.section');
-window.addEventListener('scroll',()=>{
-sections.forEach(s=>{
-if(s.getBoundingClientRect().top<window.innerHeight-100){
-s.classList.add('show');
-}
-});
-});
+// INIT UI
+updateUI();
 </script>
 
 </body>
