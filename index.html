@@ -11,6 +11,27 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
 body{background:black;color:#FFD700;overflow-x:hidden;}
 
+/* BACKGROUND */
+body::before{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") center/cover no-repeat;
+filter:brightness(0.25);
+z-index:-2;
+}
+
+body::after{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+z-index:-1;
+}
+
+/* NAV */
 nav{
 position:fixed;
 top:0;
@@ -23,8 +44,12 @@ background:rgba(0,0,0,0.6);
 z-index:1000;
 }
 
-nav a{color:#FFD700;text-decoration:none;}
+nav a{
+color:#FFD700;
+text-decoration:none;
+}
 
+/* HERO */
 .hero{
 height:100vh;
 display:flex;
@@ -43,6 +68,7 @@ color:#FFD700;
 cursor:pointer;
 }
 
+/* SECTION */
 .section{
 padding:80px 20px;
 text-align:center;
@@ -77,12 +103,6 @@ width:100%;
 border-radius:10px;
 }
 
-.member p{
-font-size:13px;
-margin-top:10px;
-color:#ccc;
-}
-
 /* RULES */
 .rules-container{
 display:grid;
@@ -100,20 +120,76 @@ border-radius:10px;
 text-align:left;
 }
 
+/* LOGIN */
+#loginModal{
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.9);
+justify-content:center;
+align-items:center;
+z-index:2000;
+}
+
+.login-box{
+background:black;
+padding:30px;
+border:1px solid #FFD700;
+text-align:center;
+}
+
+.login-box input{
+margin:10px;
+padding:10px;
+background:black;
+border:1px solid #FFD700;
+color:#FFD700;
+}
+
+/* ADMIN PANEL */
+#adminPanel{
+display:none;
+position:fixed;
+bottom:20px;
+right:20px;
+background:rgba(0,0,0,0.8);
+border:1px solid #FFD700;
+padding:15px;
+z-index:3000;
+text-align:center;
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+<div id="loginModal">
+<div class="login-box">
+<h2>🔐 Admin Login</h2>
+<input id="user" placeholder="Username"><br>
+<input id="pass" type="password" placeholder="Passwort"><br>
+<button class="btn" onclick="login()">Login</button>
+</div>
+</div>
+
+<!-- NAV -->
 <nav>
 <a href="#home">Home</a>
 <a href="#team">Team</a>
 <a href="#rules">Regeln</a>
 </nav>
 
+<!-- HERO -->
 <section class="hero section show" id="home">
 <h1>THE SLEEPLESS CITY</h1>
 <p>Die Stadt schläft nie</p>
+
+<button class="btn" onclick="openLogin()">
+Admin Login
+</button>
 
 <button class="btn" onclick="window.location.href='https://discord.gg/'">
 Join Discord
@@ -129,19 +205,19 @@ Join Discord
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=1">
 <h3>👑 Owner</h3>
-<p>Der Owner leitet das gesamte Projekt, trifft Entscheidungen und sorgt für die Weiterentwicklung des Servers.</p>
+<p>Leitet das Projekt und trifft alle wichtigen Entscheidungen.</p>
 </div>
 
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=2">
 <h3>🛠 Admin</h3>
-<p>Admins kümmern sich um Regeln, Support und sorgen für Ordnung auf dem Server.</p>
+<p>Kümmert sich um Server, Regeln und sorgt für Ordnung.</p>
 </div>
 
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=3">
 <h3>💬 Support</h3>
-<p>Support hilft Spielern bei Fragen, Problemen und unterstützt im Roleplay-Alltag.</p>
+<p>Hilft Spielern bei Fragen und Problemen im Alltag.</p>
 </div>
 
 </div>
@@ -157,8 +233,8 @@ Join Discord
 <h3>⚖️ Allgemein</h3>
 <ul>
 <li>Respekt gegenüber allen Spielern</li>
-<li>Keine Beleidigungen oder toxisches Verhalten</li>
-<li>Anweisungen vom Team sind zu befolgen</li>
+<li>Keine Beleidigungen</li>
+<li>Team-Anweisungen beachten</li>
 </ul>
 </div>
 
@@ -176,23 +252,48 @@ Join Discord
 <ul>
 <li>Kein RDM / VDM</li>
 <li>Fair kämpfen</li>
-<li>Keine sinnlosen Angriffe</li>
 </ul>
 </div>
 
 <div class="rule-box">
 <h3>🚫 Verboten</h3>
 <ul>
-<li>Cheating / Exploits</li>
+<li>Cheating</li>
 <li>Bug Abuse</li>
-<li>Spam oder Werbung</li>
+<li>Spam</li>
 </ul>
 </div>
 
 </div>
 </section>
 
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+<h3>🟢 Admin System</h3>
+<p>Du bist eingeloggt</p>
+</div>
+
 <script>
+const loginModal = document.getElementById("loginModal");
+const adminPanel = document.getElementById("adminPanel");
+
+function openLogin(){
+loginModal.style.display = "flex";
+}
+
+function login(){
+let u = document.getElementById("user").value;
+let p = document.getElementById("pass").value;
+
+if(u === "admin" && p === "1234"){
+loginModal.style.display = "none";
+adminPanel.style.display = "block";
+}else{
+alert("Falsche Daten");
+}
+}
+
+/* SCROLL ANIMATION */
 const sections = document.querySelectorAll(".section");
 
 window.addEventListener("scroll", () => {
