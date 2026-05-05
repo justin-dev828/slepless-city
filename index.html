@@ -7,6 +7,10 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 
@@ -33,7 +37,7 @@ background:rgba(0,0,0,0.65);
 z-index:-1;
 }
 
-/* NAV (GLASS) */
+/* NAV */
 nav{
 position:fixed;
 top:0;
@@ -47,12 +51,7 @@ backdrop-filter:blur(12px);
 border-bottom:1px solid rgba(255,255,255,0.08);
 z-index:1000;
 }
-nav a{
-color:#cfd6dd;
-text-decoration:none;
-transition:0.2s;
-}
-nav a:hover{color:#fff;}
+nav a{color:#cfd6dd;text-decoration:none;}
 
 /* HERO */
 .hero{
@@ -65,7 +64,7 @@ text-align:center;
 gap:15px;
 }
 
-/* BUTTON (GLASS) */
+/* BUTTON */
 .btn{
 padding:12px 24px;
 background:rgba(255,255,255,0.08);
@@ -74,16 +73,9 @@ color:#fff;
 border-radius:10px;
 cursor:pointer;
 backdrop-filter:blur(6px);
-transition:0.2s;
-}
-.btn:hover{
-background:rgba(255,255,255,0.15);
 }
 
-/* SECTION */
-.section{padding:90px 20px;text-align:center;}
-
-/* GLASS CARDS */
+/* GLASS */
 .member,.rule-box,.story-box{
 background:rgba(255,255,255,0.05);
 border:1px solid rgba(255,255,255,0.08);
@@ -110,31 +102,25 @@ max-width:800px;
 text-align:left;
 }
 
-/* LOGIN */
-#loginModal{
+/* ADMIN */
+#storyAdmin{
 display:none;
 position:fixed;
-inset:0;
-background:rgba(0,0,0,0.7);
-backdrop-filter:blur(8px);
-justify-content:center;
-align-items:center;
-z-index:2000;
-}
-.login-box{
-background:rgba(20,25,35,0.9);
-padding:30px;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(20,25,35,0.95);
+padding:20px;
 border-radius:14px;
-width:280px;
-border:1px solid rgba(255,255,255,0.1);
+width:320px;
+z-index:4000;
 }
-.login-box input{
-width:100%;
-margin:8px 0;
-padding:10px;
+
+.editor{
 background:rgba(0,0,0,0.5);
 border:1px solid rgba(255,255,255,0.1);
-color:#fff;
+padding:10px;
+min-height:120px;
 border-radius:8px;
 }
 
@@ -147,55 +133,12 @@ background:rgba(0,0,0,0.5);
 backdrop-filter:blur(6px);
 z-index:3000;
 }
-
-/* STORY ADMIN */
-#storyAdmin{
-display:none;
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:rgba(20,25,35,0.95);
-padding:20px;
-border-radius:14px;
-width:320px;
-z-index:4000;
-border:1px solid rgba(255,255,255,0.1);
-}
-
-.editor{
-background:rgba(0,0,0,0.5);
-border:1px solid rgba(255,255,255,0.1);
-padding:10px;
-min-height:120px;
-border-radius:8px;
-margin-top:5px;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-.hero h1{font-size:28px;}
-.btn{width:80%;}
-.member{width:100%;}
-#storyAdmin{width:90%;}
-}
 </style>
 </head>
 
 <body>
 
-<!-- OVERLAY -->
 <div id="overlay" onclick="closeAdmin()"></div>
-
-<!-- LOGIN -->
-<div id="loginModal">
-<div class="login-box">
-<h3>Admin Login</h3>
-<input id="user" placeholder="Username">
-<input id="pass" type="password" placeholder="Passwort">
-<button class="btn" onclick="login()">Login</button>
-</div>
-</div>
 
 <!-- NAV -->
 <nav>
@@ -206,7 +149,7 @@ margin-top:5px;
 </nav>
 
 <!-- HERO -->
-<section class="hero" id="home">
+<section class="hero">
 <h1>THE SLEEPLESS CITY</h1>
 <p>Eine Stadt ohne Ruhe</p>
 
@@ -215,76 +158,48 @@ Discord beitreten
 </button>
 </section>
 
-<!-- TEAM -->
-<section class="section" id="team">
-<h2>Team</h2>
-<div class="team">
-<div class="member"><h3>Owner</h3><p>Leitet das Projekt.</p></div>
-<div class="member"><h3>Admin</h3><p>Sorgt für Ordnung.</p></div>
-<div class="member"><h3>Support</h3><p>Hilft Spielern.</p></div>
-</div>
-</section>
-
-<!-- RULES -->
-<section class="section" id="rules">
-<h2>Regeln</h2>
-<div class="rules-container">
-<div class="rule-box"><h3>Allgemein</h3><ul><li>Respekt</li><li>Keine Beleidigungen</li></ul></div>
-<div class="rule-box"><h3>RP</h3><ul><li>Realistisch</li><li>Kein Meta</li></ul></div>
-<div class="rule-box"><h3>Kampf</h3><ul><li>Kein RDM</li></ul></div>
-<div class="rule-box"><h3>Verboten</h3><ul><li>Cheats</li></ul></div>
-</div>
-</section>
-
 <!-- STORY -->
-<section class="section" id="story">
+<section id="story" style="padding:90px 20px;text-align:center;">
 <h2>📖 Story</h2>
 <div id="storyList"></div>
 </section>
 
-<!-- STORY ADMIN -->
+<!-- ADMIN -->
 <div id="storyAdmin">
 <div style="display:flex;justify-content:space-between;">
 <h3>Story Admin</h3>
 <button class="btn" onclick="closeAdmin()">X</button>
 </div>
 
-<input id="storyTitle" placeholder="Titel">
+<input id="storyTitle" placeholder="Titel" style="width:100%;margin-top:10px;padding:8px;">
 <div id="editor" class="editor" contenteditable="true"></div>
 
 <button class="btn" onclick="addStory()">Posten</button>
-
-<div id="adminStoryList"></div>
 </div>
 
 <script>
-const loginModal = document.getElementById("loginModal");
 
-/* LOGIN */
-function openLogin(){
-loginModal.style.display="flex";
-}
+/* 🔥 FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyBfcD74FW6VcsdYGcc0xIHC-5M2W4z0E8s",
+  authDomain: "sleepless-city.firebaseapp.com",
+  projectId: "sleepless-city",
+  storageBucket: "sleepless-city.firebasestorage.app",
+  messagingSenderId: "34631955151",
+  appId: "1:34631955151:web:107f9312dae475fac23dba"
+};
 
-function login(){
-let u=document.getElementById("user").value;
-let p=document.getElementById("pass").value;
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storiesRef = db.collection("stories");
 
-if(u==="admin" && p==="1234"){
-loginModal.style.display="none";
-openAdmin();
-}else{
-alert("Falsche Daten");
-}
-}
-
-/* OPEN ADMIN */
+/* ADMIN OPEN */
 function openAdmin(){
 document.getElementById("storyAdmin").style.display="block";
 document.getElementById("overlay").style.display="block";
-renderAdmin();
 }
 
-/* CLOSE ADMIN */
+/* CLOSE */
 function closeAdmin(){
 document.getElementById("storyAdmin").style.display="none";
 document.getElementById("overlay").style.display="none";
@@ -293,62 +208,43 @@ document.getElementById("overlay").style.display="none";
 /* HOTKEY STRG + ALT + A */
 document.addEventListener("keydown",e=>{
 if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="a"){
-openLogin();
+openAdmin();
 }
 });
 
-/* STORY */
-let stories = JSON.parse(localStorage.getItem("stories")) || [];
-
-function save(){
-localStorage.setItem("stories",JSON.stringify(stories));
-render();
-renderAdmin();
-}
-
+/* ADD STORY (ONLINE) */
 function addStory(){
 let title=document.getElementById("storyTitle").value;
 let content=document.getElementById("editor").innerHTML;
 
 if(!title||!content)return;
 
-stories.push({
-id:Date.now(),
-title:`Teil ${stories.length+1}: ${title}`,
-content
+storiesRef.add({
+title,
+content,
+time:Date.now()
 });
 
 document.getElementById("storyTitle").value="";
 document.getElementById("editor").innerHTML="";
-save();
 }
 
-function deleteStory(id){
-stories=stories.filter(s=>s.id!==id);
-save();
-}
-
-function render(){
+/* LIVE LOAD */
+storiesRef.orderBy("time","desc").onSnapshot(snapshot=>{
 let c=document.getElementById("storyList");
 c.innerHTML="";
-stories.forEach(s=>{
-c.innerHTML+=`<div class="story-box"><h3>${s.title}</h3><div>${s.content}</div></div>`;
-});
-}
 
-function renderAdmin(){
-let c=document.getElementById("adminStoryList");
-c.innerHTML="";
-stories.forEach(s=>{
+snapshot.forEach(doc=>{
+let s=doc.data();
+
 c.innerHTML+=`
 <div class="story-box">
-<b>${s.title}</b><br>
-<button onclick="deleteStory(${s.id})">Delete</button>
+<h3>${s.title}</h3>
+<div>${s.content}</div>
 </div>`;
 });
-}
+});
 
-render();
 </script>
 
 </body>
