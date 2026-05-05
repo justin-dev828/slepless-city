@@ -188,7 +188,7 @@ margin:6px 0;
 padding:8px;
 }
 
-/* CLOSE BUTTON (NEU DESIGN) */
+/* CLOSE BUTTON */
 .closeAdmin{
 position:absolute;
 top:12px;
@@ -200,11 +200,6 @@ border:1px solid rgba(255,255,255,0.15);
 color:white;
 cursor:pointer;
 backdrop-filter:blur(10px);
-transition:0.2s;
-}
-
-.closeAdmin:hover{
-background:rgba(255,255,255,0.18);
 }
 </style>
 </head>
@@ -313,7 +308,7 @@ document.getElementById("storyAdmin").style.display="block";
 }
 }
 
-/* CLOSE ADMIN (NEU) */
+/* CLOSE ADMIN */
 function closeAdmin(){
 document.getElementById("storyAdmin").style.display="none";
 }
@@ -343,9 +338,10 @@ c.innerHTML+=`<div class="chapter">Staffel ${s.chapter}</div>`;
 last=s.chapter;
 }
 
+/* 🔥 ONLY ADMINS SEE DELETE BUTTON */
 c.innerHTML+=`
 <div class="story-box">
-<button class="delBtn" onclick="storiesRef.doc('${doc.id}').delete()">X</button>
+${loggedIn ? `<button class="delBtn" onclick="storiesRef.doc('${doc.id}').delete()">X</button>` : ""}
 <h3>${s.title}</h3>
 <div>${s.content}</div>
 </div>`;
