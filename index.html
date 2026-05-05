@@ -8,6 +8,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
 body{background:black;color:#FFD700;overflow-x:hidden;}
+
 body::before{
 content:"";
 position:fixed;
@@ -25,6 +26,7 @@ height:100%;
 background:rgba(0,0,0,0.7);
 z-index:-1;
 }
+
 nav{
 position:fixed;
 top:0;
@@ -38,6 +40,7 @@ backdrop-filter:blur(10px);
 z-index:1000;
 }
 nav a{color:#FFD700;text-decoration:none;}
+
 .hero{
 height:100vh;
 display:flex;
@@ -47,12 +50,14 @@ align-items:center;
 gap:20px;
 text-align:center;
 }
+
 .neon-box{
 padding:20px 40px;
 border:2px solid #FFD700;
 box-shadow:0 0 20px #FFD700;
 cursor:pointer;
 }
+
 .btn{
 padding:15px 30px;
 border:2px solid #FFD700;
@@ -60,6 +65,7 @@ background:transparent;
 color:#FFD700;
 cursor:pointer;
 }
+
 .section{
 padding:80px 20px;
 text-align:center;
@@ -68,16 +74,23 @@ transform:translateY(40px);
 transition:0.8s;
 }
 .section.show{opacity:1;transform:translateY(0);}
-.team{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
-.member{border:1px solid #FFD700;padding:20px;width:200px;background:rgba(0,0,0,0.6);}
-.member img{width:100%;border-radius:10px;}
-.discord-panel{
+
+.team{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.member{
 border:1px solid #FFD700;
-padding:30px;
-max-width:500px;
-margin:auto;
+padding:20px;
+width:220px;
 background:rgba(0,0,0,0.6);
 }
+.member img{width:100%;border-radius:10px;}
+.member p{font-size:13px;margin-top:10px;color:#ccc;}
+
 .rules-container{
 display:grid;
 grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
@@ -90,21 +103,48 @@ background:rgba(0,0,0,0.8);
 border:1px solid #FFD700;
 padding:20px;
 border-radius:10px;
+text-align:left;
 }
+
 #admin-panel{
 display:none;
 padding:60px 20px;
 text-align:center;
 border-top:2px solid #FFD700;
 }
-.admin-box{
-border:1px solid #FFD700;
-padding:20px;
-margin:10px;
+
+/* TOGGLE SWITCH */
+.switch{
+position:relative;
 display:inline-block;
-background:rgba(0,0,0,0.6);
-cursor:pointer;
+width:60px;
+height:34px;
 }
+.switch input{display:none;}
+.slider{
+position:absolute;
+cursor:pointer;
+top:0;left:0;right:0;bottom:0;
+background:#333;
+transition:.4s;
+border-radius:34px;
+}
+.slider:before{
+position:absolute;
+content:"";
+height:26px;width:26px;
+left:4px;bottom:4px;
+background:white;
+transition:.4s;
+border-radius:50%;
+}
+input:checked + .slider{
+background:#FFD700;
+}
+input:checked + .slider:before{
+transform:translateX(26px);
+}
+
 .skyline{
 position:fixed;
 bottom:0;
@@ -120,14 +160,12 @@ from{background-position:0;}
 to{background-position:-1000px;}
 }
 
-/* LOGIN MODAL */
+/* LOGIN */
 #loginModal{
 display:none;
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+top:0;left:0;
+width:100%;height:100%;
 background:rgba(0,0,0,0.9);
 justify-content:center;
 align-items:center;
@@ -148,6 +186,7 @@ color:#FFD700;
 }
 </style>
 </head>
+
 <body>
 
 <audio id="sound">
@@ -156,12 +195,12 @@ color:#FFD700;
 
 <!-- LOGIN -->
 <div id="loginModal">
-  <div class="login-box">
-    <h2>🔐 Admin Login</h2>
-    <input id="username" placeholder="Username"><br>
-    <input id="password" type="password" placeholder="Passwort"><br>
-    <button class="btn" onclick="login()">Login</button>
-  </div>
+<div class="login-box">
+<h2>🔐 Admin Login</h2>
+<input id="username" placeholder="Username"><br>
+<input id="password" type="password" placeholder="Passwort"><br>
+<button class="btn" onclick="login()">Login</button>
+</div>
 </div>
 
 <div class="skyline"></div>
@@ -169,7 +208,6 @@ color:#FFD700;
 <nav>
 <a href="#home">Home</a>
 <a href="#team">Team</a>
-<a href="#discord">Discord</a>
 <a href="#rules">Regeln</a>
 </nav>
 
@@ -186,50 +224,92 @@ color:#FFD700;
 <section class="section" id="team">
 <h2>🧑‍🚒 Team</h2>
 <div class="team">
-<div class="member"><img src="https://i.pravatar.cc/200?img=1"><h3>👑 Owner</h3></div>
-<div class="member"><img src="https://i.pravatar.cc/200?img=2"><h3>🛠 Admin</h3></div>
-<div class="member"><img src="https://i.pravatar.cc/200?img=3"><h3>💬 Support</h3></div>
-</div>
-</section>
 
-<section class="section" id="discord">
-<h2>💬 Discord</h2>
-<div class="discord-panel">
-<p>Trete der Community bei</p>
-<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
-Discord beitreten
-</button>
+<div class="member">
+<img src="https://i.pravatar.cc/200?img=1">
+<h3>👑 Owner</h3>
+<p>Leitet das Projekt und trifft alle wichtigen Entscheidungen.</p>
+</div>
+
+<div class="member">
+<img src="https://i.pravatar.cc/200?img=2">
+<h3>🛠 Admin</h3>
+<p>Kümmert sich um Server, Regeln und sorgt für Ordnung.</p>
+</div>
+
+<div class="member">
+<img src="https://i.pravatar.cc/200?img=3">
+<h3>💬 Support</h3>
+<p>Hilft Spielern bei Fragen und Problemen im Alltag.</p>
+</div>
+
 </div>
 </section>
 
 <section class="section" id="rules">
 <h2>📜 Regeln</h2>
+
 <div class="rules-container">
-<div class="rule-box"><h3>⚖️ Allgemein</h3><ul><li>Respekt</li><li>Kein Cheating</li></ul></div>
-<div class="rule-box"><h3>🚫 FailRP</h3><ul><li>Realistisch spielen</li></ul></div>
-<div class="rule-box"><h3>🔫 Kampf</h3><ul><li>Kein RDM</li></ul></div>
+
+<div class="rule-box">
+<h3>⚖️ Allgemein</h3>
+<ul>
+<li>Respekt gegenüber allen Spielern</li>
+<li>Keine Beleidigungen oder Hate</li>
+<li>Anweisungen vom Team folgen</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h3>🎭 Roleplay</h3>
+<ul>
+<li>Realistisch spielen (kein Troll-RP)</li>
+<li>Keine Meta-Gaming Infos nutzen</li>
+<li>Charakter ernst nehmen</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h3>🔫 Kampf</h3>
+<ul>
+<li>Kein RDM/VDM</li>
+<li>Fair kämpfen</li>
+<li>Keine sinnlosen Angriffe</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h3>🚫 Verboten</h3>
+<ul>
+<li>Cheating / Exploits</li>
+<li>Bug Abuse</li>
+<li>Spam & Werbung</li>
+</ul>
+</div>
+
 </div>
 </section>
 
 <section id="admin-panel">
 <h2>🟢 ADMIN PANEL</h2>
-<div class="admin-box" onclick="toggleMaintenance()">🚧 Wartungsmodus AN/AUS</div>
-<div class="admin-box" onclick="openPlayers()">👤 Spieler</div>
+
+<label class="switch">
+<input type="checkbox" onchange="toggleMaintenance(this)">
+<span class="slider"></span>
+</label>
+<p>Wartungsmodus</p>
+
 </section>
 
 <script>
-// LOGIN DATEN
-const adminUser = {
-  username: "admin",
-  password: "1234"
-};
+const adminUser = { username:"admin", password:"1234" };
 
 // Wartung prüfen
 if(localStorage.getItem("maintenance")==="on"){
 activateMaintenance();
 }
 
-// 5 Klicks = Login öffnen
+// Klick Login
 let clicks=0;
 document.querySelector(".neon-box").addEventListener("click",()=>{
 clicks++;
@@ -239,27 +319,26 @@ clicks=0;
 }
 });
 
-// LOGIN
+// Login
 function login(){
-let user=document.getElementById("username").value;
-let pass=document.getElementById("password").value;
+let user=username.value;
+let pass=password.value;
 
 if(user===adminUser.username && pass===adminUser.password){
-document.getElementById("admin-panel").style.display="block";
-document.getElementById("loginModal").style.display="none";
-document.getElementById("sound").play();
+admin-panel.style.display="block";
+loginModal.style.display="none";
+sound.play();
 }else{
 alert("Falsche Daten");
 }
 }
 
-// Wartungsmodus
-function toggleMaintenance(){
-let state=localStorage.getItem("maintenance");
-if(state==="on"){
-localStorage.setItem("maintenance","off");
-}else{
+// Toggle Switch
+function toggleMaintenance(el){
+if(el.checked){
 localStorage.setItem("maintenance","on");
+}else{
+localStorage.setItem("maintenance","off");
 }
 location.reload();
 }
@@ -270,26 +349,10 @@ document.body.innerHTML=`
 <div style="height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background:black;color:#FFD700;text-align:center;">
 <h1>🚧 Wartungsmodus</h1>
 <p>Wir sind bald zurück</p>
-<button onclick="adminBypass()">Admin Login</button>
 </div>`;
 }
 
-// Bypass
-function adminBypass(){
-let code=prompt("Admin Code:");
-if(code==="admin123"){
-localStorage.setItem("maintenance","off");
-location.reload();
-}else{
-alert("Falsch");
-}
-}
-
-function openPlayers(){
-window.open("https://discord.com","_blank");
-}
-
-// Scroll
+// Scroll Animation
 const sections=document.querySelectorAll('.section');
 window.addEventListener('scroll',()=>{
 sections.forEach(s=>{
