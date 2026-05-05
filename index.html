@@ -159,7 +159,6 @@ padding:15px;
 z-index:3000;
 text-align:center;
 }
-
 </style>
 </head>
 
@@ -186,10 +185,6 @@ text-align:center;
 <section class="hero section show" id="home">
 <h1>THE SLEEPLESS CITY</h1>
 <p>Die Stadt schläft nie</p>
-
-<button class="btn" onclick="openLogin()">
-Admin Login
-</button>
 
 <button class="btn" onclick="window.location.href='https://discord.gg/'">
 Join Discord
@@ -292,6 +287,13 @@ adminPanel.style.display = "block";
 alert("Falsche Daten");
 }
 }
+
+/* HIDDEN ADMIN LOGIN (CTRL + SHIFT + A) */
+document.addEventListener("keydown", (e) => {
+if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a"){
+openLogin();
+}
+});
 
 /* SCROLL ANIMATION */
 const sections = document.querySelectorAll(".section");
