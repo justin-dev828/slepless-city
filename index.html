@@ -113,7 +113,6 @@ text-align:center;
 border-top:2px solid #FFD700;
 }
 
-/* TOGGLE SWITCH */
 .switch{
 position:relative;
 display:inline-block;
@@ -160,7 +159,6 @@ from{background-position:0;}
 to{background-position:-1000px;}
 }
 
-/* LOGIN */
 #loginModal{
 display:none;
 position:fixed;
@@ -193,7 +191,6 @@ color:#FFD700;
 <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0c3c.mp3">
 </audio>
 
-<!-- LOGIN -->
 <div id="loginModal">
 <div class="login-box">
 <h2>🔐 Admin Login</h2>
@@ -304,28 +301,31 @@ color:#FFD700;
 <script>
 const adminUser = { username:"admin", password:"1234" };
 
-// Wartung prüfen
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const adminPanel = document.getElementById("admin-panel");
+const loginModal = document.getElementById("loginModal");
+const sound = document.getElementById("sound");
+
 if(localStorage.getItem("maintenance")==="on"){
 activateMaintenance();
 }
 
-// Klick Login
 let clicks=0;
 document.querySelector(".neon-box").addEventListener("click",()=>{
 clicks++;
 if(clicks>=5){
-document.getElementById("loginModal").style.display="flex";
+loginModal.style.display="flex";
 clicks=0;
 }
 });
 
-// Login
 function login(){
-let user=username.value;
-let pass=password.value;
+let user=usernameInput.value;
+let pass=passwordInput.value;
 
 if(user===adminUser.username && pass===adminUser.password){
-admin-panel.style.display="block";
+adminPanel.style.display="block";
 loginModal.style.display="none";
 sound.play();
 }else{
@@ -333,7 +333,6 @@ alert("Falsche Daten");
 }
 }
 
-// Toggle Switch
 function toggleMaintenance(el){
 if(el.checked){
 localStorage.setItem("maintenance","on");
@@ -343,7 +342,6 @@ localStorage.setItem("maintenance","off");
 location.reload();
 }
 
-// Wartungsseite
 function activateMaintenance(){
 document.body.innerHTML=`
 <div style="height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background:black;color:#FFD700;text-align:center;">
@@ -352,7 +350,6 @@ document.body.innerHTML=`
 </div>`;
 }
 
-// Scroll Animation
 const sections=document.querySelectorAll('.section');
 window.addEventListener('scroll',()=>{
 sections.forEach(s=>{
