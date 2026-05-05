@@ -8,12 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Orbitron',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
 
 body{
 background:black;
@@ -41,6 +36,52 @@ background:rgba(0,0,0,0.7);
 z-index:-1;
 }
 
+/* LOGIN SCREEN */
+#login-screen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+transition:1s;
+}
+
+.login-box{
+border:2px solid #FFD700;
+padding:40px;
+text-align:center;
+box-shadow:0 0 30px #FFD700;
+background:rgba(0,0,0,0.9);
+}
+
+.login-box input{
+margin-top:15px;
+padding:10px;
+width:200px;
+background:black;
+border:1px solid #FFD700;
+color:#FFD700;
+text-align:center;
+}
+
+.login-box button{
+margin-top:15px;
+padding:10px 20px;
+background:none;
+border:1px solid #FFD700;
+color:#FFD700;
+cursor:pointer;
+}
+
+.login-box button:hover{
+box-shadow:0 0 15px #FFD700;
+}
+
 /* NAV */
 nav{
 position:fixed;
@@ -55,14 +96,8 @@ backdrop-filter:blur(10px);
 z-index:1000;
 }
 
-nav a{
-color:#FFD700;
-text-decoration:none;
-}
-
-nav a:hover{
-text-shadow:0 0 10px #FFD700;
-}
+nav a{color:#FFD700;text-decoration:none;}
+nav a:hover{text-shadow:0 0 10px #FFD700;}
 
 /* HERO */
 .hero{
@@ -87,12 +122,9 @@ border:2px solid #FFD700;
 background:transparent;
 color:#FFD700;
 cursor:pointer;
-transition:0.3s;
 }
 
-.btn:hover{
-box-shadow:0 0 20px #FFD700;
-}
+.btn:hover{box-shadow:0 0 20px #FFD700;}
 
 /* SECTION */
 .section{
@@ -137,12 +169,26 @@ margin:auto;
 background:rgba(0,0,0,0.6);
 }
 
-/* JOIN FLOW */
-.flow{
-margin-top:20px;
-display:flex;
-flex-direction:column;
-gap:10px;
+/* RULES */
+.rules-container{
+display:grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap:25px;
+max-width:1100px;
+margin:40px auto;
+padding:0 20px;
+}
+
+.rule-box{
+background:rgba(0,0,0,0.75);
+border:1px solid #FFD700;
+padding:20px;
+border-radius:12px;
+text-align:left;
+}
+
+.rule-box:hover{
+box-shadow:0 0 20px #FFD700;
 }
 
 /* SKYLINE */
@@ -161,56 +207,22 @@ z-index:-1;
 from{background-position:0;}
 to{background-position:-1000px;}
 }
-
-/* RULES */
-.rules-container{
-display:grid;
-grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-gap:25px;
-max-width:1100px;
-margin:40px auto;
-padding:0 20px;
-}
-
-.rule-box{
-background:rgba(0,0,0,0.75);
-border:1px solid #FFD700;
-padding:20px;
-border-radius:12px;
-text-align:left;
-transition:0.3s;
-}
-
-.rule-box:hover{
-transform:translateY(-5px);
-box-shadow:0 0 20px #FFD700;
-}
-
-.rule-box h3{
-margin-bottom:12px;
-border-bottom:1px solid #FFD700;
-padding-bottom:5px;
-}
-
-.rule-box ul{
-list-style:none;
-}
-
-.rule-box li{
-margin-bottom:10px;
-font-size:14px;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-.hero h1{font-size:28px;}
-.team{flex-direction:column;align-items:center;}
-.member{width:90%;}
-}
 </style>
 </head>
 
 <body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+<div class="login-box">
+<h1>THE SLEEPLESS CITY</h1>
+<p>Enter City Access</p>
+
+<input type="text" id="code" placeholder="Access Code...">
+<br>
+<button onclick="enterCity()">ENTER</button>
+</div>
+</div>
 
 <div class="skyline"></div>
 
@@ -221,7 +233,6 @@ font-size:14px;
 <a href="#rules">Regeln</a>
 </nav>
 
-<!-- HERO -->
 <section class="hero section" id="home">
 <div class="neon-box">
 <h1>THE SLEEPLESS CITY</h1>
@@ -233,11 +244,10 @@ font-size:14px;
 </button>
 </section>
 
-<!-- TEAM -->
 <section class="section" id="team">
 <h2>🧑‍🚒 Team</h2>
-
 <div class="team">
+
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=1">
 <h3>👑 Owner</h3>
@@ -255,13 +265,12 @@ font-size:14px;
 <h3>💬 Support</h3>
 <p>Hilfe</p>
 </div>
+
 </div>
 </section>
 
-<!-- DISCORD -->
 <section class="section" id="discord">
 <h2>💬 Discord</h2>
-
 <div class="discord-panel">
 <h3>THE SLEEPLESS CITY</h3>
 <p>Trete der Community bei und starte dein Roleplay Leben.</p>
@@ -269,73 +278,51 @@ font-size:14px;
 <button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
 Discord beitreten
 </button>
-
-<div class="flow">
-<p>1️⃣ Join Discord</p>
-<p>2️⃣ Regeln lesen</p>
-<p>3️⃣ Roleplay starten</p>
-</div>
 </div>
 </section>
 
-<!-- RULES -->
 <section class="section" id="rules">
-
-<h2>📜 Regeln & Roleplay Gesetzbuch</h2>
-<p style="opacity:0.7;">Halte dich an diese Regeln für realistisches Roleplay.</p>
+<h2>📜 Regeln</h2>
 
 <div class="rules-container">
-
-<div class="rule-box">
-<h3>⚖️ Allgemeine Regeln</h3>
-<ul>
-<li>Respekt gegenüber allen Spielern</li>
-<li>Kein Cheating oder Exploiting</li>
-<li>Realistisches Verhalten</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>🚫 FailRP</h3>
-<ul>
-<li>Kein unrealistisches Verhalten</li>
-<li>Keine Aktionen ohne RP</li>
-<li>Angst & Schmerz ausspielen</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>🔫 Kampf</h3>
-<ul>
-<li>Kein RDM</li>
-<li>Kein VDM</li>
-<li>Nur mit RP schießen</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>🚓 Polizei / Feuerwehr</h3>
-<ul>
-<li>Einsatzkräfte respektieren</li>
-<li>Realistische Einsätze</li>
-<li>Keine Abuse</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>🏙️ Stadt</h3>
-<ul>
-<li>Kein toxisches Verhalten</li>
-<li>Realistisches RP</li>
-<li>Aktives Stadtleben</li>
-</ul>
-</div>
-
+<div class="rule-box"><h3>⚖️ Allgemein</h3><ul><li>Respekt</li><li>Kein Cheat</li></ul></div>
+<div class="rule-box"><h3>🚫 FailRP</h3><ul><li>Realistisch spielen</li></ul></div>
+<div class="rule-box"><h3>🔫 Kampf</h3><ul><li>Kein RDM</li></ul></div>
 </div>
 
 </section>
 
 <script>
+// LOGIN SYSTEM
+function enterCity(){
+let code = document.getElementById("code").value;
+
+// USER CODE
+if(code === "city2026"){
+fadeOut();
+}
+
+// ADMIN CODE
+else if(code === "admin123"){
+alert("Admin Zugang");
+fadeOut();
+}
+
+else{
+alert("Access Denied");
+}
+}
+
+// FADE
+function fadeOut(){
+let screen = document.getElementById("login-screen");
+screen.style.opacity = "0";
+
+setTimeout(()=>{
+screen.style.display="none";
+},1000);
+}
+
 // SCROLL ANIMATION
 const sections=document.querySelectorAll('.section');
 
