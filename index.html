@@ -7,7 +7,6 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
@@ -19,23 +18,6 @@ body{
 background:#0b0f14;
 color:#e6e6e6;
 overflow-x:hidden;
-}
-
-/* BACKGROUND */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") center/cover no-repeat;
-filter:brightness(0.25);
-z-index:-2;
-}
-body::after{
-content:"";
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.65);
-z-index:-1;
 }
 
 /* HERO */
@@ -72,28 +54,7 @@ background:rgba(255,255,255,0.05);
 backdrop-filter:blur(12px);
 z-index:1000;
 }
-nav a{
-color:#cfd6dd;
-text-decoration:none;
-}
-
-/* SECTIONS */
-.section{
-padding:80px 20px;
-text-align:center;
-}
-
-/* CARDS */
-.card{
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
-border-radius:14px;
-padding:18px;
-max-width:900px;
-margin:10px auto;
-text-align:left;
-}
+nav a{color:#cfd6dd;text-decoration:none;}
 
 /* STORY */
 .story-box{
@@ -104,8 +65,8 @@ border-radius:14px;
 padding:18px;
 margin:15px auto;
 max-width:800px;
-animation:fadeIn 0.4s ease;
 position:relative;
+animation:fadeIn 0.4s ease;
 }
 
 @keyframes fadeIn{
@@ -113,6 +74,7 @@ from{opacity:0;transform:translateY(15px);}
 to{opacity:1;transform:translateY(0);}
 }
 
+/* CHAPTER UI */
 .chapter{
 margin-top:30px;
 font-size:20px;
@@ -120,7 +82,7 @@ opacity:0.8;
 font-weight:600;
 }
 
-/* DELETE BUTTON */
+/* DELETE */
 .delBtn{
 position:absolute;
 top:10px;
@@ -147,7 +109,6 @@ width:400px;
 z-index:5000;
 }
 
-/* EDITOR */
 .editor{
 background:rgba(0,0,0,0.5);
 border:1px solid rgba(255,255,255,0.1);
@@ -159,6 +120,7 @@ margin-top:10px;
 
 /* FLOAT BUTTON */
 #openAdminBtn{
+display:none;
 position:fixed;
 bottom:20px;
 right:20px;
@@ -167,84 +129,113 @@ border:1px solid rgba(255,255,255,0.2);
 padding:12px 16px;
 border-radius:12px;
 cursor:pointer;
-backdrop-filter:blur(10px);
 z-index:6000;
 }
 
+/* LOGIN */
+#loginBox{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.7);
+backdrop-filter:blur(8px);
+justify-content:center;
+align-items:center;
+z-index:7000;
+}
+
+.login{
+background:#111;
+padding:20px;
+border-radius:12px;
+width:280px;
+}
+
+.login input{
+width:100%;
+margin:6px 0;
+padding:8px;
+border-radius:6px;
+border:none;
+}
+
+/* SEASON UI */
+.seasons{
+display:flex;
+justify-content:center;
+gap:10px;
+margin:20px;
+}
+.season{
+padding:8px 14px;
+border:1px solid rgba(255,255,255,0.2);
+border-radius:10px;
+cursor:pointer;
+background:rgba(255,255,255,0.05);
+}
+.season.active{
+background:rgba(255,255,255,0.2);
+}
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <nav>
 <a href="#story">Story</a>
 <a href="#team">Team</a>
 <a href="#rules">Regeln</a>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
 <h1>THE SLEEPLESS CITY</h1>
 <p>Eine Stadt ohne Ruhe</p>
-
 <button class="btn">Discord beitreten</button>
 </section>
 
 <!-- STORY -->
-<section id="story" class="section">
+<section id="story" style="padding:80px 20px;text-align:center;">
 <h2>📖 Story</h2>
+
+<!-- SEASONS -->
+<div class="seasons">
+<div class="season active" onclick="filterSeason('all')">Alle</div>
+<div class="season" onclick="filterSeason('1')">Staffel 1</div>
+<div class="season" onclick="filterSeason('2')">Staffel 2</div>
+<div class="season" onclick="filterSeason('3')">Staffel 3</div>
+</div>
+
 <div id="storyList"></div>
 </section>
-
-<!-- TEAM -->
-<section class="section">
-<h2>👥 Team</h2>
-
-<div class="card">
-<b>Owner</b><br>Leitet das Projekt
-</div>
-
-<div class="card">
-<b>Admin</b><br>Verwaltet Stories & Server
-</div>
-
-<div class="card">
-<b>Support</b><br>Hilft Spielern
-</div>
-</section>
-
-<!-- RULES -->
-<section class="section">
-<h2>📜 Regeln</h2>
-
-<div class="card">Respektvoll bleiben</div>
-<div class="card">Kein Metagaming</div>
-<div class="card">Kein Cheating</div>
-</section>
-
-<!-- FLOAT ADMIN BUTTON -->
-<div id="openAdminBtn" onclick="openAdmin()">
-🧠 Admin
-</div>
 
 <!-- ADMIN -->
 <div id="storyAdmin">
 
 <h3>Story Editor</h3>
 
-<input id="chapter" placeholder="Kapitel" style="width:100%;padding:8px;margin-top:10px;">
+<input id="chapter" placeholder="Staffel (1/2/3)" style="width:100%;padding:8px;margin-top:10px;">
 <input id="title" placeholder="Titel" style="width:100%;padding:8px;margin-top:10px;">
 
 <div id="editor" class="editor" contenteditable="true"></div>
 
 <button class="btn" onclick="addStory()" style="margin-top:10px;">Posten</button>
-
 </div>
+
+<!-- LOGIN -->
+<div id="loginBox">
+<div class="login">
+<h3>Admin Login</h3>
+<input id="u" placeholder="Username">
+<input id="p" type="password" placeholder="Passwort">
+<button class="btn" onclick="login()">Login</button>
+</div>
+</div>
+
+<!-- ADMIN BTN -->
+<div id="openAdminBtn" onclick="openAdmin()">🧠 Admin</div>
 
 <script>
 
-/* FIREBASE */
 const firebaseConfig = {
   apiKey: "AIzaSyBfcD74FW6VcsdYGcc0xIHC-5M2W4z0E8s",
   authDomain: "sleepless-city.firebaseapp.com",
@@ -258,53 +249,73 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const storiesRef = db.collection("stories");
 
-/* OPEN ADMIN */
-function openAdmin(){
-document.getElementById("storyAdmin").style.display="block";
-}
+let loggedIn = false;
+let currentFilter = "all";
 
-/* HOTKEY */
+/* HOTKEY LOGIN */
 document.addEventListener("keydown",e=>{
 if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="a"){
-openAdmin();
+document.getElementById("loginBox").style.display="flex";
 }
 });
 
-/* ADD STORY */
-function addStory(){
-let chapter=document.getElementById("chapter").value;
-let title=document.getElementById("title").value;
-let content=document.getElementById("editor").innerHTML;
+/* LOGIN */
+function login(){
+let u=document.getElementById("u").value;
+let p=document.getElementById("p").value;
 
+if(u==="admin" && p==="1234"){
+loggedIn=true;
+document.getElementById("loginBox").style.display="none";
+document.getElementById("openAdminBtn").style.display="block";
+}else{
+alert("Falsch");
+}
+}
+
+/* ADMIN OPEN */
+function openAdmin(){
+if(loggedIn){
+document.getElementById("storyAdmin").style.display="block";
+}
+}
+
+/* ADD */
+function addStory(){
 storiesRef.add({
-chapter,
-title,
-content,
+chapter:document.getElementById("chapter").value,
+title:document.getElementById("title").value,
+content:document.getElementById("editor").innerHTML,
 time:Date.now()
 });
-
-document.getElementById("chapter").value="";
-document.getElementById("title").value="";
-document.getElementById("editor").innerHTML="";
 }
 
-/* DELETE STORY */
+/* DELETE */
 function deleteStory(id){
 storiesRef.doc(id).delete();
 }
 
+/* FILTER */
+function filterSeason(s){
+currentFilter=s;
+load();
+}
+
 /* LIVE */
-storiesRef.orderBy("time","desc").onSnapshot(snapshot=>{
+function load(){
+storiesRef.orderBy("time","desc").onSnapshot(snap=>{
 let c=document.getElementById("storyList");
 c.innerHTML="";
 
 let last="";
 
-snapshot.forEach(doc=>{
+snap.forEach(doc=>{
 let s=doc.data();
 
+if(currentFilter!=="all" && s.chapter!==currentFilter) return;
+
 if(s.chapter!==last){
-c.innerHTML+=`<div class="chapter">${s.chapter}</div>`;
+c.innerHTML+=`<div class="chapter">Staffel ${s.chapter}</div>`;
 last=s.chapter;
 }
 
@@ -316,6 +327,9 @@ c.innerHTML+=`
 </div>`;
 });
 });
+}
+
+load();
 
 </script>
 
