@@ -36,11 +36,9 @@ background:rgba(0,0,0,0.7);
 z-index:-1;
 }
 
-/* LOGIN SCREEN */
+/* LOGIN */
 #login-screen{
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
 background:black;
@@ -69,19 +67,6 @@ color:#FFD700;
 text-align:center;
 }
 
-.login-box button{
-margin-top:15px;
-padding:10px 20px;
-background:none;
-border:1px solid #FFD700;
-color:#FFD700;
-cursor:pointer;
-}
-
-.login-box button:hover{
-box-shadow:0 0 15px #FFD700;
-}
-
 /* NAV */
 nav{
 position:fixed;
@@ -92,12 +77,7 @@ display:flex;
 justify-content:center;
 gap:20px;
 background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
-z-index:1000;
 }
-
-nav a{color:#FFD700;text-decoration:none;}
-nav a:hover{text-shadow:0 0 10px #FFD700;}
 
 /* HERO */
 .hero{
@@ -124,197 +104,103 @@ color:#FFD700;
 cursor:pointer;
 }
 
-.btn:hover{box-shadow:0 0 20px #FFD700;}
-
-/* SECTION */
-.section{
-padding:80px 20px;
+/* ADMIN PANEL */
+#admin-panel{
+display:none;
+padding:50px;
 text-align:center;
-opacity:0;
-transform:translateY(40px);
-transition:0.8s;
+border-top:2px solid #FFD700;
 }
 
-.section.show{
-opacity:1;
-transform:translateY(0);
-}
-
-/* TEAM */
-.team{
-display:flex;
-justify-content:center;
-gap:20px;
-flex-wrap:wrap;
-}
-
-.member{
+.admin-box{
 border:1px solid #FFD700;
 padding:20px;
-width:200px;
-background:rgba(0,0,0,0.6);
-}
-
-.member img{
-width:100%;
-border-radius:10px;
-}
-
-/* DISCORD */
-.discord-panel{
-border:1px solid #FFD700;
-padding:30px;
-max-width:500px;
-margin:auto;
-background:rgba(0,0,0,0.6);
-}
-
-/* RULES */
-.rules-container{
-display:grid;
-grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-gap:25px;
-max-width:1100px;
-margin:40px auto;
-padding:0 20px;
-}
-
-.rule-box{
-background:rgba(0,0,0,0.75);
-border:1px solid #FFD700;
-padding:20px;
-border-radius:12px;
-text-align:left;
-}
-
-.rule-box:hover{
-box-shadow:0 0 20px #FFD700;
-}
-
-/* SKYLINE */
-.skyline{
-position:fixed;
-bottom:0;
-width:100%;
-height:180px;
-background:url("https://i.imgur.com/3ZQ3Z9Q.png") repeat-x;
-animation:move 30s linear infinite;
-opacity:0.3;
-z-index:-1;
-}
-
-@keyframes move{
-from{background-position:0;}
-to{background-position:-1000px;}
+margin:10px;
+display:inline-block;
 }
 </style>
 </head>
 
 <body>
 
+<!-- SOUND -->
+<audio id="sound">
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0c3c.mp3">
+</audio>
+
 <!-- LOGIN -->
 <div id="login-screen">
 <div class="login-box">
-<h1>THE SLEEPLESS CITY</h1>
-<p>Enter City Access</p>
+<h1>ADMIN LOGIN</h1>
 
-<input type="text" id="code" placeholder="Access Code...">
-<br>
-<button onclick="enterCity()">ENTER</button>
+<input type="password" id="code" placeholder="Admin Code">
+<br><br>
+
+<button class="btn" onclick="login()">Login</button>
+
+<p onclick="skip()" style="margin-top:15px;cursor:pointer;">
+➡️ Weiter ohne Login
+</p>
 </div>
 </div>
-
-<div class="skyline"></div>
 
 <nav>
-<a href="#home">Home</a>
-<a href="#team">Team</a>
-<a href="#discord">Discord</a>
-<a href="#rules">Regeln</a>
+<a href="#">Home</a>
+<a href="#admin-panel">Admin</a>
 </nav>
 
-<section class="hero section" id="home">
+<section class="hero">
 <div class="neon-box">
 <h1>THE SLEEPLESS CITY</h1>
-<p>Die Stadt schläft nie.</p>
-</div>
-
-<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
-🚀 Join Now
-</button>
-</section>
-
-<section class="section" id="team">
-<h2>🧑‍🚒 Team</h2>
-<div class="team">
-
-<div class="member">
-<img src="https://i.pravatar.cc/200?img=1">
-<h3>👑 Owner</h3>
-<p>Leitung</p>
-</div>
-
-<div class="member">
-<img src="https://i.pravatar.cc/200?img=2">
-<h3>🛠 Admin</h3>
-<p>Verwaltung</p>
-</div>
-
-<div class="member">
-<img src="https://i.pravatar.cc/200?img=3">
-<h3>💬 Support</h3>
-<p>Hilfe</p>
-</div>
-
 </div>
 </section>
 
-<section class="section" id="discord">
-<h2>💬 Discord</h2>
-<div class="discord-panel">
-<h3>THE SLEEPLESS CITY</h3>
-<p>Trete der Community bei und starte dein Roleplay Leben.</p>
+<!-- ADMIN PANEL -->
+<section id="admin-panel">
 
-<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
-Discord beitreten
-</button>
+<h2>🟢 ADMIN PANEL</h2>
+
+<div class="admin-box">
+<p>👤 Spieler verwalten</p>
 </div>
-</section>
 
-<section class="section" id="rules">
-<h2>📜 Regeln</h2>
-
-<div class="rules-container">
-<div class="rule-box"><h3>⚖️ Allgemein</h3><ul><li>Respekt</li><li>Kein Cheat</li></ul></div>
-<div class="rule-box"><h3>🚫 FailRP</h3><ul><li>Realistisch spielen</li></ul></div>
-<div class="rule-box"><h3>🔫 Kampf</h3><ul><li>Kein RDM</li></ul></div>
+<div class="admin-box">
+<p>📊 Server Stats</p>
 </div>
+
+<div class="admin-box">
+<p>🔒 Geheime Einstellungen</p>
+</div>
+
+<p style="margin-top:20px;opacity:0.6;">
+Nur sichtbar für Admins
+</p>
 
 </section>
 
 <script>
-// LOGIN SYSTEM
-function enterCity(){
+
+// LOGIN
+function login(){
 let code = document.getElementById("code").value;
 
-// USER CODE
-if(code === "city2026"){
-fadeOut();
+if(code === "admin123"){
+document.getElementById("sound").play();
+document.getElementById("admin-panel").style.display = "block";
+fade();
+alert("Admin Zugriff!");
+}else{
+alert("Falsch");
+}
 }
 
-// ADMIN CODE
-else if(code === "admin123"){
-alert("Admin Zugang");
-fadeOut();
-}
-
-else{
-alert("Access Denied");
-}
+// USER SKIP
+function skip(){
+fade();
 }
 
 // FADE
-function fadeOut(){
+function fade(){
 let screen = document.getElementById("login-screen");
 screen.style.opacity = "0";
 
@@ -323,16 +209,6 @@ screen.style.display="none";
 },1000);
 }
 
-// SCROLL ANIMATION
-const sections=document.querySelectorAll('.section');
-
-window.addEventListener('scroll',()=>{
-sections.forEach(s=>{
-if(s.getBoundingClientRect().top<window.innerHeight-100){
-s.classList.add('show');
-}
-});
-});
 </script>
 
 </body>
