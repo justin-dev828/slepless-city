@@ -21,11 +21,10 @@ color:#FFD700;
 overflow-x:hidden;
 }
 
-/* HERO BACKGROUND */
+/* BACKGROUND */
 body::before{
 content:"";
 position:fixed;
-top:0;left:0;
 width:100%;
 height:100%;
 background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") center/cover no-repeat;
@@ -33,11 +32,9 @@ filter:brightness(0.25);
 z-index:-2;
 }
 
-/* OVERLAY */
 body::after{
 content:"";
 position:fixed;
-top:0;left:0;
 width:100%;
 height:100%;
 background:rgba(0,0,0,0.7);
@@ -103,7 +100,7 @@ padding:80px 20px;
 text-align:center;
 opacity:0;
 transform:translateY(40px);
-transition:0.8s ease;
+transition:0.8s;
 }
 
 .section.show{
@@ -123,7 +120,7 @@ flex-wrap:wrap;
 border:1px solid #FFD700;
 padding:20px;
 width:200px;
-background:rgba(0,0,0,0.5);
+background:rgba(0,0,0,0.6);
 }
 
 .member img{
@@ -165,13 +162,51 @@ from{background-position:0;}
 to{background-position:-1000px;}
 }
 
+/* RULES */
+.rules-container{
+display:grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap:25px;
+max-width:1100px;
+margin:40px auto;
+padding:0 20px;
+}
+
+.rule-box{
+background:rgba(0,0,0,0.75);
+border:1px solid #FFD700;
+padding:20px;
+border-radius:12px;
+text-align:left;
+transition:0.3s;
+}
+
+.rule-box:hover{
+transform:translateY(-5px);
+box-shadow:0 0 20px #FFD700;
+}
+
+.rule-box h3{
+margin-bottom:12px;
+border-bottom:1px solid #FFD700;
+padding-bottom:5px;
+}
+
+.rule-box ul{
+list-style:none;
+}
+
+.rule-box li{
+margin-bottom:10px;
+font-size:14px;
+}
+
 /* MOBILE */
 @media(max-width:768px){
 .hero h1{font-size:28px;}
 .team{flex-direction:column;align-items:center;}
 .member{width:90%;}
 }
-
 </style>
 </head>
 
@@ -188,7 +223,6 @@ to{background-position:-1000px;}
 
 <!-- HERO -->
 <section class="hero section" id="home">
-
 <div class="neon-box">
 <h1>THE SLEEPLESS CITY</h1>
 <p>Die Stadt schläft nie.</p>
@@ -197,7 +231,6 @@ to{background-position:-1000px;}
 <button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
 🚀 Join Now
 </button>
-
 </section>
 
 <!-- TEAM -->
@@ -205,7 +238,6 @@ to{background-position:-1000px;}
 <h2>🧑‍🚒 Team</h2>
 
 <div class="team">
-
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=1">
 <h3>👑 Owner</h3>
@@ -223,7 +255,6 @@ to{background-position:-1000px;}
 <h3>💬 Support</h3>
 <p>Hilfe</p>
 </div>
-
 </div>
 </section>
 
@@ -232,7 +263,6 @@ to{background-position:-1000px;}
 <h2>💬 Discord</h2>
 
 <div class="discord-panel">
-
 <h3>THE SLEEPLESS CITY</h3>
 <p>Trete der Community bei und starte dein Roleplay Leben.</p>
 
@@ -245,65 +275,66 @@ Discord beitreten
 <p>2️⃣ Regeln lesen</p>
 <p>3️⃣ Roleplay starten</p>
 </div>
-
 </div>
 </section>
 
-<!-- RULES / LORE -->
+<!-- RULES -->
 <section class="section" id="rules">
 
 <h2>📜 Regeln & Roleplay Gesetzbuch</h2>
+<p style="opacity:0.7;">Halte dich an diese Regeln für realistisches Roleplay.</p>
 
 <div class="rules-container">
 
 <div class="rule-box">
 <h3>⚖️ Allgemeine Regeln</h3>
 <ul>
-<li>Respekt gegenüber allen Spielern ist Pflicht</li>
-<li>Kein Cheating, Exploiting oder Bug Abuse</li>
-<li>Realistisches Verhalten im Roleplay</li>
+<li>Respekt gegenüber allen Spielern</li>
+<li>Kein Cheating oder Exploiting</li>
+<li>Realistisches Verhalten</li>
 </ul>
 </div>
 
 <div class="rule-box">
-<h3>🚫 FailRP Regeln</h3>
+<h3>🚫 FailRP</h3>
 <ul>
 <li>Kein unrealistisches Verhalten</li>
-<li>Keine Aktionen ohne RP-Grundlage</li>
-<li>Angst, Schmerz und Konsequenzen müssen ausgespielt werden</li>
+<li>Keine Aktionen ohne RP</li>
+<li>Angst & Schmerz ausspielen</li>
 </ul>
 </div>
 
 <div class="rule-box">
-<h3>🔫 Kampf Regeln</h3>
+<h3>🔫 Kampf</h3>
 <ul>
-<li>Kein RDM (Random Deathmatch)</li>
-<li>Kein VDM (Vehicle Deathmatch)</li>
-<li>Schüsse nur mit RP-Hintergrund erlaubt</li>
+<li>Kein RDM</li>
+<li>Kein VDM</li>
+<li>Nur mit RP schießen</li>
 </ul>
 </div>
 
 <div class="rule-box">
-<h3>🚓 Polizei & Feuerwehr RP</h3>
+<h3>🚓 Polizei / Feuerwehr</h3>
 <ul>
-<li>Respektiere Einsatzkräfte im Roleplay</li>
-<li>Realistische Einsatzabläufe einhalten</li>
-<li>Keine Missbrauch von Dienstrollen</li>
+<li>Einsatzkräfte respektieren</li>
+<li>Realistische Einsätze</li>
+<li>Keine Abuse</li>
 </ul>
 </div>
 
 <div class="rule-box">
-<h3>🏙️ Stadtverhalten</h3>
+<h3>🏙️ Stadt</h3>
 <ul>
-<li>Keine toxischen Aktionen außerhalb RP</li>
-<li>Roleplay ist immer realistisch zu halten</li>
-<li>Stadtleben aktiv gestalten</li>
+<li>Kein toxisches Verhalten</li>
+<li>Realistisches RP</li>
+<li>Aktives Stadtleben</li>
 </ul>
 </div>
 
 </div>
 
 </section>
+
 <script>
 // SCROLL ANIMATION
 const sections=document.querySelectorAll('.section');
