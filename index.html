@@ -166,6 +166,23 @@ cursor:pointer;
 z-index:6000;
 }
 
+/* 🔥 TEAM + REGELN */
+.section{
+padding:70px 20px;
+text-align:center;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:14px;
+padding:18px;
+max-width:800px;
+margin:10px auto;
+text-align:left;
+}
+
 </style>
 </head>
 
@@ -180,6 +197,47 @@ z-index:6000;
 <section style="padding:80px 20px;text-align:center;">
 <h2>📖 Story</h2>
 <div id="storyList"></div>
+</section>
+
+<!-- 🔥 TEAM (WIEDER DRIN) -->
+<section class="section">
+<h2>👥 Team</h2>
+
+<div class="card">
+<b>👑 Owner</b><br>
+Leitet das gesamte Projekt und entscheidet über Updates & Regeln.
+</div>
+
+<div class="card">
+<b>🛡 Admin</b><br>
+Verwaltet Stories, Moderation und technische Systeme.
+</div>
+
+<div class="card">
+<b>🎧 Support</b><br>
+Hilft Spielern bei Fragen, Bugs und Roleplay-Problemen.
+</div>
+</section>
+
+<!-- 🔥 REGELN (WIEDER DRIN) -->
+<section class="section">
+<h2>📜 Regeln</h2>
+
+<div class="card">
+<b>1. Respekt</b><br>
+Keine Beleidigungen oder toxisches Verhalten.
+</div>
+
+<div class="card">
+<b>2. Roleplay</b><br>
+Realistisch bleiben, kein Metagaming.
+</div>
+
+<div class="card">
+<b>3. Fair Play</b><br>
+Kein Cheating, Exploits oder Bug Abuse.
+</div>
+
 </section>
 
 <!-- ADMIN -->
@@ -280,7 +338,6 @@ c.innerHTML="";
 snap.forEach(doc=>{
 let s=doc.data();
 
-/* VIEW +1 */
 addView(doc.id,s);
 
 c.innerHTML+=`
