@@ -10,7 +10,6 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
 body{background:black;color:#FFD700;overflow-x:hidden;}
 
-/* Background */
 body::before{
 content:"";
 position:fixed;
@@ -43,7 +42,6 @@ z-index:1000;
 }
 nav a{color:#FFD700;text-decoration:none;}
 
-/* HERO */
 .hero{
 height:100vh;
 display:flex;
@@ -78,13 +76,13 @@ transition:0.8s;
 }
 .section.show{opacity:1;transform:translateY(0);}
 
-/* TEAM */
 .team{
 display:flex;
 justify-content:center;
 gap:20px;
 flex-wrap:wrap;
 }
+
 .member{
 border:1px solid #FFD700;
 padding:20px;
@@ -94,7 +92,6 @@ background:rgba(0,0,0,0.6);
 .member img{width:100%;border-radius:10px;}
 .member p{font-size:13px;margin-top:10px;color:#ccc;}
 
-/* RULES */
 .rules-container{
 display:grid;
 grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
@@ -110,7 +107,6 @@ border-radius:10px;
 text-align:left;
 }
 
-/* ADMIN */
 #admin-panel{
 display:none;
 padding:60px 20px;
@@ -118,7 +114,6 @@ text-align:center;
 border-top:2px solid #FFD700;
 }
 
-/* SWITCH */
 .switch{
 position:relative;
 display:inline-block;
@@ -150,7 +145,6 @@ input:checked + .slider:before{
 transform:translateX(26px);
 }
 
-/* SKYLINE */
 .skyline{
 position:fixed;
 bottom:0;
@@ -166,7 +160,6 @@ from{background-position:0;}
 to{background-position:-1000px;}
 }
 
-/* LOGIN */
 #loginModal{
 display:none;
 position:fixed;
@@ -177,12 +170,14 @@ justify-content:center;
 align-items:center;
 z-index:2000;
 }
+
 .login-box{
 background:black;
 padding:30px;
 border:1px solid #FFD700;
 text-align:center;
 }
+
 .login-box input{
 margin:10px;
 padding:10px;
@@ -191,7 +186,7 @@ border:1px solid #FFD700;
 color:#FFD700;
 }
 
-/* MAINTENANCE OVERLAY */
+/* MAINTENANCE */
 #maintenanceOverlay{
 display:none;
 position:fixed;
@@ -334,9 +329,16 @@ const loginModal = document.getElementById("loginModal");
 const sound = document.getElementById("sound");
 const maintenanceOverlay = document.getElementById("maintenanceOverlay");
 
-/* CHECK STORAGE */
+let isAdminLoggedIn = false;
+
+/* LOAD STATES */
 if(localStorage.getItem("maintenance")==="on"){
 maintenanceOverlay.style.display="flex";
+}
+
+if(localStorage.getItem("isAdmin")==="true"){
+isAdminLoggedIn = true;
+adminPanel.style.display="block";
 }
 
 /* LOGIN OPEN */
@@ -358,13 +360,24 @@ if(user===adminUser.username && pass===adminUser.password){
 adminPanel.style.display="block";
 loginModal.style.display="none";
 sound.play();
+
+isAdminLoggedIn = true;
+localStorage.setItem("isAdmin","true");
+
 }else{
 alert("Falsche Daten");
 }
 }
 
-/* TOGGLE MAINTENANCE FIXED */
+/* MAINTENANCE CONTROL */
 function toggleMaintenance(el){
+
+if(!isAdminLoggedIn){
+alert("Nur Admin kann den Wartungsmodus ändern!");
+el.checked = !el.checked;
+return;
+}
+
 if(el.checked){
 localStorage.setItem("maintenance","on");
 maintenanceOverlay.style.display="flex";
