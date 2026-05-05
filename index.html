@@ -7,16 +7,35 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 
 body{
 background:#0b0f14;
-color:#fff;
+color:#e6e6e6;
 overflow-x:hidden;
+}
+
+/* BACKGROUND */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") center/cover no-repeat;
+filter:brightness(0.25);
+z-index:-2;
+}
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.65);
+z-index:-1;
 }
 
 /* HERO */
@@ -30,7 +49,7 @@ text-align:center;
 gap:15px;
 }
 
-/* BTN */
+/* BUTTON */
 .btn{
 padding:12px 24px;
 background:rgba(255,255,255,0.08);
@@ -41,151 +60,199 @@ cursor:pointer;
 backdrop-filter:blur(6px);
 }
 
-/* NETFLIX GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-max-width:1100px;
-margin:40px auto;
-padding:20px;
+/* NAV */
+nav{
+position:fixed;
+top:0;
+width:100%;
+padding:14px;
+display:flex;
+justify-content:center;
+gap:25px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+z-index:1000;
+}
+nav a{
+color:#cfd6dd;
+text-decoration:none;
 }
 
+/* SECTIONS */
+.section{
+padding:80px 20px;
+text-align:center;
+}
+
+/* CARDS */
 .card{
 background:rgba(255,255,255,0.05);
 border:1px solid rgba(255,255,255,0.08);
 backdrop-filter:blur(12px);
 border-radius:14px;
-padding:15px;
-cursor:pointer;
-transition:0.3s;
-position:relative;
+padding:18px;
+max-width:900px;
+margin:10px auto;
+text-align:left;
 }
 
-.card:hover{
-transform:scale(1.05);
+/* STORY */
+.story-box{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:14px;
+padding:18px;
+margin:15px auto;
+max-width:800px;
+animation:fadeIn 0.4s ease;
 }
 
-/* DELETE BUTTON */
-.del{
-position:absolute;
-top:8px;
-right:8px;
-background:red;
-border:none;
-color:#fff;
-border-radius:6px;
-padding:4px 8px;
-cursor:pointer;
-display:none;
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(15px);}
+to{opacity:1;transform:translateY(0);}
 }
 
-.admin .del{display:block;}
+.chapter{
+margin-top:30px;
+font-size:20px;
+opacity:0.8;
+font-weight:600;
+}
 
-/* EPISODE VIEW */
-#episodeView{
+/* ADMIN */
+#storyAdmin{
 display:none;
 position:fixed;
-inset:0;
-background:rgba(0,0,0,0.8);
-backdrop-filter:blur(8px);
-padding:40px;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(20,25,35,0.95);
+padding:20px;
+border-radius:14px;
+width:400px;
 z-index:5000;
 }
 
-#episodeBox{
-max-width:800px;
-margin:auto;
-background:rgba(20,25,35,0.95);
-padding:20px;
-border-radius:14px;
-}
-
-/* ADMIN PANEL */
-#adminPanel{
-display:none;
-position:fixed;
-top:20px;
-right:20px;
-background:rgba(255,255,255,0.08);
+/* EDITOR */
+.editor{
+background:rgba(0,0,0,0.5);
+border:1px solid rgba(255,255,255,0.1);
 padding:10px;
-border-radius:10px;
-cursor:pointer;
-}
-
-/* ADMIN DASHBOARD */
-#adminDash{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(8px);
-z-index:4000;
-justify-content:center;
-align-items:center;
-}
-
-.box{
-background:rgba(20,25,35,0.95);
-padding:20px;
-border-radius:14px;
-width:320px;
-}
-
-input,textarea{
-width:100%;
-margin-top:10px;
-padding:8px;
+min-height:140px;
 border-radius:8px;
-border:none;
-background:#111;
-color:#fff;
+margin-top:10px;
 }
 
-textarea{min-height:120px;}
+/* TOOLBAR */
+.toolbar{
+display:flex;
+flex-wrap:wrap;
+gap:6px;
+margin-top:10px;
+}
 
-.close{
-position:absolute;
-top:10px;
-right:10px;
+.toolbar button{
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.1);
+color:white;
+padding:6px 10px;
+border-radius:8px;
 cursor:pointer;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+.hero h1{font-size:28px;}
+#storyAdmin{width:90%;}
 }
 </style>
 </head>
 
 <body>
 
+<!-- NAV -->
+<nav>
+<a href="#story">Story</a>
+<a href="#team">Team</a>
+<a href="#rules">Regeln</a>
+</nav>
+
 <!-- HERO -->
 <section class="hero">
 <h1>THE SLEEPLESS CITY</h1>
-<p>Netflix RP Story System</p>
+<p>Eine Stadt ohne Ruhe</p>
 
-<button class="btn" onclick="loginAdmin()">Admin Login</button>
+<button class="btn" onclick="window.location.href='https://discord.gg/'">
+Discord beitreten
+</button>
 </section>
 
-<!-- EPISODES -->
-<div class="grid" id="grid"></div>
+<!-- STORY -->
+<section id="story" class="section">
+<h2>📖 Story</h2>
+<div id="storyList"></div>
+</section>
 
-<!-- EPISODE VIEW -->
-<div id="episodeView" onclick="closeEpisode()">
-<div id="episodeBox"></div>
+<!-- TEAM -->
+<section id="team" class="section">
+<h2>👥 Team</h2>
+
+<div class="card">
+<b>👑 Owner</b>
+<p>Leitet das gesamte Projekt und trifft Entscheidungen.</p>
 </div>
 
-<!-- ADMIN BUTTON -->
-<div id="adminPanel" onclick="openDash()">Admin Panel</div>
-
-<!-- ADMIN DASH -->
-<div id="adminDash">
-<div class="box">
-<span class="close" onclick="closeDash()">❌</span>
-
-<h3>Admin Dashboard</h3>
-
-<input id="title" placeholder="Titel">
-<textarea id="content" placeholder="Story Inhalt"></textarea>
-
-<button class="btn" onclick="addEpisode()">Posten</button>
+<div class="card">
+<b>🛡 Admin</b>
+<p>Kontrolliert Server, Stories und Moderation.</p>
 </div>
+
+<div class="card">
+<b>🎧 Support</b>
+<p>Hilft Spielern und beantwortet Fragen.</p>
+</div>
+</section>
+
+<!-- REGELN -->
+<section id="rules" class="section">
+<h2>📜 Regeln</h2>
+
+<div class="card">
+<b>Allgemein</b>
+<p>Respektvoll bleiben, kein Hate.</p>
+</div>
+
+<div class="card">
+<b>Roleplay</b>
+<p>Realistisch spielen, kein Meta Gaming.</p>
+</div>
+
+<div class="card">
+<b>Gameplay</b>
+<p>Kein Cheating oder Exploits.</p>
+</div>
+</section>
+
+<!-- ADMIN -->
+<div id="storyAdmin">
+
+<h3>🧠 Admin Story Editor</h3>
+
+<input id="chapter" placeholder="Staffel / Kapitel" style="width:100%;padding:8px;margin-top:10px;">
+<input id="title" placeholder="Titel" style="width:100%;padding:8px;margin-top:10px;">
+
+<div class="toolbar">
+<button onclick="format('bold')">B</button>
+<button onclick="format('italic')">I</button>
+<button onclick="format('formatBlock','h2')">H2</button>
+<button onclick="format('insertUnorderedList')">•</button>
+</div>
+
+<div id="editor" class="editor" contenteditable="true"></div>
+
+<button class="btn" onclick="addStory()" style="margin-top:10px;">Posten</button>
+
 </div>
 
 <script>
@@ -194,82 +261,65 @@ cursor:pointer;
 const firebaseConfig = {
   apiKey: "AIzaSyBfcD74FW6VcsdYGcc0xIHC-5M2W4z0E8s",
   authDomain: "sleepless-city.firebaseapp.com",
-  projectId: "sleepless-city"
+  projectId: "sleepless-city",
+  storageBucket: "sleepless-city.firebasestorage.app",
+  messagingSenderId: "34631955151",
+  appId: "1:34631955151:web:107f9312dae475fac23dba"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const ref = db.collection("episodes");
+const storiesRef = db.collection("stories");
 
-/* ADMIN STATE */
-let isAdmin=false;
-
-/* LOGIN */
-function loginAdmin(){
-let p=prompt("Admin Passwort:");
-if(p==="1234"){
-isAdmin=true;
-document.getElementById("adminPanel").style.display="block";
-render();
-alert("Admin eingeloggt");
+/* ADMIN OPEN */
+document.addEventListener("keydown",e=>{
+if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="a"){
+document.getElementById("storyAdmin").style.display="block";
 }
+});
+
+/* FORMAT */
+function format(cmd,val=null){
+document.execCommand(cmd,false,val);
 }
 
-/* DASH */
-function openDash(){
-document.getElementById("adminDash").style.display="flex";
-}
-function closeDash(){
-document.getElementById("adminDash").style.display="none";
-}
-
-/* ADD EPISODE */
-function addEpisode(){
+/* ADD STORY */
+function addStory(){
+let chapter=document.getElementById("chapter").value;
 let title=document.getElementById("title").value;
-let content=document.getElementById("content").value;
+let content=document.getElementById("editor").innerHTML;
 
-ref.add({title,content,time:Date.now()});
+storiesRef.add({
+chapter,
+title,
+content,
+time:Date.now()
+});
 
+document.getElementById("chapter").value="";
 document.getElementById("title").value="";
-document.getElementById("content").value="";
+document.getElementById("editor").innerHTML="";
 }
 
-/* DELETE */
-function del(id){
-ref.doc(id).delete();
+/* LIVE LOAD */
+storiesRef.orderBy("time","desc").onSnapshot(snapshot=>{
+let c=document.getElementById("storyList");
+c.innerHTML="";
+
+let last="";
+
+snapshot.forEach(doc=>{
+let s=doc.data();
+
+if(s.chapter!==last){
+c.innerHTML+=`<div class="chapter">${s.chapter}</div>`;
+last=s.chapter;
 }
 
-/* OPEN EPISODE */
-function openEpisode(data){
-document.getElementById("episodeView").style.display="block";
-document.getElementById("episodeBox").innerHTML=`
-<h2>${data.title}</h2>
-<p>${data.content}</p>
-`;
-}
-
-/* CLOSE */
-function closeEpisode(){
-document.getElementById("episodeView").style.display="none";
-}
-
-/* LIVE */
-ref.orderBy("time","desc").onSnapshot(snap=>{
-let grid=document.getElementById("grid");
-grid.innerHTML="";
-
-snap.forEach(doc=>{
-let d=doc.data();
-
-grid.innerHTML+=`
-<div class="card ${isAdmin?'admin':''}">
-<h3>${d.title}</h3>
-
-<button class="del" onclick="del('${doc.id}')">🗑</button>
-
-<p>${d.content.substring(0,80)}...</p>
-
-<button class="btn" onclick='openEpisode(${JSON.stringify(d)})'>Öffnen</button>
+c.innerHTML+=`
+<div class="story-box">
+<h3>${s.title}</h3>
+<div>${s.content}</div>
 </div>`;
 });
 });
