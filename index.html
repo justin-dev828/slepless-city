@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Sleepless City</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
+
 body{background:black;color:#FFD700;overflow-x:hidden;}
 
 /* BACKGROUND */
@@ -181,7 +183,6 @@ to{background-position:-1000px;}
 <a href="#team">Team</a>
 <a href="#discord">Discord</a>
 <a href="#rules">Regeln</a>
-<a href="#admin-panel">Admin</a>
 </nav>
 
 <section class="hero section" id="home">
@@ -217,27 +218,51 @@ Discord beitreten
 <section class="section" id="rules">
 <h2>📜 Regeln</h2>
 <div class="rules-container">
-<div class="rule-box"><h3>⚖️ Allgemein</h3><ul><li>Respekt</li><li>Kein Cheating</li></ul></div>
-<div class="rule-box"><h3>🚫 FailRP</h3><ul><li>Realistisch spielen</li></ul></div>
-<div class="rule-box"><h3>🔫 Kampf</h3><ul><li>Kein RDM</li></ul></div>
+<div class="rule-box">
+<h3>⚖️ Allgemein</h3>
+<ul>
+<li>Respekt gegenüber allen</li>
+<li>Kein Cheating</li>
+<li>Realistisches Verhalten</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h3>🚫 FailRP</h3>
+<ul>
+<li>Keine unrealistischen Aktionen</li>
+<li>Angst & Schmerz ausspielen</li>
+</ul>
+</div>
+
+<div class="rule-box">
+<h3>🔫 Kampf</h3>
+<ul>
+<li>Kein RDM / VDM</li>
+<li>Nur mit RP kämpfen</li>
+</ul>
+</div>
 </div>
 </section>
 
 <section id="admin-panel">
 <h2>🟢 ADMIN PANEL</h2>
+
 <div class="admin-box" onclick="openPlayers()">👤 Spieler verwalten</div>
 <div class="admin-box" onclick="openStats()">📊 Server Stats</div>
 <div class="admin-box" onclick="openSettings()">⚙️ Einstellungen</div>
+
 </section>
 
 <script>
-
-// SECRET LOGIN
+// SECRET LOGIN (5 clicks on title)
 let clicks = 0;
 document.querySelector(".neon-box").addEventListener("click", ()=>{
 clicks++;
+
 if(clicks >= 5){
 let code = prompt("Admin Code:");
+
 if(code === "admin123"){
 document.getElementById("sound").play();
 document.getElementById("admin-panel").style.display="block";
@@ -245,6 +270,7 @@ alert("Admin aktiviert");
 }else{
 alert("Falsch");
 }
+
 clicks = 0;
 }
 });
@@ -253,9 +279,11 @@ clicks = 0;
 function openPlayers(){
 window.open("https://discord.com", "_blank");
 }
+
 function openStats(){
 alert("Stats kommen bald");
 }
+
 function openSettings(){
 document.body.style.background = "black";
 alert("Settings geändert");
@@ -270,7 +298,6 @@ s.classList.add('show');
 }
 });
 });
-
 </script>
 
 </body>
