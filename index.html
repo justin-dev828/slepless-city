@@ -186,6 +186,7 @@ border:1px solid #FFD700;
 color:#FFD700;
 }
 
+/* MAINTENANCE */
 #maintenanceOverlay{
 display:none;
 position:fixed;
@@ -255,7 +256,6 @@ margin-top:20px;
 <section class="section" id="team">
 <h2>🧑‍🚒 Team</h2>
 <div class="team">
-
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=1">
 <h3>👑 Owner</h3>
@@ -273,7 +273,6 @@ margin-top:20px;
 <h3>💬 Support</h3>
 <p>Hilft Spielern bei Fragen und Problemen im Alltag.</p>
 </div>
-
 </div>
 </section>
 
@@ -316,7 +315,6 @@ margin-top:20px;
 <li>Spam & Werbung</li>
 </ul>
 </div>
-
 </div>
 </section>
 
@@ -353,7 +351,7 @@ isAdminLoggedIn = true;
 adminPanel.style.display="block";
 }
 
-/* LOGIN OPEN */
+/* OPEN LOGIN */
 let clicks=0;
 document.querySelector(".neon-box").addEventListener("click",()=>{
 clicks++;
@@ -383,7 +381,7 @@ sound.play();
 isAdminLoggedIn = true;
 localStorage.setItem("isAdmin","true");
 
-/* EXIT MAINTENANCE IF NEEDED */
+/* EXIT MAINTENANCE */
 if(maintenanceLoginMode){
 maintenanceOverlay.style.display="none";
 localStorage.setItem("maintenance","off");
@@ -395,7 +393,7 @@ alert("Falsche Daten");
 }
 }
 
-/* MAINTENANCE */
+/* MAINTENANCE TOGGLE */
 function toggleMaintenance(el){
 
 if(!isAdminLoggedIn){
