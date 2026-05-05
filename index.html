@@ -9,23 +9,129 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-body{background:#0b0f14;color:#e6e6e6;overflow-x:hidden;}
+
+body{
+background:#0b0f14;
+color:#e6e6e6;
+overflow-x:hidden;
+}
+
+/* BACKGROUND (DEIN ALTER) */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") center/cover no-repeat;
+filter:brightness(0.25);
+z-index:-2;
+}
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.7);
+z-index:-1;
+}
 
 /* NAV */
-nav{position:fixed;top:0;width:100%;padding:14px;display:flex;justify-content:center;gap:25px;background:rgba(15,20,28,0.6);backdrop-filter:blur(10px);}
+nav{
+position:fixed;
+top:0;
+width:100%;
+padding:14px;
+display:flex;
+justify-content:center;
+gap:25px;
+background:rgba(15,20,28,0.6);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
 nav a{color:#cfd6dd;text-decoration:none;}
 
-.hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
-.btn{padding:10px 20px;background:#222;border:none;color:#fff;border-radius:8px;cursor:pointer;}
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
 
 .section{padding:90px 20px;text-align:center;}
+
 .team{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
 .member{width:230px;padding:18px;background:#111823;border-radius:12px;}
 
-.rules-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;max-width:1100px;margin:40px auto;}
+.rules-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:18px;
+max-width:1100px;
+margin:40px auto;
+}
 .rule-box{background:#111823;padding:18px;border-radius:12px;text-align:left;}
 
 .story-box{background:#111823;padding:18px;border-radius:12px;margin:10px auto;max-width:800px;text-align:left;}
+
+.btn{
+padding:10px 20px;
+background:#222;
+border:none;
+color:#fff;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* LOGIN */
+#loginModal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.85);
+justify-content:center;
+align-items:center;
+z-index:2000;
+}
+.login-box{
+background:#111823;
+padding:30px;
+border-radius:12px;
+width:280px;
+text-align:center;
+}
+.login-box input{
+width:100%;
+margin:8px 0;
+padding:10px;
+background:#0b0f14;
+color:#fff;
+border:1px solid rgba(255,255,255,0.1);
+border-radius:8px;
+}
+
+/* ADMIN PANEL */
+#adminPanel{
+display:none;
+position:fixed;
+bottom:20px;
+right:20px;
+background:#111823;
+padding:15px;
+border-radius:12px;
+z-index:3000;
+}
+
+/* STORY ADMIN */
+#storyAdmin{
+display:none;
+position:fixed;
+left:20px;
+bottom:20px;
+background:#111823;
+padding:15px;
+border-radius:12px;
+width:280px;
+}
 
 /* EDITOR */
 .editor{
@@ -34,20 +140,21 @@ border:1px solid #333;
 padding:10px;
 min-height:100px;
 border-radius:8px;
-text-align:left;
 }
-
-.toolbar button{
-margin:2px;
-padding:5px;
-}
-
-/* ADMIN */
-#storyAdmin{display:none;position:fixed;left:20px;bottom:20px;background:#111823;padding:15px;border-radius:12px;width:280px;}
 </style>
 </head>
 
 <body>
+
+<!-- LOGIN -->
+<div id="loginModal">
+<div class="login-box">
+<h3>Admin Login</h3>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Passwort">
+<button class="btn" onclick="login()">Login</button>
+</div>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -67,22 +174,9 @@ padding:5px;
 <section class="section" id="team">
 <h2>Team</h2>
 <div class="team">
-
-<div class="member">
-<h3>Owner</h3>
-<p>Leitet das Projekt und trifft alle wichtigen Entscheidungen.</p>
-</div>
-
-<div class="member">
-<h3>Admin</h3>
-<p>Kümmert sich um Server, Regeln und sorgt für Ordnung.</p>
-</div>
-
-<div class="member">
-<h3>Support</h3>
-<p>Hilft Spielern bei Fragen und Problemen im Alltag.</p>
-</div>
-
+<div class="member"><h3>Owner</h3><p>Leitet das Projekt und trifft Entscheidungen.</p></div>
+<div class="member"><h3>Admin</h3><p>Kümmert sich um Ordnung.</p></div>
+<div class="member"><h3>Support</h3><p>Hilft Spielern.</p></div>
 </div>
 </section>
 
@@ -90,42 +184,10 @@ padding:5px;
 <section class="section" id="rules">
 <h2>Regeln</h2>
 <div class="rules-container">
-
-<div class="rule-box">
-<h3>Allgemein</h3>
-<ul>
-<li>Respekt gegenüber allen Spielern</li>
-<li>Keine Beleidigungen</li>
-<li>Team-Anweisungen beachten</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>Roleplay</h3>
-<ul>
-<li>Realistisch spielen</li>
-<li>Kein Meta-Gaming</li>
-<li>Charakter ernst nehmen</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>Kampf</h3>
-<ul>
-<li>Kein RDM / VDM</li>
-<li>Fair kämpfen</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>Verboten</h3>
-<ul>
-<li>Cheating</li>
-<li>Bug Abuse</li>
-<li>Spam</li>
-</ul>
-</div>
-
+<div class="rule-box"><h3>Allgemein</h3><ul><li>Respekt</li><li>Keine Beleidigungen</li></ul></div>
+<div class="rule-box"><h3>RP</h3><ul><li>Realistisch</li><li>Kein Meta</li></ul></div>
+<div class="rule-box"><h3>Kampf</h3><ul><li>Kein RDM</li></ul></div>
+<div class="rule-box"><h3>Verboten</h3><ul><li>Cheats</li></ul></div>
 </div>
 </section>
 
@@ -135,98 +197,88 @@ padding:5px;
 <div id="storyList"></div>
 </section>
 
-<!-- ADMIN -->
-<div id="storyAdmin">
-<h3>Story Admin</h3>
-
-<input id="storyTitle" placeholder="Titel" style="width:100%;margin:5px 0;padding:8px;">
-
-<div class="toolbar">
-<button onclick="format('bold')">B</button>
-<button onclick="format('italic')">I</button>
-<button onclick="format('insertUnorderedList')">• Liste</button>
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+<b>Admin aktiv</b>
 </div>
 
+<!-- STORY ADMIN -->
+<div id="storyAdmin">
+<h3>Story Admin</h3>
+<input id="storyTitle" placeholder="Titel">
 <div id="editor" class="editor" contenteditable="true"></div>
-
 <button class="btn" onclick="addStory()">Posten</button>
-
 <div id="adminStoryList"></div>
 </div>
 
 <script>
-let stories = JSON.parse(localStorage.getItem("stories")) || [];
+const loginModal = document.getElementById("loginModal");
 
-/* LOGIN HOTKEY */
-document.addEventListener("keydown",e=>{
-if(e.ctrlKey && e.shiftKey && e.key==="A"){
+/* LOGIN SYSTEM (WIEDER DRIN) */
+function openLogin(){
+loginModal.style.display="flex";
+}
+
+function login(){
+let u=document.getElementById("user").value;
+let p=document.getElementById("pass").value;
+
+if(u==="admin" && p==="1234"){
+loginModal.style.display="none";
+document.getElementById("adminPanel").style.display="block";
 document.getElementById("storyAdmin").style.display="block";
+renderAdmin();
+}else{
+alert("Falsche Daten");
+}
+}
+
+/* HOTKEY */
+document.addEventListener("keydown",e=>{
+if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="a"){
+openLogin();
 }
 });
 
-/* FORMAT */
-function format(cmd){
-document.execCommand(cmd,false,null);
-}
+/* STORY SYSTEM */
+let stories = JSON.parse(localStorage.getItem("stories")) || [];
 
-/* SAVE */
 function save(){
 localStorage.setItem("stories",JSON.stringify(stories));
 render();
 renderAdmin();
 }
 
-/* ADD STORY */
 function addStory(){
 let title=document.getElementById("storyTitle").value;
 let content=document.getElementById("editor").innerHTML;
 
-if(!title || !content)return;
-
-/* AUTO CHAPTER */
-let chapter = stories.length + 1;
+if(!title||!content)return;
 
 stories.push({
 id:Date.now(),
-title:`Teil ${chapter}: ${title}`,
+title:`Teil ${stories.length+1}: ${title}`,
 content
 });
 
 document.getElementById("storyTitle").value="";
 document.getElementById("editor").innerHTML="";
-
 save();
 }
 
-/* DELETE */
 function deleteStory(id){
-stories = stories.filter(s=>s.id!==id);
+stories=stories.filter(s=>s.id!==id);
 save();
 }
 
-/* EDIT */
-function editStory(id){
-let s = stories.find(x=>x.id===id);
-document.getElementById("storyTitle").value = s.title;
-document.getElementById("editor").innerHTML = s.content;
-
-deleteStory(id);
-}
-
-/* RENDER USER */
 function render(){
 let c=document.getElementById("storyList");
 c.innerHTML="";
 stories.forEach(s=>{
-c.innerHTML+=`
-<div class="story-box">
-<h3>${s.title}</h3>
-<div>${s.content}</div>
-</div>`;
+c.innerHTML+=`<div class="story-box"><h3>${s.title}</h3><div>${s.content}</div></div>`;
 });
 }
 
-/* ADMIN LIST */
 function renderAdmin(){
 let c=document.getElementById("adminStoryList");
 c.innerHTML="";
@@ -234,7 +286,6 @@ stories.forEach(s=>{
 c.innerHTML+=`
 <div class="story-box">
 <b>${s.title}</b><br>
-<button onclick="editStory(${s.id})">Edit</button>
 <button onclick="deleteStory(${s.id})">Delete</button>
 </div>`;
 });
