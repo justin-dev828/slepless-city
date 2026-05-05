@@ -186,7 +186,6 @@ border:1px solid #FFD700;
 color:#FFD700;
 }
 
-/* MAINTENANCE */
 #maintenanceOverlay{
 display:none;
 position:fixed;
@@ -202,6 +201,10 @@ align-items:center;
 flex-direction:column;
 text-align:center;
 }
+
+#maintenanceOverlay .btn{
+margin-top:20px;
+}
 </style>
 </head>
 
@@ -211,6 +214,10 @@ text-align:center;
 <div id="maintenanceOverlay">
 <h1>🚧 Wartungsmodus</h1>
 <p>Wir sind bald zurück</p>
+
+<button class="btn" onclick="openMaintenanceLogin()">
+🔐 Admin Zugriff
+</button>
 </div>
 
 <audio id="sound">
@@ -248,6 +255,7 @@ text-align:center;
 <section class="section" id="team">
 <h2>🧑‍🚒 Team</h2>
 <div class="team">
+
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=1">
 <h3>👑 Owner</h3>
@@ -265,12 +273,14 @@ text-align:center;
 <h3>💬 Support</h3>
 <p>Hilft Spielern bei Fragen und Problemen im Alltag.</p>
 </div>
+
 </div>
 </section>
 
 <section class="section" id="rules">
 <h2>📜 Regeln</h2>
 <div class="rules-container">
+
 <div class="rule-box">
 <h3>⚖️ Allgemein</h3>
 <ul>
@@ -306,6 +316,7 @@ text-align:center;
 <li>Spam & Werbung</li>
 </ul>
 </div>
+
 </div>
 </section>
 
@@ -330,6 +341,7 @@ const sound = document.getElementById("sound");
 const maintenanceOverlay = document.getElementById("maintenanceOverlay");
 
 let isAdminLoggedIn = false;
+let maintenanceLoginMode = false;
 
 /* LOAD STATES */
 if(localStorage.getItem("maintenance")==="on"){
@@ -351,12 +363,19 @@ clicks=0;
 }
 });
 
+/* OPEN FROM MAINTENANCE */
+function openMaintenanceLogin(){
+maintenanceLoginMode = true;
+loginModal.style.display="flex";
+}
+
 /* LOGIN */
 function login(){
 let user=usernameInput.value;
 let pass=passwordInput.value;
 
 if(user===adminUser.username && pass===adminUser.password){
+
 adminPanel.style.display="block";
 loginModal.style.display="none";
 sound.play();
@@ -364,12 +383,19 @@ sound.play();
 isAdminLoggedIn = true;
 localStorage.setItem("isAdmin","true");
 
+/* EXIT MAINTENANCE IF NEEDED */
+if(maintenanceLoginMode){
+maintenanceOverlay.style.display="none";
+localStorage.setItem("maintenance","off");
+maintenanceLoginMode = false;
+}
+
 }else{
 alert("Falsche Daten");
 }
 }
 
-/* MAINTENANCE CONTROL */
+/* MAINTENANCE */
 function toggleMaintenance(el){
 
 if(!isAdminLoggedIn){
