@@ -19,6 +19,7 @@ background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") c
 filter:brightness(0.25);
 z-index:-2;
 }
+
 body::after{
 content:"";
 position:fixed;
@@ -40,6 +41,7 @@ background:rgba(0,0,0,0.6);
 backdrop-filter:blur(10px);
 z-index:1000;
 }
+
 nav a{color:#FFD700;text-decoration:none;}
 
 .hero{
@@ -90,7 +92,6 @@ width:220px;
 background:rgba(0,0,0,0.6);
 }
 .member img{width:100%;border-radius:10px;}
-.member p{font-size:13px;margin-top:10px;color:#ccc;}
 
 .rules-container{
 display:grid;
@@ -99,6 +100,7 @@ gap:20px;
 max-width:1100px;
 margin:40px auto;
 }
+
 .rule-box{
 background:rgba(0,0,0,0.8);
 border:1px solid #FFD700;
@@ -121,6 +123,7 @@ width:60px;
 height:34px;
 }
 .switch input{display:none;}
+
 .slider{
 position:absolute;
 cursor:pointer;
@@ -129,6 +132,7 @@ background:#333;
 transition:.4s;
 border-radius:34px;
 }
+
 .slider:before{
 position:absolute;
 content:"";
@@ -138,9 +142,11 @@ background:white;
 transition:.4s;
 border-radius:50%;
 }
+
 input:checked + .slider{
 background:#FFD700;
 }
+
 input:checked + .slider:before{
 transform:translateX(26px);
 }
@@ -155,11 +161,13 @@ animation:move 30s linear infinite;
 opacity:0.3;
 z-index:-1;
 }
+
 @keyframes move{
 from{background-position:0;}
 to{background-position:-1000px;}
 }
 
+/* LOGIN */
 #loginModal{
 display:none;
 position:fixed;
@@ -186,6 +194,7 @@ border:1px solid #FFD700;
 color:#FFD700;
 }
 
+/* MAINTENANCE */
 #maintenanceOverlay{
 display:none;
 position:fixed;
@@ -226,8 +235,6 @@ text-align:center;
 </div>
 </div>
 
-<div class="skyline"></div>
-
 <nav>
 <a href="#home">Home</a>
 <a href="#team">Team</a>
@@ -239,6 +246,7 @@ text-align:center;
 <h1>THE SLEEPLESS CITY</h1>
 <p>Die Stadt schläft nie.</p>
 </div>
+
 <button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
 🚀 Join Now
 </button>
@@ -246,65 +254,33 @@ text-align:center;
 
 <section class="section" id="team">
 <h2>🧑‍🚒 Team</h2>
+
 <div class="team">
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=1">
-<h3>👑 Owner</h3>
-<p>Leitet das Projekt.</p>
+<h3>Owner</h3>
 </div>
 
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=2">
-<h3>🛠 Admin</h3>
-<p>Sorgt für Ordnung.</p>
+<h3>Admin</h3>
 </div>
 
 <div class="member">
 <img src="https://i.pravatar.cc/200?img=3">
-<h3>💬 Support</h3>
-<p>Hilft Spielern.</p>
+<h3>Support</h3>
 </div>
 </div>
 </section>
 
 <section class="section" id="rules">
 <h2>📜 Regeln</h2>
+
 <div class="rules-container">
-<div class="rule-box">
-<h3>⚖️ Allgemein</h3>
-<ul>
-<li>Respekt</li>
-<li>Kein Hate</li>
-<li>Team folgen</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>🎭 Roleplay</h3>
-<ul>
-<li>Realistisch spielen</li>
-<li>Kein Meta</li>
-<li>Charakter ernst</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>🔫 Kampf</h3>
-<ul>
-<li>Kein RDM</li>
-<li>Fair Fight</li>
-<li>Kein Abuse</li>
-</ul>
-</div>
-
-<div class="rule-box">
-<h3>🚫 Verboten</h3>
-<ul>
-<li>Cheats</li>
-<li>Bugs ausnutzen</li>
-<li>Spam</li>
-</ul>
-</div>
+<div class="rule-box">Allgemein Regeln</div>
+<div class="rule-box">Roleplay Regeln</div>
+<div class="rule-box">Kampf Regeln</div>
+<div class="rule-box">Verboten</div>
 </div>
 </section>
 
@@ -315,6 +291,7 @@ text-align:center;
 <input type="checkbox" onchange="toggleMaintenance(this)">
 <span class="slider"></span>
 </label>
+
 <p>Wartungsmodus</p>
 </section>
 
@@ -327,19 +304,22 @@ const adminPanel = document.getElementById("admin-panel");
 const loginModal = document.getElementById("loginModal");
 const maintenanceOverlay = document.getElementById("maintenanceOverlay");
 
-let isAdminLoggedIn = localStorage.getItem("isAdmin")==="true";
+let isAdmin = localStorage.getItem("isAdmin")==="true";
 let maintenanceLoginMode = false;
 
 /* LOAD STATE */
-if(localStorage.getItem("maintenance")==="on"){
-maintenanceOverlay.style.display="flex";
+function updateMaintenance(){
+const state = localStorage.getItem("maintenance")==="on";
+maintenanceOverlay.style.display = state ? "flex" : "none";
 }
 
-if(isAdminLoggedIn){
+updateMaintenance();
+
+if(isAdmin){
 adminPanel.style.display="block";
 }
 
-/* OPEN LOGIN HIDDEN */
+/* OPEN LOGIN */
 let clicks=0;
 document.querySelector(".neon-box").addEventListener("click",()=>{
 clicks++;
@@ -349,7 +329,7 @@ clicks=0;
 }
 });
 
-/* MAINTENANCE LOGIN BUTTON */
+/* MAINTENANCE LOGIN */
 function openMaintenanceLogin(){
 maintenanceLoginMode = true;
 loginModal.style.display="flex";
@@ -362,17 +342,16 @@ let pass=passwordInput.value;
 
 if(user===adminUser.username && pass===adminUser.password){
 
-isAdminLoggedIn = true;
+isAdmin = true;
 localStorage.setItem("isAdmin","true");
 
 adminPanel.style.display="block";
 loginModal.style.display="none";
 
-/* EXIT MAINTENANCE */
 if(maintenanceLoginMode){
-maintenanceLoginMode=false;
 localStorage.setItem("maintenance","off");
-maintenanceOverlay.style.display="none";
+maintenanceLoginMode=false;
+updateMaintenance();
 }
 
 }else{
@@ -383,19 +362,14 @@ alert("Falsche Daten");
 /* TOGGLE */
 function toggleMaintenance(el){
 
-if(!isAdminLoggedIn){
+if(!isAdmin){
 alert("Nur Admin!");
-el.checked=!el.checked;
+el.checked = !el.checked;
 return;
 }
 
-if(el.checked){
-localStorage.setItem("maintenance","on");
-maintenanceOverlay.style.display="flex";
-}else{
-localStorage.setItem("maintenance","off");
-maintenanceOverlay.style.display="none";
-}
+localStorage.setItem("maintenance", el.checked ? "on" : "off");
+updateMaintenance();
 }
 
 /* SCROLL */
