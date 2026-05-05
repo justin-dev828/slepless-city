@@ -4,30 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Sleepless City</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
 body{background:black;color:#FFD700;overflow-x:hidden;}
-
-body::before{
-content:"";
-position:fixed;
-width:100%;
-height:100%;
-background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df") center/cover no-repeat;
-filter:brightness(0.25);
-z-index:-2;
-}
-
-body::after{
-content:"";
-position:fixed;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-z-index:-1;
-}
 
 nav{
 position:fixed;
@@ -38,7 +20,6 @@ display:flex;
 justify-content:center;
 gap:20px;
 background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
 z-index:1000;
 }
 
@@ -50,15 +31,8 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-gap:20px;
 text-align:center;
-}
-
-.neon-box{
-padding:20px 40px;
-border:2px solid #FFD700;
-box-shadow:0 0 20px #FFD700;
-cursor:pointer;
+gap:20px;
 }
 
 .btn{
@@ -74,97 +48,12 @@ padding:80px 20px;
 text-align:center;
 opacity:0;
 transform:translateY(40px);
-transition:0.8s;
-}
-.section.show{opacity:1;transform:translateY(0);}
-
-.team{
-display:flex;
-justify-content:center;
-gap:20px;
-flex-wrap:wrap;
+transition:0.6s;
 }
 
-.member{
-border:1px solid #FFD700;
-padding:20px;
-width:220px;
-background:rgba(0,0,0,0.6);
-}
-.member img{width:100%;border-radius:10px;}
-
-.rules-container{
-display:grid;
-grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-gap:20px;
-max-width:1100px;
-margin:40px auto;
-}
-
-.rule-box{
-background:rgba(0,0,0,0.8);
-border:1px solid #FFD700;
-padding:20px;
-border-radius:10px;
-text-align:left;
-}
-
-#admin-panel{
-display:none;
-padding:60px 20px;
-text-align:center;
-border-top:2px solid #FFD700;
-}
-
-.switch{
-position:relative;
-display:inline-block;
-width:60px;
-height:34px;
-}
-.switch input{display:none;}
-
-.slider{
-position:absolute;
-cursor:pointer;
-top:0;left:0;right:0;bottom:0;
-background:#333;
-transition:.4s;
-border-radius:34px;
-}
-
-.slider:before{
-position:absolute;
-content:"";
-height:26px;width:26px;
-left:4px;bottom:4px;
-background:white;
-transition:.4s;
-border-radius:50%;
-}
-
-input:checked + .slider{
-background:#FFD700;
-}
-
-input:checked + .slider:before{
-transform:translateX(26px);
-}
-
-.skyline{
-position:fixed;
-bottom:0;
-width:100%;
-height:180px;
-background:url("https://i.imgur.com/3ZQ3Z9Q.png") repeat-x;
-animation:move 30s linear infinite;
-opacity:0.3;
-z-index:-1;
-}
-
-@keyframes move{
-from{background-position:0;}
-to{background-position:-1000px;}
+.section.show{
+opacity:1;
+transform:translateY(0);
 }
 
 /* LOGIN */
@@ -198,10 +87,8 @@ color:#FFD700;
 #maintenanceOverlay{
 display:none;
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+top:0;left:0;
+width:100%;height:100%;
 background:black;
 color:#FFD700;
 z-index:9999;
@@ -210,27 +97,30 @@ align-items:center;
 flex-direction:column;
 text-align:center;
 }
+
+.switch{
+margin-top:20px;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- MAINTENANCE -->
+<!-- MAINTENANCE SCREEN -->
 <div id="maintenanceOverlay">
-<h1>🚧 Wartungsmodus</h1>
-<p>Wir sind bald zurück</p>
+<h1>🚧 Wartungsmodus aktiv</h1>
+<p>Die Seite ist gerade offline</p>
 
-<button class="btn" onclick="openMaintenanceLogin()">
-🔐 Admin Zugriff
-</button>
+<button class="btn" onclick="openLogin()">🔐 Admin Login</button>
 </div>
 
 <!-- LOGIN -->
 <div id="loginModal">
 <div class="login-box">
-<h2>🔐 Admin Login</h2>
-<input id="username" placeholder="Username"><br>
-<input id="password" type="password" placeholder="Passwort"><br>
+<h2>Admin Login</h2>
+<input id="user" placeholder="Username"><br>
+<input id="pass" type="password" placeholder="Passwort"><br>
 <button class="btn" onclick="login()">Login</button>
 </div>
 </div>
@@ -241,142 +131,90 @@ text-align:center;
 <a href="#rules">Regeln</a>
 </nav>
 
-<section class="hero section" id="home">
-<div class="neon-box">
+<section class="hero section show" id="home">
 <h1>THE SLEEPLESS CITY</h1>
-<p>Die Stadt schläft nie.</p>
-</div>
+<p>Die Stadt schläft nie</p>
 
-<button class="btn" onclick="window.location.href='https://discord.gg/4vmtpMnhNf'">
-🚀 Join Now
+<button class="btn" onclick="window.location.href='https://discord.gg/'">
+Join Discord
 </button>
 </section>
 
 <section class="section" id="team">
-<h2>🧑‍🚒 Team</h2>
-
-<div class="team">
-<div class="member">
-<img src="https://i.pravatar.cc/200?img=1">
-<h3>Owner</h3>
-</div>
-
-<div class="member">
-<img src="https://i.pravatar.cc/200?img=2">
-<h3>Admin</h3>
-</div>
-
-<div class="member">
-<img src="https://i.pravatar.cc/200?img=3">
-<h3>Support</h3>
-</div>
-</div>
+<h2>Team</h2>
+<p>Owner / Admin / Support</p>
 </section>
 
 <section class="section" id="rules">
-<h2>📜 Regeln</h2>
-
-<div class="rules-container">
-<div class="rule-box">Allgemein Regeln</div>
-<div class="rule-box">Roleplay Regeln</div>
-<div class="rule-box">Kampf Regeln</div>
-<div class="rule-box">Verboten</div>
-</div>
+<h2>Regeln</h2>
+<p>Respekt • Kein Cheat • Fair Play</p>
 </section>
 
-<section id="admin-panel">
-<h2>🟢 ADMIN PANEL</h2>
+<!-- ADMIN PANEL -->
+<section style="text-align:center;padding:40px;">
+<h2>Admin Panel</h2>
 
-<label class="switch">
+<label>
 <input type="checkbox" onchange="toggleMaintenance(this)">
-<span class="slider"></span>
+<span> Wartungsmodus</span>
 </label>
-
-<p>Wartungsmodus</p>
 </section>
 
 <script>
-const adminUser = { username:"admin", password:"1234" };
-
-const usernameInput = document.getElementById("username");
-const passwordInput = document.getElementById("password");
-const adminPanel = document.getElementById("admin-panel");
-const loginModal = document.getElementById("loginModal");
 const maintenanceOverlay = document.getElementById("maintenanceOverlay");
+const loginModal = document.getElementById("loginModal");
 
-let isAdmin = localStorage.getItem("isAdmin")==="true";
-let maintenanceLoginMode = false;
+let maintenance = localStorage.getItem("maintenance") || "off";
 
-/* LOAD STATE */
-function updateMaintenance(){
-const state = localStorage.getItem("maintenance")==="on";
-maintenanceOverlay.style.display = state ? "flex" : "none";
+/* APPLY STATE */
+function apply(){
+if(maintenance === "on"){
+maintenanceOverlay.style.display = "flex";
+}else{
+maintenanceOverlay.style.display = "none";
+}
 }
 
-updateMaintenance();
-
-if(isAdmin){
-adminPanel.style.display="block";
-}
+apply();
 
 /* OPEN LOGIN */
-let clicks=0;
-document.querySelector(".neon-box").addEventListener("click",()=>{
-clicks++;
-if(clicks>=5){
-loginModal.style.display="flex";
-clicks=0;
-}
-});
-
-/* MAINTENANCE LOGIN */
-function openMaintenanceLogin(){
-maintenanceLoginMode = true;
-loginModal.style.display="flex";
+function openLogin(){
+loginModal.style.display = "flex";
 }
 
 /* LOGIN */
 function login(){
-let user=usernameInput.value;
-let pass=passwordInput.value;
+let u = document.getElementById("user").value;
+let p = document.getElementById("pass").value;
 
-if(user===adminUser.username && pass===adminUser.password){
+if(u === "admin" && p === "1234"){
+loginModal.style.display = "none";
 
-isAdmin = true;
-localStorage.setItem("isAdmin","true");
-
-adminPanel.style.display="block";
-loginModal.style.display="none";
-
-if(maintenanceLoginMode){
+/* Wartung AUS */
+maintenance = "off";
 localStorage.setItem("maintenance","off");
-maintenanceLoginMode=false;
-updateMaintenance();
-}
+apply();
 
+alert("Login erfolgreich");
 }else{
-alert("Falsche Daten");
+alert("Falsch");
 }
 }
 
-/* TOGGLE */
+/* TOGGLE WARTUNG */
 function toggleMaintenance(el){
 
-if(!isAdmin){
-alert("Nur Admin!");
-el.checked = !el.checked;
-return;
+maintenance = el.checked ? "on" : "off";
+localStorage.setItem("maintenance", maintenance);
+apply();
 }
 
-localStorage.setItem("maintenance", el.checked ? "on" : "off");
-updateMaintenance();
-}
+/* SCROLL EFFECT */
+const sections = document.querySelectorAll(".section");
 
-/* SCROLL */
-const sections=document.querySelectorAll('.section');
-window.addEventListener('scroll',()=>{
-sections.forEach(s=>{
-if(s.getBoundingClientRect().top<window.innerHeight-100){
+window.addEventListener("scroll", () => {
+sections.forEach(s => {
+if(s.getBoundingClientRect().top < window.innerHeight - 100){
 s.classList.add("show");
 }
 });
